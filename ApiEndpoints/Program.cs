@@ -7,8 +7,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<AppDbContext>(dbContextOptionsBuilder =>
-    dbContextOptionsBuilder.UseSqlite("Data Source=myapp.db"));
+builder.Services.AddDbContext<AppDbContext>(dbContextOptions => dbContextOptions
+    .UseMySql("server=localhost;user=notes;password=notes;database=notes",
+        new MariaDbServerVersion(new Version(11, 2, 2)))
+    .LogTo(Console.WriteLine, LogLevel.Information)
+    .EnableSensitiveDataLogging()
+    .EnableDetailedErrors()
+);
 builder.Services.AddAuthorizationBuilder();
 builder.Services
     .AddIdentityApiEndpoints<AppUser>()
