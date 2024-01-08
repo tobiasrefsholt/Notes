@@ -23,4 +23,16 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\index.html" />
+    <_ContentIncludedByDefault Remove="wwwroot\indexold.html" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\controller.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\LoginPage\controller.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\LoginPage\view.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\model.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\ShowTasks\controller.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\ShowTasks\view.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\view.js" />
+  </ItemGroup>
+
 </Project>
