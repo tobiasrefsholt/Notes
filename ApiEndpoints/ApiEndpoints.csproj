@@ -1,38 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <InvariantGlobalization>true</InvariantGlobalization>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <InvariantGlobalization>true</InvariantGlobalization>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.0-beta.2"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore">
-      <HintPath>..\..\..\..\..\.nuget\packages\microsoft.aspnetcore.identity.entityframeworkcore\8.0.0\lib\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="wwwroot\index.html" />
-    <_ContentIncludedByDefault Remove="wwwroot\indexold.html" />
-    <_ContentIncludedByDefault Remove="wwwroot\js\controller.js" />
-    <_ContentIncludedByDefault Remove="wwwroot\js\LoginPage\controller.js" />
-    <_ContentIncludedByDefault Remove="wwwroot\js\LoginPage\view.js" />
-    <_ContentIncludedByDefault Remove="wwwroot\js\model.js" />
-    <_ContentIncludedByDefault Remove="wwwroot\js\ShowTasks\controller.js" />
-    <_ContentIncludedByDefault Remove="wwwroot\js\ShowTasks\view.js" />
-    <_ContentIncludedByDefault Remove="wwwroot\js\view.js" />
-  </ItemGroup>
+    <ItemGroup>
+        <Reference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore">
+            <HintPath>..\..\..\..\..\.nuget\packages\microsoft.aspnetcore.identity.entityframeworkcore\8.0.0\lib\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll</HintPath>
+        </Reference>
+    </ItemGroup>
 
 </Project>
