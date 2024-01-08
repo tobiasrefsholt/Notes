@@ -1,6 +1,0 @@
-@Notes_HostAddress = http://localhost:5088
-
-GET {{Notes_HostAddress}}/
-Accept: application/json
-
-###
