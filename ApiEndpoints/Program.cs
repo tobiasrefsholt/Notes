@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(dbContextOptions => dbContextOptions
-    .UseMySql("server=localhost;user=notes;password=notes;database=notes",
+    .UseMySql(builder.Configuration.GetConnectionString("MariaDB"),
         new MariaDbServerVersion(new Version(11, 2, 2)))
     .LogTo(Console.WriteLine, LogLevel.Information)
     .EnableSensitiveDataLogging()
