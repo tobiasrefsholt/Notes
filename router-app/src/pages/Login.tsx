@@ -1,6 +1,5 @@
 import React, { useState, SetStateAction, Dispatch } from 'react';
 import Cookies from 'js-cookie';
-import { redirectDocument, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 type loginProps = {

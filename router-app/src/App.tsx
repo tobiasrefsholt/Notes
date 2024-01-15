@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, useLocation } from "react-router-dom"
 import Cookies from 'js-cookie';
 import Login from './pages/Login'
 import NotesDashbord from './pages/NotesDashboard'
@@ -16,6 +16,13 @@ export default function App() {
 
   const [token, setToken] = useState(Cookies.get("token") || null);
 
+  const location = useLocation();
+  if (location.pathname === "/logout") {
+    return (
+      <Logout setToken={setToken} />
+    )
+  }
+
   if (!token) return (<Login setToken={setToken} />);
 
   return (
@@ -24,8 +31,6 @@ export default function App() {
       <Routes>
         <Route path="/" element={<NotesDashbord />} />
         <Route path="/add-task" element={<AddTask />} />
-        <Route path="/login" element={<Login setToken={setToken} />} />
-        <Route path="/logout" element={<Logout />} />
       </Routes>
     </>
   )
