@@ -1,36 +1,32 @@
 import { useState } from 'react'
-import { Routes, Route, Link } from "react-router-dom"
+import { Routes, Route } from "react-router-dom"
 import Cookies from 'js-cookie';
 import Login from './pages/Login'
-import MainTasks from './pages/MainTasks'
+import NotesDashbord from './pages/NotesDashboard'
 import AddTask from './pages/AddTask'
 import './App.css'
+import Navigaton from './Components/Shared/Navigation';
+import Logout from './pages/Logout';
 
-function App() {
-  function isLoggedIn() {
+export default function App() {
+  /* function isLoggedIn() {
     return Cookies.get('token') != null;
-  }
-  if (!isLoggedIn()) return (<Login />);
+  } */
+ 
+
+  const [token, setToken] = useState(Cookies.get("token") || null);
+
+  if (!token) return (<Login setToken={setToken} />);
+
   return (
     <>
-      <header>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Main Tasks</Link>
-            </li>
-            <li>
-              <Link to="/add-task">Add Task</Link>
-            </li>
-          </ul>
-        </nav>
-      </header>
+      <Navigaton />
       <Routes>
-        <Route path="/" element={<MainTasks />} />
+        <Route path="/" element={<NotesDashbord />} />
         <Route path="/add-task" element={<AddTask />} />
+        <Route path="/login" element={<Login setToken={setToken} />} />
+        <Route path="/logout" element={<Logout />} />
       </Routes>
     </>
   )
 }
-
-export default App
