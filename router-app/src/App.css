@@ -1,11 +1,17 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
-  background-color:  #121212;
+  margin: 0;
+  padding: 0;
+  background-color:  #2a2b2e;
   color: #ffffffcc;
 }
 
 #root {
-  max-width: 1280px;
+  /* max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
+  text-align: center; */
 }

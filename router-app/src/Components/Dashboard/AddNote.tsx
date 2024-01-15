@@ -1,6 +1,6 @@
-function AddTask(){
+export default function AddNote(){
     return(
-        <div className="page">
+        <div className="add-task">
             <h1>Add Task Page</h1>
             <p>
                 <strong>Home Page:</strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum, 
@@ -10,5 +10,3 @@ function AddTask(){
         </div>
     )
 }
-
-export default AddTask;

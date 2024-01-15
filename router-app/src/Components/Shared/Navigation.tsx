@@ -1,15 +1,16 @@
 import { Link } from "react-router-dom"
+import './Navigation.css'
 
 export default function Navigaton() {
     return (
-        <header>
+        <header className="top-nav">
             <nav>
                 <ul>
                     <li>
                         <Link to="/">Dashboard</Link>
                     </li>
                     <li>
-                        <Link to="/add-task">Add note</Link>
+                        <Link to="/add-note">Add note</Link>
                     </li>
                     <li>
                         <Link to="/logout">Log out</Link>

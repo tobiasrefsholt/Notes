@@ -26,7 +26,7 @@ async function loginUser(email: string, password: string) {
     const token = data?.accessToken;
     if (token === null) Cookies.remove('token');
 
-    Cookies.set('token', token, { secure: false, expires: 1});
+    Cookies.set('token', token);
     return token;
 }
 

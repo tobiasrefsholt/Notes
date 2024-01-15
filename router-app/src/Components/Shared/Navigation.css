@@ -1,0 +1,18 @@
+.top-nav {
+    background-color: #1F1F1F;
+    padding: 1.5rem;
+    grid-area: topnav;
+}
+.top-nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+}
+.top-nav li a {
+    color: #D6D5A8;
+    font-weight: bold;
+    text-decoration: none;
+}
