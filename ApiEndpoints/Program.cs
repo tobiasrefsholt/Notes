@@ -1,4 +1,9 @@
 using ApiEndpoints;
+using ApiEndpoints.ApplicationServices;
+using ApiEndpoints.DomainServices;
+using ApiEndpoints.Infrastructur;
+using ApiEndpoints.Migrations;
+using ApiEndpoints.ViewModel;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,17 +21,23 @@ builder.Services.AddCors(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<AppDbContext>(dbContextOptions => dbContextOptions
-    .UseMySql(builder.Configuration.GetConnectionString("MariaDB"),
-        new MariaDbServerVersion(new Version(11, 2, 2)))
-    .LogTo(Console.WriteLine, LogLevel.Information)
-    .EnableSensitiveDataLogging()
-    .EnableDetailedErrors()
-);
+var connectionString = builder.Configuration.GetConnectionString("MariaDB");
+builder.Services.AddDbContext<AppDbContext>(dbContextOptions =>
+{
+    dbContextOptions
+        .UseMySql(connectionString,
+            new MariaDbServerVersion(new Version(11, 2, 2)))
+        .LogTo(Console.WriteLine, LogLevel.Information)
+        .EnableSensitiveDataLogging()
+        .EnableDetailedErrors();
+});
 builder.Services.AddAuthorizationBuilder();
 builder.Services
     .AddIdentityApiEndpoints<AppUser>()
     .AddEntityFrameworkStores<AppDbContext>();
+var connectionFactory = new SqlConnectionFactory(connectionString);
+builder.Services.AddSingleton<SqlConnectionFactory>(connectionFactory);
+builder.Services.AddScoped<INoteRepository, NoteDbRepository>();
 
 
 var app = builder.Build();
@@ -43,8 +54,39 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapGet("/hello", () => "Hello World!")
-    .WithName("Hello")
+app.MapGet("/GetNotes", async (INoteRepository noteRepository) =>
+    {
+        var service = new AppService(noteRepository);
+        return await service.GetNotes();
+    })
+    .WithName("GetNotes")
+    .WithOpenApi()
+    .RequireAuthorization();
+
+app.MapGet("/GetNotes/{guid:guid}", async (Guid guid, INoteRepository noteRepository) =>
+    {
+        var service = new AppService(noteRepository);
+        return await service.GetSingleNote(guid);
+    })
+    .WithName("GetSingleNote")
+    .WithOpenApi()
+    .RequireAuthorization();
+
+app.MapPost("/CreateNote", async (Note note, INoteRepository noteRepository) =>
+    {
+        var service = new AppService(noteRepository);
+        return await service.CreateNote(note);
+    })
+    .WithName("CreateNote")
+    .WithOpenApi()
+    .RequireAuthorization();
+
+app.MapPost("/DeleteNote/{guid:guid}", async (Guid guid, INoteRepository noteRepository) =>
+    {
+        var service = new AppService(noteRepository);
+        return await service.DeleteNote(guid);
+    })
+    .WithName("DeleteNote")
     .WithOpenApi()
     .RequireAuthorization();
 
