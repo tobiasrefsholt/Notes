@@ -21,8 +21,7 @@ public class Note
         LastChanged = lastChanged;
     }
 
-    public Note(Guid user)
+    public Note()
     {
-        User = user;
     }
 }

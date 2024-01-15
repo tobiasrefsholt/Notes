@@ -18,12 +18,12 @@ public class AppService
         _userGuid = GetUserGuid();
     }
 
-    public async Task<List<Note>> GetNotes()
+    public async Task<List<NoteCompact>> GetNotes()
     {
         var dbNotes = await _noteRepository.ReadAll(_userGuid);
 
         return dbNotes.Select(dbNote =>
-                new Note(dbNote.Guid, dbNote.Title, dbNote.Content, JsonConvert.DeserializeObject<string[]>(dbNote.Tags), dbNote.DateAdded, dbNote.LastChanged))
+                new NoteCompact(dbNote.Guid, dbNote.Title, JsonConvert.DeserializeObject<string[]>(dbNote.Tags), dbNote.DateAdded, dbNote.LastChanged))
             .ToList();
     }
 

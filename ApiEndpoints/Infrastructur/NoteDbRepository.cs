@@ -17,7 +17,7 @@ public class NoteDbRepository : INoteRepository
     {
         await using var conn = _connectionFactory.Create();
         var sql = @"
-                SELECT Guid, Title, Content, Tags, DateAdded, LastChanged
+                SELECT Guid, Title, Tags, DateAdded, LastChanged
                 FROM notes.notes
                 WHERE User LIKE @User
                 LIMIT 100;
