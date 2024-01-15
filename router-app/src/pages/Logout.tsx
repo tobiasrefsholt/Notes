@@ -13,7 +13,7 @@ export default function Logout({setToken}: loginProps) {
     return (
         <div className="page">
             <h1>You have been logged out.</h1>
-            <Link to="/login">Log in again</Link>
+            <Link to="/">Log in again</Link>
         </div>
     )
 }
