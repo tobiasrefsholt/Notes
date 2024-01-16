@@ -10,17 +10,20 @@ type noteCompact = {
 
 export default function NotesList() {
 
-    const {data: noteList, isPending, error } = useFetchData("/GetNotes", []);
+    const { data: noteList, isPending, error } = useFetchData<noteCompact[]>("/GetNotes", []);
 
     return (
         <>
             {isPending && <div>Loading notes...</div>}
             {error && <div>{error}</div>}
-            <ul>
-                {noteList.map((item:noteCompact) => (
-                    <NotesListItem key={item.guid} guid={item.guid} title={item.title} tags={item.tags} />
-                ))}
-            </ul>
+            {
+                noteList &&
+                <ul>
+                    {noteList.map((item: noteCompact) => (
+                        <NotesListItem key={item.guid} guid={item.guid} title={item.title} tags={item.tags} />
+                    ))}
+                </ul>
+            }
         </>
     );
 }

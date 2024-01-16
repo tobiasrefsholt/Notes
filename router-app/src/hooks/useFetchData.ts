@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import Cookies from 'js-cookie';
 
-type ApiResponse = {
-    data: any | null;
+type ApiResponse<T> = {
+    data: T | null;
     isPending: Boolean;
     error: string | null;
 }
 
-export default function useFetchData(apiPath: string, deps: React.DependencyList | undefined = undefined): ApiResponse {
-    const [data, setData] = <any>useState([]);
+export default function useFetchData<T>(apiPath: string, deps: React.DependencyList | undefined = undefined): ApiResponse<T> {
+    const [data, setData] = useState<T | null>(null);
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -26,7 +26,7 @@ export default function useFetchData(apiPath: string, deps: React.DependencyList
                 if(!res.ok) {
                     throw Error("Could not fetch resource");
                 }
-                return res.json();
+                return <T>res.json();
             })
             .then((data) => {
                 setData(data);

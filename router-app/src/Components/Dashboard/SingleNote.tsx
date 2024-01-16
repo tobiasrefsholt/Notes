@@ -17,20 +17,30 @@ type Note = {
 
 export default function SingleNote() {
     /* const { selectedNote } = useSelectedNote(); */
-    const {guid} = useParams();
+    const { guid } = useParams();
     console.log("guid: ", guid);
     const [value, setValue] = useState<string | undefined>("**Hello world!!!**");
-    const { data, isPending, error } = useFetchData("/GetNotes/" + guid, [guid]);
-    const { title, content }: Note = data;
+    const { data, isPending, error } = useFetchData<Note>("/GetNotes/" + guid, [guid]);
 
-    /* if (!selectedNote) return (
+    useEffect(()=>{
+        setValue(data?.content);
+    }, [data?.content])
+
+    if (data === null) return (
         <h1>No selected note</h1>
-    ) */
+    )
 
     return (
-        <div className='dashboard-sigle-note'>
-            <h1>{title}</h1>
-            <MDEditor value={value} onChange={setValue} />
-        </div>
+        <>
+            {isPending && <div>Loading note content...</div>}
+            {error && <div>{error}</div>}
+            {
+                data &&
+                <div className='dashboard-sigle-note'>
+                    <h1>{data.title}</h1>
+                    <MDEditor value={value} onChange={setValue} />
+                </div>
+            }
+        </>
     );
 }
