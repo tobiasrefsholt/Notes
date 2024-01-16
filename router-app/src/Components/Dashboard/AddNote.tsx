@@ -1,7 +1,7 @@
 export default function AddNote(){
     return(
         <div className="add-task">
-            <h1>Add Task Page</h1>
+            <h1>Add Note Page</h1>
             <p>
                 <strong>Home Page:</strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum, 
                 provident non. Voluptas fugiat molestias obcaecati odio repudiandae autem ad, enim qui? 
