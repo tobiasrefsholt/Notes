@@ -16,9 +16,10 @@ type Note = {
 
 export default function SingleNote() {
     const { selectedNote } = useSelectedNote();
+    console.log(selectedNote);
     const [value, setValue] = useState<string | undefined>("**Hello world!!!**");
     const { data, isPending, error } = useFetchData("/GetNotes/" + selectedNote, [selectedNote]);
-    const {title, content}:Note = data;
+    const { title, content }: Note = data;
 
     /* if (!selectedNote) return (
         <h1>No selected note</h1>

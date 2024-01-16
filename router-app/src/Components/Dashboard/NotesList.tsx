@@ -10,7 +10,7 @@ type noteCompact = {
 
 export default function NotesList() {
 
-    const {data: noteList, isPending, error } = useFetchData("/GetNotes");
+    const {data: noteList, isPending, error } = useFetchData("/GetNotes", []);
 
     return (
         <>
