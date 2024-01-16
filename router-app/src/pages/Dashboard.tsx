@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction } from "react";
-import { Outlet } from "react-router-dom";
+import { Dispatch, SetStateAction, useState } from "react";
+import { Outlet, useOutletContext } from "react-router-dom";
 import Navigaton from "../Components/Shared/Navigation";
 import Sidebar from "../Components/Dashboard/Sidebar";
 import Login from "./Login";
@@ -10,16 +10,27 @@ type dashboardProps = {
     token: string | null;
 }
 
+type ContextType = {
+    selectedNote: string | null;
+    setSelectedNote: Dispatch<SetStateAction<string | null>>;
+};
+
 export default function Dashboard({ token, setToken }: dashboardProps) {
     if (!token) return (<Login setToken={setToken} />);
+
+    const [selectedNote, setSelectedNote] = useState<string | null>("");
 
     return (
         <div className="dashboard">
             <Navigaton />
             <Sidebar />
             <main>
-                <Outlet />
+                <Outlet context={[selectedNote, setSelectedNote]} />
             </main>
         </div>
     )
+}
+
+export function useSelectedNote() {
+    return useOutletContext<ContextType>();
 }
