@@ -18,7 +18,7 @@ export default function NotesList() {
             {error && <div>{error}</div>}
             <ul>
                 {noteList.map((item:noteCompact) => (
-                    <NotesListItem key={item.guid} title={item.title} tags={item.tags} />
+                    <NotesListItem key={item.guid} guid={item.guid} title={item.title} tags={item.tags} />
                 ))}
             </ul>
         </>

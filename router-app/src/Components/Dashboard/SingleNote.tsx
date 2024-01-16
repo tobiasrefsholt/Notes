@@ -5,6 +5,7 @@ import "@uiw/react-markdown-preview/markdown.css";
 import { useSelectedNote } from '../../pages/Dashboard';
 import Cookies from 'js-cookie';
 import useFetchData from '../../hooks/useFetchData';
+import { useParams } from 'react-router-dom';
 
 type Note = {
     guid: string;
@@ -15,10 +16,11 @@ type Note = {
 }
 
 export default function SingleNote() {
-    const { selectedNote } = useSelectedNote();
-    console.log(selectedNote);
+    /* const { selectedNote } = useSelectedNote(); */
+    const {guid} = useParams();
+    console.log("guid: ", guid);
     const [value, setValue] = useState<string | undefined>("**Hello world!!!**");
-    const { data, isPending, error } = useFetchData("/GetNotes/" + selectedNote, [selectedNote]);
+    const { data, isPending, error } = useFetchData("/GetNotes/" + guid, [guid]);
     const { title, content }: Note = data;
 
     /* if (!selectedNote) return (
