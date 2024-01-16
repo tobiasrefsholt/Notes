@@ -7,6 +7,7 @@
     ;
     grid-template-rows: min-content 1fr;
     grid-template-columns: minmax(min-content, 1fr) 6fr;
+    font-size: 1rem;
 }
 
 main {
@@ -18,4 +19,25 @@ main {
     grid-area: sidebar;
     padding: 1rem;
     border-right: solid 1px #1F1F1F;
+}
+
+.dashboard-sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.dashboard-sidebar li {
+    cursor: pointer;
+}
+
+.dashboard-sidebar .sidebar-categories {
+    display: flex;
+    gap: .5em;
+    font-size: .8em;
+}
+
+.dashboard-sidebar .sidebar-categories span {
+    background-color: #1F1F1F;
+    padding: .5em;
+    border-radius: .5em;
 }
