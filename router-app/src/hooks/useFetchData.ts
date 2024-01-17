@@ -7,7 +7,7 @@ type ApiResponse<T> = {
     error: string | null;
 }
 
-export default function useFetchData<T>(apiPath: string, deps: React.DependencyList | undefined = undefined, retry = false): ApiResponse<T> {
+export default function useFetchData<T>(apiPath: string, deps: React.DependencyList | undefined = undefined): ApiResponse<T> {
     const [data, setData] = useState<T | null>(null);
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState<string | null>(null);
