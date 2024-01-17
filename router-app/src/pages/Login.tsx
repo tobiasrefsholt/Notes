@@ -1,64 +1,95 @@
-import React, { useState, SetStateAction, Dispatch } from 'react';
-import Cookies from 'js-cookie';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 type loginProps = {
-    setToken: Dispatch<SetStateAction<string | null>>;
+    isLoggedIn: boolean;
+    setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-async function loginUser(email: string, password: string) {
-
-    console.log("Logging in...");
-
-    const response = await fetch("http://localhost:5214/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password })
-    })
-
-    const data = await response.json();
-
-    console.log(response);
-
-    if (!response.ok) return null;
-    const token = data?.accessToken;
-    if (token === null) Cookies.remove('token');
-
-    Cookies.set('token', token);
-    return token;
+type loginSuccessfulResponse = {
+    tokenType: string;
+    accessToken: string;
+    expiresIn: string;
+    refreshToken: string;
 }
 
-export default function Login({ setToken }: loginProps) {
+type loginFailedResponse = {
+    type: string;
+    title: string;
+    status: number;
+    detail: string;
+}
+
+export default function Login({ isLoggedIn, setIsLoggedIn }: loginProps) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const [isPending, setIsPending] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    const navigate = useNavigate();
+
     const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const token = await loginUser(email, password);
-        setToken(token);
+        fetch("http://localhost:5214/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password })
+        })
+            .then((res) => {
+                console.log(res);
+                if (!res.ok) {
+                    throw Error("Could not fetch resource");
+                }
+                return res.json();
+            }).then((data: loginSuccessfulResponse | loginFailedResponse) => {
+                if ("tokenType" in data) {
+                    localStorage.setItem('accessToken', data.accessToken);
+                    localStorage.setItem('refreshToken', data.refreshToken);
+                    setIsPending(false);
+                    setIsLoggedIn(true);
+                    navigate("/");
+                } else {
+                    localStorage.removeItem('accessToken');
+                    localStorage.removeItem('refreshToken');
+                    setIsPending(false);
+                    setIsLoggedIn(false);
+                }
+            }).catch((err): void => {
+                setError(err.message)
+            })
     }
 
     return (
         <div className="page">
             <h1>Login Page</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Email:</label>
-                    <input type="text" value={email} onChange={e => setEmail(e.target.value)} />
-                </div>
-                <div>
-                    <label>Password:</label>
-                    <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
-                </div>
-                <button type="submit">Login</button>
-            </form>
+            {
+                !isPending &&
+                !isLoggedIn &&
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <label>Email:</label>
+                        <input type="text" value={email} onChange={e => setEmail(e.target.value)} />
+                    </div>
+                    <div>
+                        <label>Password:</label>
+                        <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
+                    </div>
+                    <button type="submit">Login</button>
+                </form>
+            }
+            {
+                isPending &&
+                !isLoggedIn &&
+                <p>Logging in...</p>
+            }
+            {
+                error &&
+                <p>{error}</p>
+            }
         </div>
     )
-}
-
-Login.propTypes = {
-    setToken: PropTypes.func.isRequired
 }

@@ -1,15 +1,8 @@
-import { Link, redirect } from "react-router-dom";
-import Cookies from 'js-cookie';
-import { Dispatch, SetStateAction } from "react";
+import { Link } from "react-router-dom";
 
-type loginProps = {
-    setToken: Dispatch<SetStateAction<string | null>>;
-}
-
-export default function Logout({setToken}: loginProps) {
-    setToken(null);
-    Cookies.remove('token');
-    redirect("/");
+export default function Logout() {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
     return (
         <div className="page">
             <h1>You have been logged out.</h1>
