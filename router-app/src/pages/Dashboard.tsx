@@ -1,34 +1,33 @@
-import { Dispatch, SetStateAction, useState } from "react";
-import { Outlet, useOutletContext } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Navigaton from "../Components/Shared/Navigation";
 import Sidebar from "../Components/Dashboard/Sidebar";
 import Login from "./Login";
 import './Dashboard.css';
+import { useEffect, useState } from "react";
 
-type dashboardProps = {
-    setToken: Dispatch<SetStateAction<string | null>>;
-    token: string | null;
-}
+export default function Dashboard() {
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
-type ContextType = {
-    selectedNote: string | null;
-    setSelectedNote: Dispatch<SetStateAction<string | null>>;
-};
-
-export default function Dashboard({ token, setToken }: dashboardProps) {
-    if (!token) return (<Login setToken={setToken} />);
-
-    const [selectedNote, setSelectedNote] = useState<string | null>("");
+    useEffect(() => {
+        console.log("Checking if logged inn");
+        setIsLoggedIn(localStorage.getItem("accessToken") !== null);
+    }, [])
 
     return (
-        <div className="dashboard">
-            <Navigaton />
-            <Sidebar />
-            <Outlet context={[selectedNote, setSelectedNote]} />
-        </div>
-    )
-}
+        <>
+            {
+                isLoggedIn &&
+                <div className="dashboard">
+                    <Navigaton />
+                    <Sidebar />
+                    <Outlet />
+                </div>
+            }
+            {
+                !isLoggedIn &&
+                <Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+            }
 
-export function useSelectedNote() {
-    return useOutletContext<ContextType>();
+        </>
+    )
 }

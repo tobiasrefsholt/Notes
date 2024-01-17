@@ -30,7 +30,12 @@ export default function SingleNote() {
                 data &&
                 <main className='dashboard-sigle-note'>
                     <h1>{data.title}</h1>
-                    <MDEditor value={value} onChange={setValue}/>
+                    <div className="note-toolbar">
+                        <button>Save</button>
+                        <button>Rename</button>
+                        <button>Delete</button>
+                    </div>
+                    <MDEditor value={value} onChange={setValue} visibleDragbar={false} />
                 </main>
             }
         </>

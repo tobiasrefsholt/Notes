@@ -45,8 +45,22 @@ main {
 .dashboard .dashboard-sigle-note {
     display: flex;
     flex-direction: column;
+    gap: 1rem;
+}
+
+.dashboard .dashboard-sigle-note h1 {
+    margin-bottom: 0;
 }
 
 .dashboard .dashboard-sigle-note .w-md-editor {
     flex-grow: 1;
 }
+
+.note-toolbar {
+    display: flex;
+    gap: .5rem;
+}
+
+/* .note-toolbar h1 {
+    flex-grow: 1;
+} */
