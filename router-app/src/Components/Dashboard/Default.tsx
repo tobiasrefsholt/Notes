@@ -1,5 +1,5 @@
 export default function Default() {
-    return(
+    return (
         <div className="default">
             <h1>Welcome back!</h1>
             <p>

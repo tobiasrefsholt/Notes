@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import { Routes, Route, useLocation } from "react-router-dom"
+import { Routes, Route } from "react-router-dom"
 import Cookies from 'js-cookie';
 import Dashboard from './pages/Dashboard';
 import Logout from './pages/Logout';
-import './App.css'
 import AddNote from './Components/Dashboard/AddNote';
 import SingleNote from './Components/Dashboard/SingleNote';
 import Default from './Components/Dashboard/Default';
+import './App.css'
 
 export default function App() {
   const [token, setToken] = useState(Cookies.get("token") || null);
