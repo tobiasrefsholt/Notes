@@ -24,9 +24,7 @@ export default function Dashboard({ token, setToken }: dashboardProps) {
         <div className="dashboard">
             <Navigaton />
             <Sidebar />
-            <main>
-                <Outlet context={[selectedNote, setSelectedNote]} />
-            </main>
+            <Outlet context={[selectedNote, setSelectedNote]} />
         </div>
     )
 }

@@ -28,10 +28,10 @@ export default function SingleNote() {
             {error && <div>{error}</div>}
             {
                 data &&
-                <div className='dashboard-sigle-note'>
+                <main className='dashboard-sigle-note'>
                     <h1>{data.title}</h1>
-                    <MDEditor value={value} onChange={setValue} />
-                </div>
+                    <MDEditor value={value} onChange={setValue}/>
+                </main>
             }
         </>
     );
