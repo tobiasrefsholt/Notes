@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Cookies from 'js-cookie';
 import useRefreshBearerToken from "./useRefreshBearerToken";
 
 type ApiResponse<T> = {
@@ -12,8 +11,9 @@ export default function useFetchData<T>(apiPath: string, deps: React.DependencyL
     const [data, setData] = useState<T | null>(null);
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState<string | null>(null);
-
+    
     useEffect(() => {
+        useRefreshBearerToken();
         const token = localStorage.getItem("accessToken");
         fetch("http://localhost:5214" + apiPath, {
             method: "GET",
@@ -24,11 +24,6 @@ export default function useFetchData<T>(apiPath: string, deps: React.DependencyL
         })
             .then((res) => {
                 console.log(res)
-                /* if (res.status === 401 && retry === false) {
-                    console.log("Refreshing token")
-                    useRefreshBearerToken();
-                    useFetchData(apiPath, deps, true);
-                } */
                 if(!res.ok) {
                     throw Error("Could not fetch resource");
                 }
