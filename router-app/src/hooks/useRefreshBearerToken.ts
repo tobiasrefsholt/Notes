@@ -1,5 +1,3 @@
-import { useNavigate } from "react-router-dom";
-
 type loginSuccessfulResponse = {
     tokenType: string;
     accessToken: string;
@@ -14,14 +12,15 @@ type loginFailedResponse = {
     detail: string;
 }
 
-export default async function useRefreshBearerToken() {
+export default async function useBearerToken(): Promise<string | null> {
+    const currentToken = localStorage.getItem('accessToken');
     const accessTokenExpires = +<string>localStorage.getItem("accessTokenExpires") || 0;
     const currentTimestamp = new Date().getTime();
 
     // Abort refresh if token has more than 30 min until expiration
     if (accessTokenExpires - 3600 / 2 > currentTimestamp) {
         console.log("Aborted token refresh");
-        return false;
+        return currentToken;
     };
 
     console.log("Fetching new token");
@@ -38,21 +37,15 @@ export default async function useRefreshBearerToken() {
 
     const data: loginSuccessfulResponse | loginFailedResponse = await response.json();
 
-    setLocalStorage(data, currentTimestamp);
-
-    return response.ok;
-}
-
-function setLocalStorage(data: loginSuccessfulResponse | loginFailedResponse, currentTimestamp: number) {
     if ("tokenType" in data) {
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('accessTokenExpires', (currentTimestamp + data.expiresIn * 1000).toString());
         localStorage.setItem('refreshToken', data.refreshToken);
-    } else {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('accessTokenExpires');
-        localStorage.removeItem('refreshToken');
-        const navigate = useNavigate();
-        navigate("/");
+        return data.accessToken;
     }
+
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('accessTokenExpires');
+    localStorage.removeItem('refreshToken');
+    return null;
 }

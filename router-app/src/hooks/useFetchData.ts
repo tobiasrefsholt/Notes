@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useRefreshBearerToken from "./useRefreshBearerToken";
+import useBearerToken from "./useRefreshBearerToken";
 
 type ApiResponse<T> = {
     data: T | null;
@@ -13,7 +13,7 @@ export default function useFetchData<T>(apiPath: string, deps: React.DependencyL
     const [error, setError] = useState<string | null>(null);
     
     useEffect(() => {
-        useRefreshBearerToken();
+        useBearerToken();
         const token = localStorage.getItem("accessToken");
         fetch("http://localhost:5214" + apiPath, {
             method: "GET",
