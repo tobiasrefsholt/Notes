@@ -1,5 +1,5 @@
 .dashboard {
-    min-height: 100vh;
+    height: 100vh;
     display: grid;
     grid-template-areas:
         "topnav topnav topnav"
@@ -19,6 +19,7 @@ main {
     grid-area: sidebar;
     padding: 1rem;
     border-right: solid 1px #1F1F1F;
+    overflow-y: auto;
 }
 
 .dashboard-sidebar ul {
