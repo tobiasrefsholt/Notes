@@ -10,6 +10,5 @@ public interface INoteRepository
     Task<bool> Delete(Guid guid, Guid user);
     Task<bool> UpdateTitle(Guid guid, string newTitle, Guid user);
     Task<bool> UpdateContent(Guid guid, string newContent, Guid user);
-    Task<bool> UpdateLastChanged(Guid guid, string newLastChanged, Guid user);
     Task<bool> UpdateTags(Guid guid, string newTags, Guid user);
 }

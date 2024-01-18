@@ -20,6 +20,7 @@ public class NoteDbRepository : INoteRepository
                 SELECT Guid, Title, Tags, DateAdded, LastChanged
                 FROM notes.notes
                 WHERE User LIKE @User
+                ORDER BY UNIX_TIMESTAMP(LastChanged) DESC
                 LIMIT 100;
             ";
         var dbObjects = await conn.QueryAsync<Note>(sql, new { User = userGuid });
@@ -60,19 +61,29 @@ public class NoteDbRepository : INoteRepository
         return rowsAffected > 0;
     }
 
-    public Task<bool> UpdateTitle(Guid guid, string newTitle, Guid user)
+    public async Task<bool> UpdateTitle(Guid guid, string newTitle, Guid userGuid)
     {
-        throw new NotImplementedException();
+        await using var conn = _connectionFactory.Create();
+        var sql = @"
+                UPDATE notes.notes
+                SET Title = @NewTitle, LastChanged = UTC_TIMESTAMP()
+                WHERE Guid LIKE @Guid AND User LIKE @UserGuid
+          ";
+        var rowsAffected = await conn.ExecuteAsync(sql, new { Guid = guid, NewTitle = newTitle, UserGuid = userGuid });
+        return rowsAffected > 0;
     }
 
-    public Task<bool> UpdateContent(Guid guid, string newContent, Guid user)
+    public async Task<bool> UpdateContent(Guid guid, string newContent, Guid userGuid)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task<bool> UpdateLastChanged(Guid guid, string newLastChanged, Guid user)
-    {
-        throw new NotImplementedException();
+        await using var conn = _connectionFactory.Create();
+        var sql = @"
+                UPDATE notes.notes
+                SET Content = @NewContent, LastChanged = UTC_TIMESTAMP()
+                WHERE Guid LIKE @Guid AND User LIKE @UserGuid
+          ";
+        var rowsAffected =
+            await conn.ExecuteAsync(sql, new { Guid = guid, NewContent = newContent, UserGuid = userGuid });
+        return rowsAffected > 0;
     }
 
     public Task<bool> UpdateTags(Guid guid, string newTags, Guid user)
