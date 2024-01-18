@@ -5,6 +5,7 @@ import "@uiw/react-markdown-preview/markdown.css";
 import useFetchData from '../../hooks/useFetchData';
 import { useParams } from 'react-router-dom';
 import useSaveNote from '../../hooks/useSaveNote';
+import useDeleteNote from '../../hooks/useDeleteNote';
 
 type Note = {
     guid: string;
@@ -25,8 +26,8 @@ export default function SingleNote() {
         setTitle(data?.title);
         setValue(data?.content);
     }, [data])
-    
-    const {saveError, saveIsPending, saveIsDone, save} = useSaveNote([guid, title, value]);
+
+    const { saveError, saveIsPending, saveIsDone, save } = useSaveNote([guid, title, value]);
 
     const saveChanges = () => {
         if (!guid) return;
@@ -37,26 +38,45 @@ export default function SingleNote() {
         })
     }
 
+    const { deleteError, deleteIsPending, deleteIsDone, deleteNote } = useDeleteNote([guid, title, value]);
+
+    const handleDeleteNote = () => {
+        if (!guid) return;
+        deleteNote(guid);
+    }
+
+    const statusMessages = (
+        <>
+            {saveIsPending && <span>Saving...</span>}
+            {saveError && <span>{saveError}</span>}
+            {saveIsDone && <span>Successfully saved</span>}
+            {deleteIsPending && <span>Deleting note...</span>}
+            {deleteError && <span>{deleteError}</span>}
+        </>
+    )
+
+    const editView = (
+        <>
+            <div className="note-toolbar">
+                <input className='note-heading' type='text' value={title} onChange={(e) => setTitle(e.target.value)} />
+                <div className='toolbar-buttons'>
+                    {statusMessages}
+                    <button onClick={saveChanges}>Save</button>
+                    <button onClick={handleDeleteNote}>Delete</button>
+                </div>
+            </div>
+            <MDEditor value={value} onChange={setValue} visibleDragbar={false} />
+        </>
+    )
+
     return (
         <>
-            {isPending && <div>Loading note content...</div>}
-            {error && <div>{error}</div>}
-            {
-                data &&
-                <main className='dashboard-sigle-note'>
-                    <div className="note-toolbar">
-                        <input className='note-heading' type='text' value={title} onChange={(e) => setTitle(e.target.value)} />
-                        <div className='toolbar-buttons'>
-                            {saveIsPending && <span>Saving...</span>}
-                            {saveError && <span>{saveError}</span>}
-                            {saveIsDone && <span>Successfully saved</span>}
-                            <button onClick={saveChanges}>Save</button>
-                            <button /* onClick={deleteNote} */>Delete</button>
-                        </div>
-                    </div>
-                    <MDEditor value={value} onChange={setValue} visibleDragbar={false} />
-                </main>
-            }
+            <main className='dashboard-sigle-note'>
+                {isPending && <div>Loading note content...</div>}
+                {error && <div>{error}</div>}
+                {deleteIsDone && <h1>Note was deleted</h1>}
+                {data && !deleteIsDone && !error && editView}
+            </main>
         </>
     );
 }
