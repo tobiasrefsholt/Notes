@@ -55,7 +55,7 @@ public class AppService
             results[1] = await _noteRepository.UpdateContent(viewNote.Guid, viewNote.Content, _userGuid);
         if(viewNote.Tags?.Length > 0)
             results[2] = await _noteRepository.UpdateTags(viewNote.Guid, JsonConvert.SerializeObject(viewNote.Tags), _userGuid);
-        return results.All(result => result);
+        return results.FirstOrDefault(result => result);
     }
 
     public async Task<bool> DeleteNote(Guid guid)
