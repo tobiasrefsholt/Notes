@@ -28,6 +28,15 @@ main {
 
 .dashboard-sidebar li {
     cursor: pointer;
+    background-color: #202123;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-bottom: .5rem;
+}
+
+.dashboard-sidebar .list-item-header {
+    margin-top: 0;
+    margin-bottom: .75rem;
 }
 
 .dashboard-sidebar .sidebar-categories {
@@ -48,8 +57,18 @@ main {
     gap: 1rem;
 }
 
-.dashboard .dashboard-sigle-note h1 {
-    margin-bottom: 0;
+.dashboard .note-heading {
+    background-color: transparent;
+    border: none;
+    border-bottom: solid white 2px;
+    color: white;
+    font-size: 2em;
+    font-weight: bold;
+    margin-right: auto;
+    width: 100%;
+    max-width: 30rem;
+    flex-shrink: 1;
+    flex: 1 1 30rem;
 }
 
 .dashboard .dashboard-sigle-note .w-md-editor {
@@ -58,9 +77,12 @@ main {
 
 .note-toolbar {
     display: flex;
-    gap: .5rem;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
-/* .note-toolbar h1 {
-    flex-grow: 1;
-} */
+.toolbar-buttons {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}

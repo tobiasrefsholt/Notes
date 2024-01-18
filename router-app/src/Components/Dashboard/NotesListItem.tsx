@@ -10,7 +10,7 @@ export default function NotesListItem({ guid, title, tags }: NotesListItemProps)
     const navigate = useNavigate();
     return (
         <li onClick={() => { navigate("/note/" + guid) }}>
-            <h4>{title}</h4>
+            <h4 className="list-item-header">{title}</h4>
             <div className='sidebar-categories'>
                 {tags.map((tag, index: number) => (
                     <span key={index}>{tag}</span>
