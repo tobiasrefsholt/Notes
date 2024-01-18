@@ -35,12 +35,13 @@ public class AppService
         return viewNote;
     }
 
-    public async Task<bool> CreateNote(Note viewNote)
+    public async Task<CreateNoteResponse> CreateNote(Note viewNote)
     {
         var guid = Guid.NewGuid();
         var dbNote = new ApiEndpoints.DbModel.Note(guid, _userGuid, viewNote.Title, viewNote.Content, JsonConvert.SerializeObject(viewNote.Tags),
             viewNote.DateAdded, viewNote.LastChanged);
-        return await _noteRepository.Create(dbNote);
+        var success = await _noteRepository.Create(dbNote);
+        return new CreateNoteResponse(success, guid);
     }
 
     public async Task<bool> UpdateNote(Note viewNote)
