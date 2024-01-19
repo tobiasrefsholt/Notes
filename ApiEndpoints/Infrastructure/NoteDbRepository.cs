@@ -52,7 +52,7 @@ public class NoteDbRepository : INoteRepository
         var sql = @"
                 SELECT n.Guid, n.Title, n.Content, n.CategoryGuid, c.Name as CategoryName, n.DateAdded, n.LastChanged
                 FROM notes.notes as n
-                INNER JOIN notes.NotesCategories AS c
+                LEFT OUTER JOIN notes.NotesCategories AS c
                     ON CategoryGuid = c.Guid
                 WHERE n.Guid LIKE @Guid AND n.User LIKE @UserGuid;
             ";
