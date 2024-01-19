@@ -17,18 +17,9 @@ public class NoteCategoryDbRepository : INoteCategoryRepository
     {
         await using var conn = _connectionFactory.Create();
         var sql = @"
-                WITH RECURSIVE CategoryHierarchy AS (
-                    SELECT Guid, User, ParentGuid, Name
-                    FROM NotesCategories
-                    WHERE User LIKE @User AND NotesCategories.ParentGuid IS NULL
-
-                    UNION ALL
-
-                    SELECT c.Guid, c.User, c.ParentGuid, c.Name
-                    FROM NotesCategories c
-                    JOIN CategoryHierarchy ch ON c.ParentGuid = ch.Guid
-                )
-                SELECT * FROM CategoryHierarchy;
+                SELECT Guid, User, ParentGuid, Name
+                FROM NotesCategories
+                WHERE User LIKE @User
             ";
         var dbObjects = await conn.QueryAsync<NoteCategory>(sql, new { User = userGuid });
         return dbObjects;
