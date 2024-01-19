@@ -29,6 +29,22 @@ public class NoteService : AppService
                 ))
             .ToList();
     }
+    
+    public async Task<List<NoteCompact>> GetNotesByCategory(Guid categoryGuid)
+    {
+        var dbNotes = await _noteRepository.ReadByCategory(categoryGuid, _userGuid);
+
+        return dbNotes.Select(dbNote =>
+                new NoteCompact(
+                    dbNote.Guid,
+                    dbNote.Title,
+                    dbNote.CategoryGuid,
+                    dbNote.CategoryName,
+                    dbNote.DateAdded,
+                    dbNote.LastChanged
+                ))
+            .ToList();
+    }
 
     public async Task<Note> GetSingleNote(Guid guid)
     {

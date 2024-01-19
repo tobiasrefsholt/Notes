@@ -29,6 +29,23 @@ public class NoteDbRepository : INoteRepository
         return dbObjects;
     }
 
+    public async Task<IEnumerable<Note>> ReadByCategory(Guid category, Guid userGuid)
+    {
+        await using var conn = _connectionFactory.Create();
+        var sql = @"
+                SELECT n.Guid, n.Title, n.CategoryGuid, c.Name as CategoryName, n.DateAdded, n.LastChanged
+                FROM notes.notes as n
+                LEFT OUTER JOIN notes.NotesCategories AS c
+                    ON CategoryGuid = c.Guid
+                WHERE n.User LIKE @User 
+                    AND n.CategoryGuid LIKE @Category
+                ORDER BY UNIX_TIMESTAMP(LastChanged) DESC
+                LIMIT 100;
+            ";
+        var dbObjects = await conn.QueryAsync<Note>(sql, new { Category = category, User = userGuid });
+        return dbObjects;
+    }
+
     public async Task<Note?> ReadOne(Guid guid, Guid userGuid)
     {
         await using var conn = _connectionFactory.Create();
@@ -95,7 +112,7 @@ public class NoteDbRepository : INoteRepository
         await using var conn = _connectionFactory.Create();
         var sql = @"
                 UPDATE notes.notes
-                SET Category = @NewCategory, LastChanged = UTC_TIMESTAMP()
+                SET CategoryGuid = @NewCategory, LastChanged = UTC_TIMESTAMP()
                 WHERE Guid LIKE @Guid AND User LIKE @UserGuid
           ";
         var rowsAffected =

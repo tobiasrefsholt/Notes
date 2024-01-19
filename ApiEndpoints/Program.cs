@@ -70,6 +70,16 @@ app.MapGet("/GetNotes/{guid:guid}", async (Guid guid, INoteRepository noteReposi
     .WithOpenApi()
     .RequireAuthorization();
 
+app.MapGet("/GetNotesByCategory/{categoryGuid:guid}",
+        async (Guid categoryGuid, INoteRepository noteRepository, HttpContext context) =>
+        {
+            var service = new NoteService(noteRepository, context);
+            return await service.GetNotesByCategory(categoryGuid);
+        })
+    .WithName("GetNotesByCategory")
+    .WithOpenApi()
+    .RequireAuthorization();
+
 app.MapPost("/CreateNote", async (Note note, INoteRepository noteRepository, HttpContext context) =>
     {
         var service = new NoteService(noteRepository, context);
@@ -106,11 +116,12 @@ app.MapGet("/GetCategories", async (INoteCategoryRepository noteCategoryReposito
     .WithOpenApi()
     .RequireAuthorization();
 
-app.MapPost("/CreateCategory", async (NoteCategory category, INoteCategoryRepository noteCategoryRepository, HttpContext context) =>
-    {
-        var service = new NoteCategoryService(noteCategoryRepository, context);
-        return await service.CreateCategory(category);
-    })
+app.MapPost("/CreateCategory",
+        async (NoteCategory category, INoteCategoryRepository noteCategoryRepository, HttpContext context) =>
+        {
+            var service = new NoteCategoryService(noteCategoryRepository, context);
+            return await service.CreateCategory(category);
+        })
     .WithName("CreateCategory")
     .WithOpenApi()
     .RequireAuthorization();

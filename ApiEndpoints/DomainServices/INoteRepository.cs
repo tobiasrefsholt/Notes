@@ -5,6 +5,7 @@ namespace ApiEndpoints.DomainServices;
 public interface INoteRepository
 {
     Task<IEnumerable<Note>> ReadAll(Guid user);
+    Task<IEnumerable<Note>> ReadByCategory(Guid category, Guid user);
     Task<Note?> ReadOne(Guid guid, Guid user);
     Task<bool> Create(Note note);
     Task<bool> Delete(Guid guid, Guid user);
