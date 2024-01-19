@@ -102,8 +102,17 @@ app.MapGet("/GetCategories", async (INoteCategoryRepository noteCategoryReposito
         var service = new NoteCategoryService(noteCategoryRepository, context);
         return await service.GetCategories();
     })
-.WithName("GetCategories")
-.WithOpenApi()
-.RequireAuthorization();
+    .WithName("GetCategories")
+    .WithOpenApi()
+    .RequireAuthorization();
+
+app.MapPost("/CreateCategory", async (NoteCategory category, INoteCategoryRepository noteCategoryRepository, HttpContext context) =>
+    {
+        var service = new NoteCategoryService(noteCategoryRepository, context);
+        return await service.CreateCategory(category);
+    })
+    .WithName("CreateCategory")
+    .WithOpenApi()
+    .RequireAuthorization();
 
 app.Run();

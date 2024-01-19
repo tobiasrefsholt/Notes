@@ -20,4 +20,12 @@ public class NoteCategoryService : AppService
                 db => new NoteCategory(db.Guid, db.ParentGuid, db.Name))
             .ToList();
     }
+
+    public async Task<bool> CreateCategory(NoteCategory category)
+    {
+        var generatedGuid = Guid.NewGuid();
+        var dbCategory = new ApiEndpoints.DbModel.NoteCategory(generatedGuid, _userGuid, category.ParentGuid,
+            category.Name);
+        return await _noteCategoryRepository.Create(dbCategory, _userGuid);
+    }
 }

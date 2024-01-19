@@ -34,7 +34,18 @@ public class NoteCategoryDbRepository : INoteCategoryRepository
         return dbObjects;
     }
 
-    public Task<bool> DeleteCategory(Guid guid, Guid user)
+    public async Task<bool> Create(NoteCategory noteCategory, Guid user)
+    {
+        await using var conn = _connectionFactory.Create();
+        var sql = @"
+                INSERT INTO NotesCategories
+                VALUES (@Guid, @User, @ParentGuid, @Name)
+          ";
+        var rowsAffected = await conn.ExecuteAsync(sql, noteCategory);
+        return rowsAffected > 0;
+    }
+
+    public Task<bool> Delete(Guid guid, Guid user)
     {
         throw new NotImplementedException();
     }
