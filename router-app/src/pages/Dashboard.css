@@ -111,7 +111,7 @@ body .w-md-editor-text-input {
 }
 
 button {
-    background-color: black;
+    background-color: #404440;
     color: white;
     border: none;
     padding: .5em .75em;
@@ -135,6 +135,32 @@ button:hover {
     min-width: 300px;
 }
 
+.dashboard .notes-browser .category-list li {
+    cursor: pointer;
+}
+
 .dashboard .notes-browser .notelist-details {
     flex-grow: 1;
+}
+
+.dashboard .notelist-details table {
+    width: 100%;
+}
+
+.dashboard .notelist-details table tr {
+    cursor: pointer;
+}
+
+.dashboard .notelist-details table tr:hover {
+    background-color: #204F5A;
+}
+
+.dashboard .notelist-details table th,
+.dashboard .notelist-details table td {
+    padding: .5em;
+}
+
+.dashboard .notelist-details table th {
+    text-align: left;
+    background-color: #202123;
 }
