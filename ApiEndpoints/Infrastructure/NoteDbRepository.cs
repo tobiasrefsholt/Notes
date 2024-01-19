@@ -2,7 +2,7 @@ using ApiEndpoints.DbModel;
 using ApiEndpoints.DomainServices;
 using Dapper;
 
-namespace ApiEndpoints.Infrastructur;
+namespace ApiEndpoints.Infrastructure;
 
 public class NoteDbRepository : INoteRepository
 {

@@ -2,7 +2,7 @@ using System.Security.Claims;
 using ApiEndpoints;
 using ApiEndpoints.ApplicationServices;
 using ApiEndpoints.DomainServices;
-using ApiEndpoints.Infrastructur;
+using ApiEndpoints.Infrastructure;
 using ApiEndpoints.ViewModel;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,6 +35,7 @@ builder.Services
 var connectionFactory = new SqlConnectionFactory(connectionString);
 builder.Services.AddSingleton<SqlConnectionFactory>(connectionFactory);
 builder.Services.AddScoped<INoteRepository, NoteDbRepository>();
+builder.Services.AddScoped<INoteCategoryRepository, NoteCategoryDbRepository>();
 
 
 var app = builder.Build();
@@ -53,7 +54,7 @@ if (app.Environment.IsDevelopment())
 
 app.MapGet("/GetNotes", async (INoteRepository noteRepository, HttpContext context) =>
     {
-        var service = new AppService(noteRepository, context);
+        var service = new NoteService(noteRepository, context);
         return await service.GetNotes();
     })
     .WithName("GetNotes")
@@ -62,7 +63,7 @@ app.MapGet("/GetNotes", async (INoteRepository noteRepository, HttpContext conte
 
 app.MapGet("/GetNotes/{guid:guid}", async (Guid guid, INoteRepository noteRepository, HttpContext context) =>
     {
-        var service = new AppService(noteRepository, context);
+        var service = new NoteService(noteRepository, context);
         return await service.GetSingleNote(guid);
     })
     .WithName("GetSingleNote")
@@ -71,7 +72,7 @@ app.MapGet("/GetNotes/{guid:guid}", async (Guid guid, INoteRepository noteReposi
 
 app.MapPost("/CreateNote", async (Note note, INoteRepository noteRepository, HttpContext context) =>
     {
-        var service = new AppService(noteRepository, context);
+        var service = new NoteService(noteRepository, context);
         return await service.CreateNote(note);
     })
     .WithName("CreateNote")
@@ -80,7 +81,7 @@ app.MapPost("/CreateNote", async (Note note, INoteRepository noteRepository, Htt
 
 app.MapPost("/UpdateNote", async (Note note, INoteRepository noteRepository, HttpContext context) =>
     {
-        var service = new AppService(noteRepository, context);
+        var service = new NoteService(noteRepository, context);
         return await service.UpdateNote(note);
     })
     .WithName("UpdateNote")
@@ -89,11 +90,20 @@ app.MapPost("/UpdateNote", async (Note note, INoteRepository noteRepository, Htt
 
 app.MapPost("/DeleteNote/{guid:guid}", async (Guid guid, INoteRepository noteRepository, HttpContext context) =>
     {
-        var service = new AppService(noteRepository, context);
+        var service = new NoteService(noteRepository, context);
         return await service.DeleteNote(guid);
     })
     .WithName("DeleteNote")
     .WithOpenApi()
     .RequireAuthorization();
+
+app.MapGet("/GetCategories", async (INoteCategoryRepository noteCategoryRepository, HttpContext context) =>
+    {
+        var servive = new NoteCategoryService(noteCategoryRepository, context);
+        return await servive.GetCategories();
+    })
+.WithName("GetCategories")
+.WithOpenApi()
+.RequireAuthorization();
 
 app.Run();
