@@ -17,9 +17,11 @@ public class NoteDbRepository : INoteRepository
     {
         await using var conn = _connectionFactory.Create();
         var sql = @"
-                SELECT Guid, Title, Tags, DateAdded, LastChanged
-                FROM notes.notes
-                WHERE User LIKE @User
+                SELECT n.Guid, n.Title, n.CategoryGuid, c.Name as CategoryName, n.DateAdded, n.LastChanged
+                FROM notes.notes as n
+                LEFT OUTER JOIN notes.NotesCategories AS c
+                    ON CategoryGuid = c.Guid
+                WHERE n.User LIKE @User 
                 ORDER BY UNIX_TIMESTAMP(LastChanged) DESC
                 LIMIT 100;
             ";
@@ -31,9 +33,11 @@ public class NoteDbRepository : INoteRepository
     {
         await using var conn = _connectionFactory.Create();
         var sql = @"
-                SELECT Guid, Title, Content, Tags, DateAdded, LastChanged
-                FROM notes.notes
-                WHERE Guid LIKE @Guid AND User LIKE @UserGuid;
+                SELECT n.Guid, n.Title, n.Content, n.CategoryGuid, c.Name as CategoryName, n.DateAdded, n.LastChanged
+                FROM notes.notes as n
+                INNER JOIN notes.NotesCategories AS c
+                    ON CategoryGuid = c.Guid
+                WHERE n.Guid LIKE @Guid AND n.User LIKE @UserGuid;
             ";
         IEnumerable<Note?> dbObjects = await conn.QueryAsync<Note>(sql, new { Guid = guid, UserGuid = userGuid });
         return dbObjects.FirstOrDefault();
@@ -86,8 +90,16 @@ public class NoteDbRepository : INoteRepository
         return rowsAffected > 0;
     }
 
-    public Task<bool> UpdateTags(Guid guid, string newTags, Guid user)
+    public async Task<bool> ChangeCategory(Guid guid, Guid? newCategory, Guid user)
     {
-        throw new NotImplementedException();
+        await using var conn = _connectionFactory.Create();
+        var sql = @"
+                UPDATE notes.notes
+                SET Category = @NewCategory, LastChanged = UTC_TIMESTAMP()
+                WHERE Guid LIKE @Guid AND User LIKE @UserGuid
+          ";
+        var rowsAffected =
+            await conn.ExecuteAsync(sql, new { Guid = guid, NewCategory = newCategory, UserGuid = user });
+        return rowsAffected > 0;
     }
 }

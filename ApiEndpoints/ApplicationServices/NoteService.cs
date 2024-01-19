@@ -19,16 +19,27 @@ public class NoteService : AppService
         var dbNotes = await _noteRepository.ReadAll(_userGuid);
 
         return dbNotes.Select(dbNote =>
-                new NoteCompact(dbNote.Guid, dbNote.Title, JsonConvert.DeserializeObject<string[]>(dbNote.Tags),
-                    dbNote.DateAdded, dbNote.LastChanged))
+                new NoteCompact(
+                    dbNote.Guid,
+                    dbNote.Title,
+                    dbNote.CategoryGuid,
+                    dbNote.CategoryName,
+                    dbNote.DateAdded,
+                    dbNote.LastChanged
+                ))
             .ToList();
     }
 
     public async Task<Note> GetSingleNote(Guid guid)
     {
         var dbNote = await _noteRepository.ReadOne(guid, _userGuid);
-        var viewNote = new Note(dbNote.Guid, dbNote.Title, dbNote.Content,
-            JsonConvert.DeserializeObject<string[]>(dbNote.Tags), dbNote.DateAdded,
+        var viewNote = new Note(
+            dbNote.Guid,
+            dbNote.Title,
+            dbNote.Content,
+            dbNote.CategoryGuid,
+            dbNote.CategoryName,
+            dbNote.DateAdded,
             dbNote.LastChanged);
         return viewNote;
     }
@@ -36,9 +47,16 @@ public class NoteService : AppService
     public async Task<CreateNoteResponse> CreateNote(Note viewNote)
     {
         var guid = Guid.NewGuid();
-        var dbNote = new ApiEndpoints.DbModel.Note(guid, _userGuid, viewNote.Title, viewNote.Content,
-            JsonConvert.SerializeObject(viewNote.Tags),
-            viewNote.DateAdded, viewNote.LastChanged);
+        var dbNote = new ApiEndpoints.DbModel.Note(
+            guid,
+            _userGuid,
+            viewNote.Title,
+            viewNote.Content,
+            viewNote.CategoryGuid,
+            viewNote.CategoryName,
+            viewNote.DateAdded,
+            viewNote.LastChanged
+        );
         var success = await _noteRepository.Create(dbNote);
         return new CreateNoteResponse(success, guid);
     }
@@ -52,9 +70,9 @@ public class NoteService : AppService
             results[0] = await _noteRepository.UpdateTitle(viewNote.Guid, viewNote.Title, _userGuid);
         if (!string.IsNullOrEmpty(viewNote.Content))
             results[1] = await _noteRepository.UpdateContent(viewNote.Guid, viewNote.Content, _userGuid);
-        if (viewNote.Tags?.Length > 0)
+        if (viewNote.CategoryGuid != Guid.Empty)
             results[2] =
-                await _noteRepository.UpdateTags(viewNote.Guid, JsonConvert.SerializeObject(viewNote.Tags), _userGuid);
+                await _noteRepository.ChangeCategory(viewNote.Guid, viewNote.CategoryGuid, _userGuid);
         return results.FirstOrDefault(result => result);
     }
 
