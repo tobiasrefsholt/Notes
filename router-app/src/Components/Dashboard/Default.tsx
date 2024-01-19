@@ -1,10 +1,24 @@
+import { useState } from "react"
+import CategoryList from "./CategoryList";
+import NotesList from "./NotesList";
+
+type category = {
+    guid: string;
+    parentGuid: string | null;
+    name: string;
+}
+
 export default function Default() {
+    const [selectedCategory, setSelectedCategory] = useState<category | null>(null);
+
     return (
-        <main className="default">
-            <h1>Welcome back!</h1>
-            <p>
-                Click things and do stuff
-            </p>
+        <main className="notes-browser">
+            <section className="category-list">
+                <CategoryList selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
+            </section>
+            <section className="notelist-details">
+                <NotesList selectedCategory={selectedCategory} />
+            </section>
         </main>
     )
 }

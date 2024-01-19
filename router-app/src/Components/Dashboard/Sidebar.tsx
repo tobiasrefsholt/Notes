@@ -1,5 +1,5 @@
 import { useState } from "react";
-import NotesList from "./NotesList";
+import LatestNotes from "./LatestNotes";
 
 export default function Sidebar() {
     const [refreshTimestap, setRefreshTimestap] = useState(0);
@@ -10,7 +10,7 @@ export default function Sidebar() {
                 <button onClick={()=>{setRefreshTimestap(new Date().getTime())}}>Refresh list</button>
             </div>
             <hr />
-            <NotesList refreshTimestap={refreshTimestap} />
+            <LatestNotes refreshTimestap={refreshTimestap} />
         </div>
     )
 }

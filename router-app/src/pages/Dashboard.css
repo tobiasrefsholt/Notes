@@ -25,6 +25,7 @@ main {
 .dashboard-sidebar .sidebar-header {
     display: flex;
     justify-content: space-between;
+    align-items: baseline;
 }
 
 .dashboard-sidebar ul {
@@ -120,4 +121,20 @@ button {
 
 button:hover {
     background-color: #202123;
+}
+
+.bold-text {
+    font-weight: bold;
+}
+
+.dashboard .notes-browser {
+    display: flex;
+}
+
+.dashboard .notes-browser .category-list {
+    min-width: 300px;
+}
+
+.dashboard .notes-browser .notelist-details {
+    flex-grow: 1;
 }

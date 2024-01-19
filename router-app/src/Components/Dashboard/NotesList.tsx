@@ -1,35 +1,15 @@
-import useFetchData from '../../hooks/useFetchData';
-import NotesListItem from './NotesListItem';
+type NotesListProps = {
+    selectedCategory: category | null;
+}
 
-type noteCompact = {
+type category = {
     guid: string;
-    title: string;
-    categoryGuid: string;
-    categoryName: string;
-    dateAdded: Date;
-    lastChanged: Date;
+    parentGuid: string | null;
+    name: string;
 }
 
-type timestampProps = {
-    refreshTimestap: number;
-}
-
-export default function NotesList({refreshTimestap}:timestampProps) {
-
-    const { data: noteList, isPending, error } = useFetchData<noteCompact[]>("/GetNotes", [refreshTimestap]);
-
+export default function NotesList({selectedCategory}:NotesListProps) {
     return (
-        <>
-            {isPending && <div>Loading notes...</div>}
-            {error && <div>{error}</div>}
-            {
-                noteList &&
-                <ul>
-                    {noteList.map((item: noteCompact) => (
-                        <NotesListItem key={item.guid} guid={item.guid} title={item.title} categoryGuid={item.categoryGuid} categoryName={item.categoryName} dateAdded={item.dateAdded} lastChanged={item.lastChanged} />
-                    ))}
-                </ul>
-            }
-        </>
-    );
+        <h1>{selectedCategory !== null ? `Notes with category "${selectedCategory.name}"` : `Uncategorized notes`}</h1>
+    )
 }
