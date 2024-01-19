@@ -10,9 +10,13 @@ type noteCompact = {
     lastChanged: Date;
 }
 
-export default function NotesList() {
+type timestampProps = {
+    refreshTimestap: number;
+}
 
-    const { data: noteList, isPending, error } = useFetchData<noteCompact[]>("/GetNotes", []);
+export default function NotesList({refreshTimestap}:timestampProps) {
+
+    const { data: noteList, isPending, error } = useFetchData<noteCompact[]>("/GetNotes", [refreshTimestap]);
 
     return (
         <>

@@ -1,11 +1,16 @@
+import { useState } from "react";
 import NotesList from "./NotesList";
 
 export default function Sidebar() {
+    const [refreshTimestap, setRefreshTimestap] = useState(0);
     return (
         <div className='dashboard-sidebar'>
-            <strong>Your latest notes</strong>
+            <div className="sidebar-header">
+                <strong>Your latest notes</strong>
+                <button onClick={()=>{setRefreshTimestap(new Date().getTime())}}>Refresh list</button>
+            </div>
             <hr />
-            <NotesList />
+            <NotesList refreshTimestap={refreshTimestap} />
         </div>
     )
 }

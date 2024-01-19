@@ -22,6 +22,11 @@ main {
     overflow-y: auto;
 }
 
+.dashboard-sidebar .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+}
+
 .dashboard-sidebar ul {
     list-style: none;
     padding: 0;
@@ -102,4 +107,17 @@ body .w-md-editor-text-input {
 .wmde-markdown,
 .w-md-editor-toolbar {
     background-color: unset !important;
+}
+
+button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: .5em .75em;
+    border-radius: .5em;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #202123;
 }
