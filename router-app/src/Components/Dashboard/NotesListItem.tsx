@@ -3,19 +3,18 @@ import { useNavigate } from "react-router-dom";
 type NotesListItemProps = {
     guid: string;
     title: string;
-    tags: string[];
+    categoryGuid: string;
+    categoryName: string;
+    dateAdded: Date;
+    lastChanged: Date;
 }
 
-export default function NotesListItem({ guid, title, tags }: NotesListItemProps) {
+export default function NotesListItem({ guid, title, categoryGuid, categoryName }: NotesListItemProps) {
     const navigate = useNavigate();
     return (
         <li onClick={() => { navigate("/note/" + guid) }}>
             <h4 className="list-item-header">{title}</h4>
-            <div className='sidebar-categories'>
-                {tags.map((tag, index: number) => (
-                    <span key={index}>{tag}</span>
-                ))}
-            </div>
+            <span className="sidebar-category">{categoryName}</span>
         </li>
     )
 }

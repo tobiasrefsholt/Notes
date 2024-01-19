@@ -4,8 +4,10 @@ import NotesListItem from './NotesListItem';
 type noteCompact = {
     guid: string;
     title: string;
-    tags: string[];
+    categoryGuid: string;
+    categoryName: string;
     dateAdded: Date;
+    lastChanged: Date;
 }
 
 export default function NotesList() {
@@ -20,7 +22,7 @@ export default function NotesList() {
                 noteList &&
                 <ul>
                     {noteList.map((item: noteCompact) => (
-                        <NotesListItem key={item.guid} guid={item.guid} title={item.title} tags={item.tags} />
+                        <NotesListItem key={item.guid} guid={item.guid} title={item.title} categoryGuid={item.categoryGuid} categoryName={item.categoryName} dateAdded={item.dateAdded} lastChanged={item.lastChanged} />
                     ))}
                 </ul>
             }

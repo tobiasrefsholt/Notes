@@ -61,8 +61,8 @@ main {
 .dashboard .note-heading {
     background-color: transparent;
     border: none;
-    border-bottom: solid white 2px;
-    color: white;
+    border-bottom: solid #ffffffcc 1px;
+    color: inherit;
     font-size: 2em;
     font-weight: bold;
     margin-right: auto;
@@ -86,4 +86,20 @@ main {
     display: flex;
     align-items: center;
     gap: .5rem;
+}
+
+body .w-md-editor-text-pre>code,
+body .w-md-editor-text-input {
+    font-size: 1.2rem !important;
+    line-height: 1.2 !important;
+}
+
+.w-md-editor-toolbar {
+    font-size: 1.5rem !;
+}
+
+.w-md-editor,
+.wmde-markdown,
+.w-md-editor-toolbar {
+    background-color: unset !important;
 }

@@ -9,10 +9,12 @@ import useDeleteNote from '../../hooks/useDeleteNote';
 
 type Note = {
     guid: string;
-    content?: string;
     title?: string;
-    tags?: string[];
+    content?: string;
+    CategoryGuid?: string | null;
+    CategoryName?: string | null;
     dateAdded?: Date;
+    LastChanged?: Date;
 }
 
 export default function SingleNote() {
@@ -61,7 +63,7 @@ export default function SingleNote() {
                 <input className='note-heading' type='text' value={title} onChange={(e) => setTitle(e.target.value)} />
                 <div className='toolbar-buttons'>
                     {statusMessages}
-                    <button onClick={saveChanges}>Save</button>
+                    <button onClick={saveChanges} disabled={(isPending || saveIsDone).valueOf()}>Save</button>
                     <button onClick={handleDeleteNote}>Delete</button>
                 </div>
             </div>

@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import useBearerToken from "../../hooks/useRefreshBearerToken";
 
 type Note = {
-    content: string;
-    title: string;
-    tags: string[];
-    dateAdded: Date;
-    lastChanged: Date;
+    guid?: string;
+    title?: string;
+    content?: string;
+    categoryGuid?: string | null;
+    categoryName?: string;
+    dateAdded?: Date;
+    lastChanged?: Date;
 }
 
 type ApiResponse = {
@@ -17,7 +19,7 @@ type ApiResponse = {
 
 export default function AddNote() {
     const [title, setTitle] = useState("");
-    const [tags, setTags] = useState<string[]>([]);
+    const [categoryGuid, setCategoryGuid] = useState<string|null>(null);
 
     const [isPending, setIsPending] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -27,14 +29,11 @@ export default function AddNote() {
     const handleSaveNote = () => {
         setIsPending(true);
         console.log("Creating new note");
-        const date = new Date();
 
         const note: Note = {
             content: "",
             title,
-            tags,
-            dateAdded: date,
-            lastChanged: date
+            categoryGuid,
         }
 
         useBearerToken().then((token) => {
