@@ -80,7 +80,7 @@ app.MapGet("/GetNotesByCategory/{categoryGuid:guid}",
     .WithOpenApi()
     .RequireAuthorization();
 
-app.MapPost("/CreateNote", async (Note note, INoteRepository noteRepository, HttpContext context) =>
+app.MapPost("/CreateNote", async (NoteInsert note, INoteRepository noteRepository, HttpContext context) =>
     {
         var service = new NoteService(noteRepository, context);
         return await service.CreateNote(note);

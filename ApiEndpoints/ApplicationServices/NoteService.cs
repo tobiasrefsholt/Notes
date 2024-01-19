@@ -60,18 +60,15 @@ public class NoteService : AppService
         return viewNote;
     }
 
-    public async Task<CreateNoteResponse> CreateNote(Note viewNote)
+    public async Task<CreateNoteResponse> CreateNote(NoteInsert viewNote)
     {
         var guid = Guid.NewGuid();
-        var dbNote = new ApiEndpoints.DbModel.Note(
+        var dbNote = new DbModel.NoteInsert(
             guid,
             _userGuid,
             viewNote.Title,
             viewNote.Content,
-            viewNote.CategoryGuid,
-            viewNote.CategoryName,
-            viewNote.DateAdded,
-            viewNote.LastChanged
+            viewNote.CategoryGuid
         );
         var success = await _noteRepository.Create(dbNote);
         return new CreateNoteResponse(success, guid);

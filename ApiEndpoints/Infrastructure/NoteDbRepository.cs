@@ -60,12 +60,12 @@ public class NoteDbRepository : INoteRepository
         return dbObjects.FirstOrDefault();
     }
 
-    public async Task<bool> Create(Note note)
+    public async Task<bool> Create(NoteInsert note)
     {
         await using var conn = _connectionFactory.Create();
         var sql = @"
                 INSERT INTO notes.notes
-                VALUES (@Guid, @User, @Title, @Content, @Tags, @DateAdded, @LastChanged)
+                VALUES (@Guid, @User, @Title, @Content, @CategoryGuid, UTC_TIMESTAMP(), UTC_TIMESTAMP())
           ";
         var rowsAffected = await conn.ExecuteAsync(sql, note);
         return rowsAffected > 0;
