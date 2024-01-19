@@ -17,7 +17,7 @@ public class NoteCategoryService : AppService
     {
         var dbCategories = await _noteCategoryRepository.ReadCategories(_userGuid);
         return dbCategories.Select(
-                db => new NoteCategory(db.Guid, db.User, db.ParentGuid, db.Name, db.Level))
+                db => new NoteCategory(db.Guid, db.ParentGuid, db.Name))
             .ToList();
     }
 }

@@ -99,8 +99,8 @@ app.MapPost("/DeleteNote/{guid:guid}", async (Guid guid, INoteRepository noteRep
 
 app.MapGet("/GetCategories", async (INoteCategoryRepository noteCategoryRepository, HttpContext context) =>
     {
-        var servive = new NoteCategoryService(noteCategoryRepository, context);
-        return await servive.GetCategories();
+        var service = new NoteCategoryService(noteCategoryRepository, context);
+        return await service.GetCategories();
     })
 .WithName("GetCategories")
 .WithOpenApi()
