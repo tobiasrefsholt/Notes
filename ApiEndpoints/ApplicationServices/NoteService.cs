@@ -30,7 +30,7 @@ public class NoteService : AppService
             .ToList();
     }
     
-    public async Task<List<NoteCompact>> GetNotesByCategory(Guid categoryGuid)
+    public async Task<List<NoteCompact>> GetNotesByCategory(Guid? categoryGuid)
     {
         var dbNotes = await _noteRepository.ReadByCategory(categoryGuid, _userGuid);
 

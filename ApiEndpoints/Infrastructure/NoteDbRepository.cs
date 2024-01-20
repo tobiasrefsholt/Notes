@@ -29,16 +29,17 @@ public class NoteDbRepository : INoteRepository
         return dbObjects;
     }
 
-    public async Task<IEnumerable<Note>> ReadByCategory(Guid category, Guid userGuid)
+    public async Task<IEnumerable<Note>> ReadByCategory(Guid? category, Guid userGuid)
     {
         await using var conn = _connectionFactory.Create();
-        var sql = @"
+        var filterCategory = category == null ? "n.CategoryGuid IS NULL" : "n.CategoryGuid LIKE @Category";
+        var sql = @$"
                 SELECT n.Guid, n.Title, n.CategoryGuid, c.Name as CategoryName, n.DateAdded, n.LastChanged
                 FROM notes.notes as n
                 LEFT OUTER JOIN notes.NotesCategories AS c
                     ON CategoryGuid = c.Guid
                 WHERE n.User LIKE @User 
-                    AND n.CategoryGuid LIKE @Category
+                    AND {filterCategory}
                 ORDER BY UNIX_TIMESTAMP(LastChanged) DESC
                 LIMIT 100;
             ";

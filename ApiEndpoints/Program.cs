@@ -70,7 +70,16 @@ app.MapGet("/GetNotes/{guid:guid}", async (Guid guid, INoteRepository noteReposi
     .WithOpenApi()
     .RequireAuthorization();
 
-app.MapGet("/GetNotesByCategory/{categoryGuid:guid}",
+app.MapGet("/GetNotesByCategory/", async (INoteRepository noteRepository, HttpContext context) =>
+        {
+            var service = new NoteService(noteRepository, context);
+            return await service.GetNotesByCategory(null);
+        })
+    .WithName("GetNotesByCategoryNull")
+    .WithOpenApi()
+    .RequireAuthorization();
+
+app.MapGet("/GetNotesByCategory/{categoryGuid}",
         async (Guid categoryGuid, INoteRepository noteRepository, HttpContext context) =>
         {
             var service = new NoteService(noteRepository, context);
