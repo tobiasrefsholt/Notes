@@ -183,3 +183,9 @@ button:hover {
     text-align: left;
     background-color: #202123;
 }
+
+.category-header {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}

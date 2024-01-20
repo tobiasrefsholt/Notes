@@ -3,18 +3,22 @@ import CategoryList from "./CategoryList";
 import NotesList from "./NotesList";
 import AddCategory from "./AddCategory";
 import { category } from "../../types";
+import EditCategory from "./EditCategory";
+import DeleteCategory from "./DeleteCategory";
 
 export default function Default() {
     const [selectedCategory, setSelectedCategory] = useState<category | null>(null);
     const [showAddCategory, setShowAddCategory] = useState(false);
+    const [showEditCategory, setShowEditCategory] = useState(false);
 
     return (
         <main className="notes-browser">
             <section className="category-list">
-                <CategoryList selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} setShowAddCategory={setShowAddCategory} />
+                <CategoryList selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} setShowAddCategory={setShowAddCategory} setShowEditCategory={setShowEditCategory} />
             </section>
             {
                 !showAddCategory &&
+                !showEditCategory &&
                 <section className="notelist-details">
                     <NotesList selectedCategory={selectedCategory} />
                 </section>
@@ -23,6 +27,16 @@ export default function Default() {
                 showAddCategory &&
                 <section>
                     <AddCategory selectedCategory={selectedCategory} setShowAddCategory={setShowAddCategory} />
+                </section>
+            }
+            {
+                showEditCategory &&
+                <section className="category-settings">
+                    <h1>Settings</h1>
+                    <div className="settings-grid">
+                        <EditCategory selectedCategory={selectedCategory} setShowEditCategory={setShowEditCategory} />
+                        <DeleteCategory selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} setShowEditCategory={setShowEditCategory} />
+                    </div>
                 </section>
             }
         </main>
