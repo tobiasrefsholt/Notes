@@ -21,7 +21,7 @@ type noteCompact = {
 }
 
 export default function NotesList({ selectedCategory }: NotesListProps) {
-    const { data, isPending, error } = useFetchData<noteCompact[]>("/GetNotesByCategory/" + selectedCategory?.guid || "null", [selectedCategory?.guid])
+    const { data, isPending, error } = useFetchData<noteCompact[]>("/GetNotesByCategory" + (selectedCategory ? `/${selectedCategory.guid}` : ""), [selectedCategory?.guid])
 
     const navigate = useNavigate();
 
@@ -41,7 +41,7 @@ export default function NotesList({ selectedCategory }: NotesListProps) {
                             <th>Date Added</th>
                         </tr>
                         {data?.map((note) => (
-                            <tr key={note.categoryGuid} onClick={() => navigate("/note/" + note.guid)}>
+                            <tr key={note.dateAdded} onClick={() => navigate("/note/" + note.guid)}>
                                 <td>
                                     {note.title}
                                 </td>

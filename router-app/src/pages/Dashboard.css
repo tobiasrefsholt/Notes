@@ -135,7 +135,8 @@ button:hover {
     min-width: 300px;
 }
 
-.dashboard .notes-browser .category-list li {
+.dashboard .notes-browser .category-list li,
+.dashboard .notes-browser .category-list strong {
     cursor: pointer;
 }
 
