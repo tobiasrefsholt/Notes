@@ -135,4 +135,14 @@ app.MapPost("/CreateCategory",
     .WithOpenApi()
     .RequireAuthorization();
 
+app.MapGet("/DeleteCategory/{guid:guid}",
+        async (Guid guid, INoteCategoryRepository noteCategoryRepository, INoteRepository noteRepository, HttpContext context) =>
+        {
+            var categoryService = new NoteCategoryService(noteCategoryRepository, context);
+            return await categoryService.DeleteCategory(guid, noteRepository);
+        })
+    .WithName("DeleteCategory")
+    .WithOpenApi()
+    .RequireAuthorization();
+
 app.Run();
