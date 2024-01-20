@@ -126,7 +126,7 @@ app.MapGet("/GetCategories", async (INoteCategoryRepository noteCategoryReposito
     .RequireAuthorization();
 
 app.MapPost("/CreateCategory",
-        async (NoteCategory category, INoteCategoryRepository noteCategoryRepository, HttpContext context) =>
+        async (NoteCategoryInsert category, INoteCategoryRepository noteCategoryRepository, HttpContext context) =>
         {
             var service = new NoteCategoryService(noteCategoryRepository, context);
             return await service.CreateCategory(category);

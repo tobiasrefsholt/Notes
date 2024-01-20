@@ -60,7 +60,7 @@ public class NoteService : AppService
         return viewNote;
     }
 
-    public async Task<CreateNoteResponse> CreateNote(NoteInsert viewNote)
+    public async Task<CreateDbEntryResponse> CreateNote(NoteInsert viewNote)
     {
         var guid = Guid.NewGuid();
         var dbNote = new DbModel.NoteInsert(
@@ -71,7 +71,7 @@ public class NoteService : AppService
             viewNote.CategoryGuid
         );
         var success = await _noteRepository.Create(dbNote);
-        return new CreateNoteResponse(success, guid);
+        return new CreateDbEntryResponse(success, guid);
     }
 
     public async Task<bool> UpdateNote(Note viewNote)
