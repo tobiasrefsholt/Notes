@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { category } from "../../types";
 import useFetch from "../../hooks/useFetch";
 
 type AddCategoryProps = {
     selectedCategory: category | null;
     setShowAddCategory: React.Dispatch<React.SetStateAction<boolean>>;
+    setLastUpdate: Dispatch<SetStateAction<number>>;
 }
 
 type newCategoryRequest = {
@@ -17,7 +18,7 @@ type apiData = {
     guid: string;
 }
 
-export default function AddCategory({ selectedCategory, setShowAddCategory }: AddCategoryProps) {
+export default function AddCategory({ selectedCategory, setShowAddCategory, setLastUpdate }: AddCategoryProps) {
     const [newCategoryName, setNewCategoryName] = useState<string>("");
     const { error, isPending, data, doFetch } = useFetch<apiData>("/CreateCategory", [selectedCategory], "Could on create category");
 
@@ -28,6 +29,7 @@ export default function AddCategory({ selectedCategory, setShowAddCategory }: Ad
         }
 
         doFetch("POST", [], newCategory);
+        setLastUpdate(new Date().getTime());
         setShowAddCategory(false);
     }
 

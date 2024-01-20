@@ -17,11 +17,11 @@ type timestampProps = {
 
 export default function LatestNotes({refreshTimestap}:timestampProps) {
 
-    const { data: noteList, isPending, error, doFetch } = useFetch<noteCompact[]>("/GetNotes", [refreshTimestap]);
+    const { data: noteList, isPending, error, doFetch } = useFetch<noteCompact[]>("/GetNotes", []);
 
     useEffect(()=>{
         doFetch("GET");
-    }, [])
+    }, [refreshTimestap])
 
     return (
         <>

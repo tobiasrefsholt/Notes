@@ -1,9 +1,10 @@
-import { Dispatch, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { category } from "../../types";
 
 type EditCategoryProps = {
     selectedCategory: category | null;
-    setShowEditCategory: Dispatch<React.SetStateAction<boolean>>;
+    setShowEditCategory: Dispatch<SetStateAction<boolean>>;
+    setLastUpdate: Dispatch<SetStateAction<number>>;
 }
 
 export default function EditCategory({ selectedCategory, setShowEditCategory }: EditCategoryProps) {

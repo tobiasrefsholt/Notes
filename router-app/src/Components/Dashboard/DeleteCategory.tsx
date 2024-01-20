@@ -1,19 +1,23 @@
-import { Dispatch, useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import useFetch from "../../hooks/useFetch"
 import { category } from "../../types";
 
 type DeleteCategoryProps = {
     selectedCategory: category | null;
-    setSelectedCategory: Dispatch<React.SetStateAction<category | null>>;
-    setShowEditCategory: Dispatch<React.SetStateAction<boolean>>;
+    setSelectedCategory: Dispatch<SetStateAction<category | null>>;
+    setShowEditCategory: Dispatch<SetStateAction<boolean>>;
+    setLastUpdate: Dispatch<SetStateAction<number>>;
 }
 
-export default function DeleteCategory({ selectedCategory, setSelectedCategory, setShowEditCategory }: DeleteCategoryProps) {
+export default function DeleteCategory({ selectedCategory, setSelectedCategory, setShowEditCategory, setLastUpdate }: DeleteCategoryProps) {
     console.log(selectedCategory?.guid);
     const { error, isPending, data: isSuccess, doFetch } = useFetch<boolean>("/DeleteCategory", [selectedCategory?.guid], "Unable to delete category");
 
     useEffect(() => {
-        if (isSuccess) setSelectedCategory(null);
+        if (!isSuccess) return;
+        const timestamp = new Date().getTime();
+        setLastUpdate(timestamp);
+        setSelectedCategory(null);
     }, [isSuccess])
 
     const handleDelete = () => {

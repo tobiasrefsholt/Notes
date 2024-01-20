@@ -7,15 +7,19 @@ type CategoryListProps = {
     setSelectedCategory: React.Dispatch<React.SetStateAction<category | null>>;
     setShowAddCategory: React.Dispatch<React.SetStateAction<boolean>>;
     setShowEditCategory: React.Dispatch<React.SetStateAction<boolean>>;
+    lastUpdate: number;
 }
 
-export default function CategoryList({ selectedCategory, setSelectedCategory, setShowAddCategory, setShowEditCategory }: CategoryListProps) {
+export default function CategoryList({ selectedCategory, setSelectedCategory, setShowAddCategory, setShowEditCategory, lastUpdate }: CategoryListProps) {
     const { data: categories, isPending, error, doFetch } = useFetch<category[]>("/GetCategories", []);
+
+    useEffect(() => {
+        doFetch("GET");
+    }, [lastUpdate])
 
     useEffect(() => {
         setShowAddCategory(false);
         setShowEditCategory(false);
-        doFetch("GET");
     }, [selectedCategory])
 
     const handleSelectParentCategory = () => {

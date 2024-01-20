@@ -14,7 +14,6 @@ export default function useFetch<fetchResponse>(apiEndpoint: string, deps: React
 
     const doFetch = (fetchMethod: "GET" | "POST", urlParameters: string[] = [], requestBody: object | null = null) => {
         const path = "http://localhost:5214" + apiEndpoint + urlParameters.map((part) => "/" + part).join("");
-        console.log(path);
         useBearerToken().then((token) => {
             fetch(path, {
                 method: fetchMethod,

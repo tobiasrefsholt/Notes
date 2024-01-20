@@ -10,11 +10,12 @@ export default function Default() {
     const [selectedCategory, setSelectedCategory] = useState<category | null>(null);
     const [showAddCategory, setShowAddCategory] = useState(false);
     const [showEditCategory, setShowEditCategory] = useState(false);
+    const [lastUpdate, setLastUpdate] = useState(0);
 
     return (
         <main className="notes-browser">
             <section className="category-list">
-                <CategoryList selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} setShowAddCategory={setShowAddCategory} setShowEditCategory={setShowEditCategory} />
+                <CategoryList selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} setShowAddCategory={setShowAddCategory} setShowEditCategory={setShowEditCategory} lastUpdate={lastUpdate} />
             </section>
             {
                 !showAddCategory &&
@@ -26,7 +27,7 @@ export default function Default() {
             {
                 showAddCategory &&
                 <section>
-                    <AddCategory selectedCategory={selectedCategory} setShowAddCategory={setShowAddCategory} />
+                    <AddCategory selectedCategory={selectedCategory} setShowAddCategory={setShowAddCategory} setLastUpdate={setLastUpdate} />
                 </section>
             }
             {
@@ -34,8 +35,8 @@ export default function Default() {
                 <section className="category-settings">
                     <h1>Settings</h1>
                     <div className="settings-grid">
-                        <EditCategory selectedCategory={selectedCategory} setShowEditCategory={setShowEditCategory} />
-                        <DeleteCategory selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} setShowEditCategory={setShowEditCategory} />
+                        <EditCategory selectedCategory={selectedCategory} setShowEditCategory={setShowEditCategory} setLastUpdate={setLastUpdate} />
+                        <DeleteCategory selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} setShowEditCategory={setShowEditCategory} setLastUpdate={setLastUpdate} />
                     </div>
                 </section>
             }
