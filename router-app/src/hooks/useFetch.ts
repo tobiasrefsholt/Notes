@@ -1,0 +1,47 @@
+import { useEffect, useState } from "react";
+import useBearerToken from "./useRefreshBearerToken"
+
+export default function useFetch<fetchResponse>(fetchMethod: "GET" | "POST", apiEndpoint: string[], deps: React.DependencyList | undefined, fetchError: string | null = null) {
+    const [error, setError] = useState<string | null>(null);
+    const [isPending, setIsPending] = useState(false);
+    const [data, setData] = useState<fetchResponse | null>(null);
+
+    const path = "http://localhost:5214" + apiEndpoint.map((part) => "/" + part).join("");
+
+    useEffect(() => {
+        setError(null);
+        setIsPending(false);
+        setData(null);
+    }, deps)
+
+    const doFetch = (requestBody: object = []) => {
+        useBearerToken().then((token) => {
+            fetch(path, {
+                method: fetchMethod,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token,
+                },
+                body: JSON.stringify(requestBody)
+            })
+                .then((res) => {
+                    console.log(res);
+                    if (!res.ok)
+                        throw Error(fetchError || "Could not fetch resource");
+                    return res.json();
+                })
+                .then((data: fetchResponse) => {
+                    setError(null);
+                    setIsPending(false);
+                    setData(data);
+                })
+                .catch(err => {
+                    setIsPending(false);
+                    setError(err.message);
+                    setData(null);
+                })
+        })
+    }
+
+    return { error, isPending, data, doFetch };
+}

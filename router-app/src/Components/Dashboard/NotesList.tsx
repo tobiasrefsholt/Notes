@@ -27,7 +27,7 @@ export default function NotesList({ selectedCategory }: NotesListProps) {
 
     return (
         <>
-            <h1>{selectedCategory !== null ? `Notes with category "${selectedCategory.name}"` : `Uncategorized notes`}</h1>
+            <h1>{selectedCategory !== null ? `${data?.length} Note(s) with category "${selectedCategory.name}"` : `${data?.length} Uncategorized note(s)`}</h1>
             {isPending && <span>Loading notes...</span>}
             {error && <span>{error}</span>}
             {

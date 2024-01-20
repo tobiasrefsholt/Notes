@@ -129,13 +129,31 @@ button:hover {
 
 .dashboard .notes-browser {
     display: flex;
+    gap: 1rem;
 }
 
 .dashboard .notes-browser .category-list {
     min-width: 300px;
 }
 
-.dashboard .notes-browser .category-list li,
+.dashboard .notes-browser .category-list ul {
+    padding: 0;
+}
+
+.dashboard .notes-browser .category-list li {
+    cursor: pointer;
+    list-style: none;
+    padding: .5em 1em;
+    margin-bottom: .5em;
+    background-color: #202123;
+    border: solid 3px #202123;
+    border-radius: .5em;
+}
+
+.dashboard .notes-browser .category-list .new-category-button {
+    background-color: transparent;
+}
+
 .dashboard .notes-browser .category-list strong {
     cursor: pointer;
 }
