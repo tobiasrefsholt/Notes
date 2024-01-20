@@ -19,7 +19,7 @@ type apiData = {
 
 export default function AddCategory({ selectedCategory, setShowAddCategory }: AddCategoryProps) {
     const [newCategoryName, setNewCategoryName] = useState<string>("");
-    const { error, isPending, data, doFetch } = useFetch<apiData>("POST", ["CreateCategory"], [], "Could on create category");
+    const { error, isPending, data, doFetch } = useFetch<apiData>("/CreateCategory", [selectedCategory], "Could on create category");
 
     const handleAddCategory = () => {
         const newCategory: newCategoryRequest = {
@@ -27,7 +27,7 @@ export default function AddCategory({ selectedCategory, setShowAddCategory }: Ad
             name: newCategoryName
         }
 
-        doFetch(newCategory);
+        doFetch("POST", [], newCategory);
         setShowAddCategory(false);
     }
 

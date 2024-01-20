@@ -1,6 +1,5 @@
 import { Dispatch, useState } from "react";
 import { category } from "../../types";
-import useFetch from "../../hooks/useFetch";
 
 type EditCategoryProps = {
     selectedCategory: category | null;

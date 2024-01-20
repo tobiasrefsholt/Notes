@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import MDEditor from '@uiw/react-md-editor';
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
-import useFetchData from '../../hooks/useFetchData';
 import { useParams } from 'react-router-dom';
 import useSaveNote from '../../hooks/useSaveNote';
 import useDeleteNote from '../../hooks/useDeleteNote';
+import useFetch from '../../hooks/useFetch';
 
 type Note = {
     guid: string;
@@ -19,7 +19,12 @@ type Note = {
 
 export default function SingleNote() {
     const { guid } = useParams();
-    const { data, isPending, error } = useFetchData<Note>("/GetNotes/" + guid, [guid]);
+    const { data, isPending, error, doFetch } = useFetch<Note>("/GetNotes", []);
+
+    useEffect(()=>{
+        if (!guid) return;
+        doFetch("GET", [guid]);
+    }, [guid])
 
     const [title, setTitle] = useState<string | undefined>("");
     const [value, setValue] = useState<string | undefined>("");

@@ -1,5 +1,6 @@
-import useFetchData from '../../hooks/useFetchData';
+import { useEffect } from 'react';
 import NotesListItem from './NotesListItem';
+import useFetch from '../../hooks/useFetch';
 
 type noteCompact = {
     guid: string;
@@ -16,7 +17,11 @@ type timestampProps = {
 
 export default function LatestNotes({refreshTimestap}:timestampProps) {
 
-    const { data: noteList, isPending, error } = useFetchData<noteCompact[]>("/GetNotes", [refreshTimestap]);
+    const { data: noteList, isPending, error, doFetch } = useFetch<noteCompact[]>("/GetNotes", [refreshTimestap]);
+
+    useEffect(()=>{
+        doFetch("GET");
+    }, [])
 
     return (
         <>

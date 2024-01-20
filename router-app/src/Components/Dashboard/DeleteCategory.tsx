@@ -1,4 +1,4 @@
-import { Dispatch } from "react";
+import { Dispatch, useEffect } from "react";
 import useFetch from "../../hooks/useFetch"
 import { category } from "../../types";
 
@@ -9,11 +9,15 @@ type DeleteCategoryProps = {
 }
 
 export default function DeleteCategory({ selectedCategory, setSelectedCategory, setShowEditCategory }: DeleteCategoryProps) {
-    const { error, isPending, data: isSuccess, doFetch } = useFetch<boolean>("GET", ["DeleteCategory",], [selectedCategory?.guid], "Unable to delete category");
+    console.log(selectedCategory?.guid);
+    const { error, isPending, data: isSuccess, doFetch } = useFetch<boolean>("/DeleteCategory", [selectedCategory?.guid], "Unable to delete category");
+
+    useEffect(() => {
+        if (isSuccess) setSelectedCategory(null);
+    }, [isSuccess])
 
     const handleDelete = () => {
-        /* doFetch(); */
-        setShowEditCategory(false);
+        doFetch("GET", [selectedCategory?.guid || ""]);
     }
 
     return (
@@ -25,6 +29,7 @@ export default function DeleteCategory({ selectedCategory, setSelectedCategory, 
             {
                 !error &&
                 !isPending &&
+                !isSuccess &&
                 <>
                     <p>When the category is deleted, all notes and subcategories will be moved to the parent category, or become top-level categories.</p>
                     <button onClick={handleDelete}>Delete</button>

@@ -1,4 +1,5 @@
-import useFetchData from "../../hooks/useFetchData";
+import { useEffect } from "react";
+import useFetch from "../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
 
 type NotesListProps = {
@@ -21,7 +22,11 @@ type noteCompact = {
 }
 
 export default function NotesList({ selectedCategory }: NotesListProps) {
-    const { data, isPending, error } = useFetchData<noteCompact[]>("/GetNotesByCategory" + (selectedCategory ? `/${selectedCategory.guid}` : ""), [selectedCategory?.guid])
+    const { data, isPending, error, doFetch } = useFetch<noteCompact[]>("/GetNotesByCategory", []);
+
+    useEffect(() => {
+        doFetch("GET", [selectedCategory?.guid || ""]);
+    }, [selectedCategory])
 
     const navigate = useNavigate();
 

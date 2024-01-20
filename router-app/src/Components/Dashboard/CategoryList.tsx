@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import useFetchData from "../../hooks/useFetchData";
 import { category } from "../../types";
+import useFetch from "../../hooks/useFetch";
 
 type CategoryListProps = {
     selectedCategory: category | null;
@@ -10,11 +10,12 @@ type CategoryListProps = {
 }
 
 export default function CategoryList({ selectedCategory, setSelectedCategory, setShowAddCategory, setShowEditCategory }: CategoryListProps) {
-    const { data: categories, isPending, error } = useFetchData<category[]>("/GetCategories", []);
+    const { data: categories, isPending, error, doFetch } = useFetch<category[]>("/GetCategories", []);
 
     useEffect(() => {
         setShowAddCategory(false);
         setShowEditCategory(false);
+        doFetch("GET");
     }, [selectedCategory])
 
     const handleSelectParentCategory = () => {

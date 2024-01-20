@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import useBearerToken from "./useRefreshBearerToken"
 
-export default function useFetch<fetchResponse>(fetchMethod: "GET" | "POST", apiEndpoint: string[], deps: React.DependencyList | undefined, fetchError: string | null = null) {
+export default function useFetch<fetchResponse>(apiEndpoint: string, deps: React.DependencyList | undefined, fetchError: string | null = null) {
     const [error, setError] = useState<string | null>(null);
     const [isPending, setIsPending] = useState(false);
     const [data, setData] = useState<fetchResponse | null>(null);
-
-    const path = "http://localhost:5214" + apiEndpoint.map((part) => "/" + part).join("");
 
     useEffect(() => {
         setError(null);
@@ -14,7 +12,9 @@ export default function useFetch<fetchResponse>(fetchMethod: "GET" | "POST", api
         setData(null);
     }, deps)
 
-    const doFetch = (requestBody: object = []) => {
+    const doFetch = (fetchMethod: "GET" | "POST", urlParameters: string[] = [], requestBody: object | null = null) => {
+        const path = "http://localhost:5214" + apiEndpoint + urlParameters.map((part) => "/" + part).join("");
+        console.log(path);
         useBearerToken().then((token) => {
             fetch(path, {
                 method: fetchMethod,
@@ -22,7 +22,7 @@ export default function useFetch<fetchResponse>(fetchMethod: "GET" | "POST", api
                     "Content-Type": "application/json",
                     "Authorization": "Bearer " + token,
                 },
-                body: JSON.stringify(requestBody)
+                body: requestBody !== null ? JSON.stringify(requestBody) : undefined
             })
                 .then((res) => {
                     console.log(res);
