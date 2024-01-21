@@ -1,15 +1,10 @@
 import { useEffect } from "react";
 import useFetch from "../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
+import { category } from "../../types";
 
 type NotesListProps = {
     selectedCategory: category | null;
-}
-
-type category = {
-    guid: string;
-    parentGuid: string | null;
-    name: string;
 }
 
 type noteCompact = {
