@@ -1,17 +1,18 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import { category } from "../../types";
+import { FetchResponse, category } from "../../types";
 
 type EditCategoryProps = {
     selectedCategory: category | null;
     setShowEditCategory: Dispatch<SetStateAction<boolean>>;
-    setLastUpdate: Dispatch<SetStateAction<number>>;
+    categoriesFetch: FetchResponse<category[]>
 }
 
-export default function EditCategory({ selectedCategory, setShowEditCategory }: EditCategoryProps) {
+export default function EditCategory({ selectedCategory, setShowEditCategory, categoriesFetch }: EditCategoryProps) {
     const [name, setName] = useState<string>(selectedCategory?.name || "");
 
     const rename = () => {
         setShowEditCategory(false);
+        categoriesFetch.doFetch("GET");
     }
 
     return (

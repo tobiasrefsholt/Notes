@@ -1,21 +1,15 @@
 import { useEffect } from "react";
-import { category } from "../../types";
-import useFetch from "../../hooks/useFetch";
+import { FetchResponse, category } from "../../types";
 
 type CategoryListProps = {
+    categoriesFetch: FetchResponse<category[]>;
     selectedCategory: category | null;
     setSelectedCategory: React.Dispatch<React.SetStateAction<category | null>>;
     setShowAddCategory: React.Dispatch<React.SetStateAction<boolean>>;
     setShowEditCategory: React.Dispatch<React.SetStateAction<boolean>>;
-    lastUpdate: number;
 }
 
-export default function CategoryList({ selectedCategory, setSelectedCategory, setShowAddCategory, setShowEditCategory, lastUpdate }: CategoryListProps) {
-    const { data: categories, isPending, error, doFetch } = useFetch<category[]>("/GetCategories", []);
-
-    useEffect(() => {
-        doFetch("GET");
-    }, [lastUpdate])
+export default function CategoryList({ categoriesFetch, selectedCategory, setSelectedCategory, setShowAddCategory, setShowEditCategory }: CategoryListProps) {
 
     useEffect(() => {
         setShowAddCategory(false);
@@ -23,24 +17,24 @@ export default function CategoryList({ selectedCategory, setSelectedCategory, se
     }, [selectedCategory])
 
     const handleSelectParentCategory = () => {
-        if (categories === null) return;
-        const target = categories.find((category) => selectedCategory?.parentGuid === category.guid) || null;
+        if (categoriesFetch.data === null) return;
+        const target = categoriesFetch.data.find((category) => selectedCategory?.parentGuid === category.guid) || null;
         setSelectedCategory(target);
     }
 
     return (
         <>
-            {isPending && <span>Loading categories...</span>}
-            {error && <span>{error}</span>}
+            {categoriesFetch.isPending && <span>Loading categories...</span>}
+            {categoriesFetch.error && <span>{categoriesFetch.error}</span>}
             {
-                categories &&
+                categoriesFetch.data &&
                 <>
                     <div className="category-header">
                         <h1 onClick={handleSelectParentCategory}>{selectedCategory ? "↑ " + selectedCategory.name : "Browse categories"}</h1>
                         {selectedCategory && <button onClick={() => setShowEditCategory(true)}>Edit</button>}
                     </div>
                     <ul>
-                        {categories
+                        {categoriesFetch.data
                             .filter((category) => category.parentGuid === (selectedCategory?.guid || null))
                             .map((category) => (
                                 <li key={category.guid} onClick={() => setSelectedCategory(category)}>{category.name}</li>

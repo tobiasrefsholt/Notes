@@ -1,11 +1,11 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import { category } from "../../types";
+import { FetchResponse, category } from "../../types";
 import useFetch from "../../hooks/useFetch";
 
 type AddCategoryProps = {
     selectedCategory: category | null;
     setShowAddCategory: React.Dispatch<React.SetStateAction<boolean>>;
-    setLastUpdate: Dispatch<SetStateAction<number>>;
+    categoriesFetch: FetchResponse<category[]>;
 }
 
 type newCategoryRequest = {
@@ -18,9 +18,9 @@ type apiData = {
     guid: string;
 }
 
-export default function AddCategory({ selectedCategory, setShowAddCategory, setLastUpdate }: AddCategoryProps) {
+export default function AddCategory({ selectedCategory, setShowAddCategory, categoriesFetch }: AddCategoryProps) {
     const [newCategoryName, setNewCategoryName] = useState<string>("");
-    const { error, isPending, data, doFetch } = useFetch<apiData>("/CreateCategory", [selectedCategory], "Could on create category");
+    const saveCategory = useFetch<apiData>("/CreateCategory", [selectedCategory], "Could on create category");
 
     const handleAddCategory = () => {
         const newCategory: newCategoryRequest = {
@@ -28,17 +28,17 @@ export default function AddCategory({ selectedCategory, setShowAddCategory, setL
             name: newCategoryName
         }
 
-        doFetch("POST", [], newCategory);
-        setLastUpdate(new Date().getTime());
+        saveCategory.doFetch("POST", [], newCategory);
+        categoriesFetch.doFetch("GET");
         setShowAddCategory(false);
     }
 
     return (
         <>
-            {isPending && <h1>Loading...</h1>}
-            {error && <h1>{error}</h1>}
+            {saveCategory.isPending && <h1>Loading...</h1>}
+            {saveCategory.error && <h1>{saveCategory.error}</h1>}
             {
-                !data &&
+                !saveCategory.data &&
                 <>
                     <h1>Create category</h1>
                     <input className='note-heading' type='text' value={newCategoryName} onChange={(e) => setNewCategoryName(e.target.value)} placeholder="Untitled" />
