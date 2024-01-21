@@ -1,16 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useBearerToken from "../../hooks/useRefreshBearerToken";
-
-type Note = {
-    guid?: string;
-    title?: string;
-    content?: string;
-    categoryGuid?: string | null;
-    categoryName?: string;
-    dateAdded?: Date;
-    lastChanged?: Date;
-}
+import { InsertNote, Note } from "../../types";
 
 type ApiResponse = {
     success: boolean;
@@ -30,7 +21,7 @@ export default function AddNote() {
         setIsPending(true);
         console.log("Creating new note");
 
-        const note: Note = {
+        const note: InsertNote = {
             content: "",
             title,
             categoryGuid,
