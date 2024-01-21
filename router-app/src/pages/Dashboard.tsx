@@ -6,17 +6,21 @@ import './Dashboard.css';
 import { useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch";
 import { FetchResponse, category } from "../types";
+import useBearerToken from "../hooks/useRefreshBearerToken";
 
 export default function Dashboard() {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const categoriesResponse = useFetch<category[]>("/GetCategories", []);
 
     useEffect(() => {
+        if(!isLoggedIn) {
+            setIsLoggedIn(useBearerToken() !== null);
+        };
         console.log("Checking if logged inn");
         setIsLoggedIn(localStorage.getItem("accessToken") !== null);
         categoriesResponse.doFetch("GET");
         console.log("Fetching categories: ");
-    }, [])
+    }, [isLoggedIn])
 
     return (
         <>
