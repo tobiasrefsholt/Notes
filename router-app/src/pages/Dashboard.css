@@ -189,3 +189,24 @@ button:hover {
     gap: 1rem;
     align-items: center;
 }
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    position: absolute;
+    margin-top: 1rem;
+    border-radius: .5rem;
+    background-color: #202123;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    padding: 12px 16px;
+    z-index: 1;
+}
+
+.dropdown-content ul {
+    list-style: none;
+    padding: 0;
+}

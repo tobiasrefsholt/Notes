@@ -6,20 +6,14 @@ import { useParams } from 'react-router-dom';
 import useSaveNote from '../../hooks/useSaveNote';
 import useDeleteNote from '../../hooks/useDeleteNote';
 import useFetch from '../../hooks/useFetch';
-
-type Note = {
-    guid: string;
-    title?: string;
-    content?: string;
-    CategoryGuid?: string | null;
-    CategoryName?: string | null;
-    dateAdded?: Date;
-    LastChanged?: Date;
-}
+import CategoryDropdown from './CategoryDropdown';
+import { Note } from '../../types';
+import { useCategoriesContext } from '../../pages/Dashboard';
 
 export default function SingleNote() {
     const { guid } = useParams();
     const { data, isPending, error, doFetch } = useFetch<Note>("/GetNotes", []);
+    const categoriesFetch = useCategoriesContext();
 
     useEffect(()=>{
         if (!guid) return;
@@ -68,6 +62,7 @@ export default function SingleNote() {
                 <input className='note-heading' type='text' value={title} onChange={(e) => setTitle(e.target.value)} />
                 <div className='toolbar-buttons'>
                     {statusMessages}
+                    <CategoryDropdown note={data} categoriesFetch={categoriesFetch}/>
                     <button onClick={saveChanges} disabled={(isPending || saveIsDone).valueOf()}>Save</button>
                     <button onClick={handleDeleteNote}>Delete</button>
                 </div>

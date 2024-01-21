@@ -1,18 +1,21 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useOutletContext } from "react-router-dom";
 import Navigaton from "../Components/Shared/Navigation";
 import Sidebar from "../Components/Dashboard/Sidebar";
 import Login from "./Login";
 import './Dashboard.css';
 import { useEffect, useState } from "react";
-import useBearerToken from "../hooks/useRefreshBearerToken";
+import useFetch from "../hooks/useFetch";
+import { FetchResponse, category } from "../types";
 
 export default function Dashboard() {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    const categoriesResponse = useFetch<category[]>("/GetCategories", []);
 
     useEffect(() => {
         console.log("Checking if logged inn");
         setIsLoggedIn(localStorage.getItem("accessToken") !== null);
-        useBearerToken();
+        categoriesResponse.doFetch("GET");
+        console.log("Fetching categories: ");
     }, [])
 
     return (
@@ -22,7 +25,7 @@ export default function Dashboard() {
                 <div className="dashboard">
                     <Navigaton />
                     <Sidebar />
-                    <Outlet />
+                    <Outlet context={categoriesResponse}/>
                 </div>
             }
             {
@@ -32,3 +35,7 @@ export default function Dashboard() {
         </>
     )
 }
+
+export function useCategoriesContext() {
+    return useOutletContext<FetchResponse<category[]>>();
+  }
