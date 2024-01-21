@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import './Login.css';
 
 type loginProps = {
     isLoggedIn: boolean;
@@ -32,7 +33,7 @@ export default function Login({ isLoggedIn, setIsLoggedIn }: loginProps) {
 
     const handleSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
-        fetch("http://localhost:5214/login", {
+        fetch(process.env.REACT_APP_BACKEND_URL + "/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -64,7 +65,7 @@ export default function Login({ isLoggedIn, setIsLoggedIn }: loginProps) {
     }
 
     return (
-        <div className="page">
+        <div className="login-page">
             <h1>Login Page</h1>
             {
                 !isPending &&

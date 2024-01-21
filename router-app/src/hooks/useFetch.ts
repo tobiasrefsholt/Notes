@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useBearerToken from "./useRefreshBearerToken"
+import useBearerToken from "./useRefreshBearerToken";
 
 export default function useFetch<fetchResponse>(apiEndpoint: string, deps: React.DependencyList | undefined, fetchError: string | null = null) {
     const [error, setError] = useState<string | null>(null);
@@ -13,7 +13,7 @@ export default function useFetch<fetchResponse>(apiEndpoint: string, deps: React
     }, deps)
 
     const doFetch = (fetchMethod: "GET" | "POST", urlParameters: string[] = [], requestBody: object | null = null) => {
-        const path = "http://localhost:5214" + apiEndpoint + urlParameters.map((part) => "/" + part).join("");
+        const path = process.env.REACT_APP_BACKEND_URL + apiEndpoint + urlParameters.map((part) => "/" + part).join("");
         setIsPending(true);
         useBearerToken().then((token) => {
             fetch(path, {
