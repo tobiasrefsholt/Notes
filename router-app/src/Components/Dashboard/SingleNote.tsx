@@ -15,7 +15,7 @@ export default function SingleNote() {
     const { data, isPending, error, doFetch } = useFetch<Note>("/GetNotes", []);
     const categoriesFetch = useCategoriesContext();
 
-    useEffect(()=>{
+    useEffect(() => {
         if (!guid) return;
         doFetch("GET", [guid]);
     }, [guid])

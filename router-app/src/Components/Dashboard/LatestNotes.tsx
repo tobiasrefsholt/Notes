@@ -31,7 +31,7 @@ export default function LatestNotes({refreshTimestap}:timestampProps) {
                 noteList &&
                 <ul>
                     {noteList.map((item: noteCompact) => (
-                        <NotesListItem key={item.guid} guid={item.guid} title={item.title} categoryGuid={item.categoryGuid} categoryName={item.categoryName} dateAdded={item.dateAdded} lastChanged={item.lastChanged} />
+                        <NotesListItem key={item.guid} guid={item.guid} title={item.title} categoryName={item.categoryName} dateAdded={item.dateAdded} lastChanged={item.lastChanged} />
                     ))}
                 </ul>
             }
