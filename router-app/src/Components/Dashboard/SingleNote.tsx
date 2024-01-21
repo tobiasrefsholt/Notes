@@ -3,56 +3,54 @@ import MDEditor from '@uiw/react-md-editor';
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import { useParams } from 'react-router-dom';
-import useSaveNote from '../../hooks/useSaveNote';
-import useDeleteNote from '../../hooks/useDeleteNote';
 import useFetch from '../../hooks/useFetch';
 import CategoryDropdown from './CategoryDropdown';
-import { Note } from '../../types';
+import { InsertNote, Note } from '../../types';
 import { useCategoriesContext } from '../../pages/Dashboard';
 
 export default function SingleNote() {
     const { guid } = useParams();
-    const { data, isPending, error, doFetch } = useFetch<Note>("/GetNotes", []);
     const categoriesFetch = useCategoriesContext();
+    const noteFetch = useFetch<Note>("/GetNotes", []);
+    const saveFetch = useFetch<boolean>("/UpdateNote", [], "Unable to save note");
+    const deleteFetch = useFetch<boolean>("/DeleteNote", [], "Unable to delete note");
+
+    const [title, setTitle] = useState<string | undefined>();
+    const [content, setContent] = useState<string | undefined>();
 
     useEffect(() => {
         if (!guid) return;
-        doFetch("GET", [guid]);
+        noteFetch.doFetch("GET", [guid]);
     }, [guid])
 
-    const [title, setTitle] = useState<string | undefined>("");
-    const [value, setValue] = useState<string | undefined>("");
-
     useEffect(() => {
-        setTitle(data?.title);
-        setValue(data?.content);
-    }, [data])
+        setTitle(noteFetch.data?.title);
+        setContent(noteFetch.data?.content);
+    }, [noteFetch.data])
 
-    const { saveError, saveIsPending, saveIsDone, save } = useSaveNote([guid, title, value]);
-
-    const saveChanges = () => {
+    const handleSaveNote = () => {
         if (!guid) return;
-        save({
+        const requestBody: InsertNote = {
             guid,
             title,
-            content: value
-        })
+            content,
+            categoryGuid: noteFetch.data?.categoryGuid
+        }
+        saveFetch.doFetch("POST", [], requestBody);
     }
-
-    const { deleteError, deleteIsPending, deleteIsDone, deleteNote } = useDeleteNote([guid, title, value]);
 
     const handleDeleteNote = () => {
         if (!guid) return;
-        deleteNote(guid);
+        deleteFetch.doFetch("GET", [guid])
     }
 
     const statusMessages = (
         <>
-            {saveIsPending && <span>Saving...</span>}
-            {saveError && <span>{saveError}</span>}
-            {saveIsDone && <span>Successfully saved</span>}
-            {deleteIsPending && <span>Deleting note...</span>}
-            {deleteError && <span>{deleteError}</span>}
+            {saveFetch.isPending && <span>Saving...</span>}
+            {saveFetch.error && <span>{saveFetch.error}</span>}
+            {saveFetch.data && <span>Successfully saved</span>}
+            {deleteFetch.isPending && <span>Deleting note...</span>}
+            {deleteFetch.error && <span>{deleteFetch.error}</span>}
         </>
     )
 
@@ -62,22 +60,22 @@ export default function SingleNote() {
                 <input className='note-heading' type='text' value={title} onChange={(e) => setTitle(e.target.value)} />
                 <div className='toolbar-buttons'>
                     {statusMessages}
-                    <CategoryDropdown note={data} categoriesFetch={categoriesFetch}/>
-                    <button onClick={saveChanges} disabled={(isPending || saveIsDone).valueOf()}>Save</button>
+                    <CategoryDropdown note={noteFetch.data} categoriesFetch={categoriesFetch} />
+                    <button onClick={handleSaveNote} disabled={(noteFetch.isPending || (saveFetch.data || false)).valueOf()}>Save</button>
                     <button onClick={handleDeleteNote}>Delete</button>
                 </div>
             </div>
-            <MDEditor value={value} onChange={setValue} visibleDragbar={false} />
+            <MDEditor value={content} onChange={setContent} visibleDragbar={false} />
         </>
     )
 
     return (
         <>
             <main className='dashboard-sigle-note'>
-                {isPending && <div>Loading note content...</div>}
-                {error && <div>{error}</div>}
-                {deleteIsDone && <h1>Note was deleted</h1>}
-                {data && !deleteIsDone && !error && editView}
+                {noteFetch.isPending && <div>Loading note content...</div>}
+                {noteFetch.error && <div>{noteFetch.error}</div>}
+                {deleteFetch.data && <h1>Note was deleted</h1>}
+                {noteFetch.data && !deleteFetch.data && !noteFetch.error && editView}
             </main>
         </>
     );
