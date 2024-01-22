@@ -17,7 +17,7 @@ export default async function useBearerToken(): Promise<string | null> {
     const currentTimestamp = new Date().getTime();
 
     // Abort refresh if token has more than 30 min until expiration
-    if (accessTokenExpires - 3600 / 2 > currentTimestamp) {
+    if (accessTokenExpires - 10 > currentTimestamp) {
         console.log("Aborted token refresh");
         return localStorage.getItem('accessToken');
     };
