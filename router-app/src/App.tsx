@@ -4,7 +4,7 @@ import Logout from './pages/Logout';
 import AddNote from './Components/Dashboard/AddNote';
 import SingleNote from './Components/Dashboard/SingleNote';
 import Default from './Components/Dashboard/Default';
-import './App.css'
+import './App.css';
 
 export default function App() {
   return (
