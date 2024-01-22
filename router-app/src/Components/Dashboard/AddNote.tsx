@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useBearerToken from "../../hooks/useRefreshBearerToken";
+import useBearerToken from "../../hooks/useBearerToken";
 import { InsertNote, Note } from "../../types";
 
 type ApiResponse = {

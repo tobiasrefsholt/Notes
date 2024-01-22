@@ -13,14 +13,13 @@ type loginFailedResponse = {
 }
 
 export default async function useBearerToken(): Promise<string | null> {
-    const currentToken = localStorage.getItem('accessToken');
     const accessTokenExpires = +<string>localStorage.getItem("accessTokenExpires") || 0;
     const currentTimestamp = new Date().getTime();
 
     // Abort refresh if token has more than 30 min until expiration
     if (accessTokenExpires - 3600 / 2 > currentTimestamp) {
         console.log("Aborted token refresh");
-        return currentToken;
+        return localStorage.getItem('accessToken');
     };
 
     console.log("Fetching new token");
@@ -34,6 +33,10 @@ export default async function useBearerToken(): Promise<string | null> {
         },
         body: JSON.stringify({ refreshToken: refreshToken })
     });
+
+    if (!response.ok) {
+        return null;
+    }
 
     const data: loginSuccessfulResponse | loginFailedResponse = await response.json();
 

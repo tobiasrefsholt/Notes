@@ -6,7 +6,7 @@ import './Dashboard.css';
 import { useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch";
 import { FetchResponse, category } from "../types";
-import useBearerToken from "../hooks/useRefreshBearerToken";
+import useBearerToken from "../hooks/useBearerToken";
 
 export default function Dashboard() {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
