@@ -12,7 +12,13 @@ export default function useFetch<fetchResponse>(apiEndpoint: string, deps: React
         setData(null);
     }, deps)
 
-    const doFetch = (fetchMethod: "GET" | "POST", urlParameters: string[] = [], requestBody: object | null = null, requireAuthentication: boolean = true) => {
+    const doFetch = (
+        fetchMethod: "GET" | "POST",
+        urlParameters: string[] = [],
+        requestBody: object | null = null,
+        requireAuthentication: boolean = true,
+        callback: () => void | undefined = () => {}
+    ) => {
         const path = process.env.REACT_APP_BACKEND_URL + apiEndpoint + urlParameters.map((part) => "/" + part).join("");
         setIsPending(true);
         useBearerToken().then((token) => {
@@ -43,10 +49,11 @@ export default function useFetch<fetchResponse>(apiEndpoint: string, deps: React
                     setData(data);
                 })
                 .catch(err => {
-                    setIsPending(false);
                     setError(err.message);
+                    setIsPending(false);
                     setData(null);
                 })
+                .finally(() => callback())
         })
     }
 
