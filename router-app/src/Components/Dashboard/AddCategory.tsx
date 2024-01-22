@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { FetchResponse, category } from "../../types";
 import useFetch from "../../hooks/useFetch";
 
@@ -28,8 +28,9 @@ export default function AddCategory({ selectedCategory, setShowAddCategory, cate
             name: newCategoryName
         }
 
-        saveCategory.doFetch("POST", [], newCategory);
-        categoriesFetch.doFetch("GET");
+        saveCategory.doFetch("POST", [], newCategory, true, () => {
+            categoriesFetch.doFetch("GET");
+        });
         setShowAddCategory(false);
     }
 
