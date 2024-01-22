@@ -36,5 +36,5 @@ export type FetchResponse<T> = {
     isPending: boolean;
     data: T;
     doFetch: (fetchMethod: "GET" | "POST", urlParameters?: string[], requestBody?: object | null, requireAuthentication?: boolean) => void;
-
+    callback: () => void | undefined;
 }
