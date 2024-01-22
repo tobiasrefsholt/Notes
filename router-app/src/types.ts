@@ -14,6 +14,15 @@ export type Note = {
     lastChanged: Date;
 }
 
+export type NoteCompact = {
+    guid: string;
+    title: string;
+    categoryGuid: string;
+    categoryName: string;
+    dateAdded: string;
+    lastChanged: string;
+}
+
 export type InsertNote = {
     guid?: string;
     title?: string;
