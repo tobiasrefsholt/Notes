@@ -8,7 +8,7 @@ Webapplication for taking notes in markdown, and organizing them into categories
 **Server:** C# 12, .NET 8.0, ASP.NET, EntityFrameworkCore, MariaDB/MySql
 ## Lessons Learned
 
-The main motivation behind this project was to learn React, and try out user authentication in ASP.NET using EntityFrameworkCore.
+The main motivation behind this project was to learn React, and try out user authentication in ASP.NET using ASP.NET Core Identity.
 
 The biggest problem i had, was managing state between components in the react app. But i feel like i have leard alot after starting this project.
 ## Deployment
