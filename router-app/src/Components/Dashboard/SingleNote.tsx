@@ -41,7 +41,7 @@ export default function SingleNote() {
 
     const handleDeleteNote = () => {
         if (!guid) return;
-        deleteFetch.doFetch("GET", [guid])
+        deleteFetch.doFetch("POST", [guid])
     }
 
     const statusMessages = (
