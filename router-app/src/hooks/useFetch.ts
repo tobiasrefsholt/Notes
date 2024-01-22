@@ -21,6 +21,7 @@ export default function useFetch<fetchResponse>(apiEndpoint: string, deps: React
                 setError("Not autheticated");
                 setIsPending(false);
                 setData(null);
+                return;
             }
             fetch(path, {
                 method: fetchMethod,

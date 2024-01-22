@@ -26,6 +26,8 @@ export default async function useBearerToken(): Promise<string | null> {
 
     const refreshToken = localStorage.getItem("refreshToken");
 
+    if (refreshToken === null) return null;
+
     const response = await fetch(process.env.REACT_APP_BACKEND_URL + "/refresh", {
         method: "POST",
         headers: {
