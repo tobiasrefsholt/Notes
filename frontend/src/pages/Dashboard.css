@@ -1,0 +1,212 @@
+.dashboard {
+    height: 100vh;
+    display: grid;
+    grid-template-areas:
+        "topnav topnav topnav"
+        "sidebar main   main"
+    ;
+    grid-template-rows: min-content 1fr;
+    grid-template-columns: minmax(300px, 1fr) 6fr;
+    font-size: 1rem;
+}
+
+main {
+    grid-area: main;
+    padding: 1rem;
+}
+
+.dashboard-sidebar {
+    grid-area: sidebar;
+    padding: 1rem;
+    border-right: solid 1px #1F1F1F;
+    overflow-y: auto;
+}
+
+.dashboard-sidebar .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.dashboard-sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.dashboard-sidebar li {
+    cursor: pointer;
+    background-color: #202123;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-bottom: .5rem;
+}
+
+.dashboard-sidebar .list-item-header {
+    margin-top: 0;
+    margin-bottom: .75rem;
+}
+
+.dashboard-sidebar .sidebar-categories {
+    display: flex;
+    gap: .5em;
+    font-size: .8em;
+}
+
+.dashboard-sidebar .sidebar-categories span {
+    background-color: #1F1F1F;
+    padding: .5em;
+    border-radius: .5em;
+}
+
+.dashboard .dashboard-sigle-note {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.dashboard .note-heading {
+    background-color: transparent;
+    border: none;
+    border-bottom: solid #ffffffcc 1px;
+    color: inherit;
+    font-size: 2em;
+    font-weight: bold;
+    margin-right: auto;
+    width: 100%;
+    max-width: 30rem;
+    flex-shrink: 1;
+    flex: 1 1 30rem;
+}
+
+.dashboard .dashboard-sigle-note .w-md-editor {
+    flex-grow: 1;
+}
+
+.note-toolbar {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.toolbar-buttons {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+body .w-md-editor-text-pre>code,
+body .w-md-editor-text-input {
+    font-size: 1.2rem !important;
+    line-height: 1.2 !important;
+}
+
+.w-md-editor-toolbar {
+    font-size: 1.5rem !;
+}
+
+.w-md-editor,
+.wmde-markdown,
+.w-md-editor-toolbar {
+    background-color: unset !important;
+}
+
+button {
+    background-color: #404440;
+    color: white;
+    border: none;
+    padding: .5em .75em;
+    border-radius: .5em;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #202123;
+}
+
+.bold-text {
+    font-weight: bold;
+}
+
+.dashboard .notes-browser {
+    display: flex;
+    gap: 1rem;
+}
+
+.dashboard .notes-browser .category-list {
+    min-width: 300px;
+}
+
+.dashboard .notes-browser .category-list ul {
+    padding: 0;
+}
+
+.dashboard .notes-browser .category-list li {
+    cursor: pointer;
+    list-style: none;
+    padding: .5em 1em;
+    margin-bottom: .5em;
+    background-color: #202123;
+    border: solid 3px #202123;
+    border-radius: .5em;
+}
+
+.dashboard .notes-browser .category-list .new-category-button {
+    background-color: transparent;
+}
+
+.dashboard .notes-browser .category-list strong {
+    cursor: pointer;
+}
+
+.dashboard .notes-browser .notelist-details {
+    flex-grow: 1;
+}
+
+.dashboard .notelist-details table {
+    width: 100%;
+}
+
+.dashboard .notelist-details table tr {
+    cursor: pointer;
+}
+
+.dashboard .notelist-details table tr:hover {
+    background-color: #204F5A;
+}
+
+.dashboard .notelist-details table th,
+.dashboard .notelist-details table td {
+    padding: .5em;
+}
+
+.dashboard .notelist-details table th {
+    text-align: left;
+    background-color: #202123;
+}
+
+.category-header {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    position: absolute;
+    margin-top: 1rem;
+    border-radius: .5rem;
+    background-color: #202123;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    padding: 12px 16px;
+    z-index: 1;
+}
+
+.dropdown-content ul {
+    list-style: none;
+    padding: 0;
+}
