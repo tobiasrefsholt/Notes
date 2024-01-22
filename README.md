@@ -13,9 +13,14 @@ The main motivation behind this project was to learn React, and try out user aut
 The biggest problem i had, was managing state between components in the react app. But i feel like i have leard alot after starting this project.
 ## Deployment
 
-### Backend
+### Dependencies
+- .NET SDK 8
+- .NET Runtime 8
+- ASP.NET Core Runtime 8
+- mariaDB
+- nodejs
 
-#### Requiremets
+### Backend
 
 #### Configure database
 
@@ -25,16 +30,18 @@ The biggest problem i had, was managing state between components in the react ap
 #### Configuration
 
 ```bash
+  cd ApiEndpoints
   dotnet ef migrations add InitialCreate
   dotnet ef database update
+  dotnet run
 ```
 
 ### Frontend
-[Frontend repository](https://github.com/tobiasrefsholt/NotesFrontend)
-1. Copy .env.example to .env
-2. Configure .env
+
 ```bash
-  cd router-app
+  cd frontend
+  cp .env.example .env
+  # define REACT_APP_BACKEND_URL or use default
   npm run dev
 ```
 ## Acknowledgements
