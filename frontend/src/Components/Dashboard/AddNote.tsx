@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useBearerToken from "../../hooks/useBearerToken";
 import { InsertNote } from "../../types";
+import useFetch from "../../hooks/useFetch";
 
 type ApiResponse = {
     success: boolean;
@@ -10,60 +10,31 @@ type ApiResponse = {
 
 export default function AddNote() {
     const [title, setTitle] = useState("");
-
-    const [isPending, setIsPending] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-
+    const addNoteFetch = useFetch<ApiResponse>("/CreateNote", [], "Failed while creating note");
     const navigate = useNavigate();
 
     const handleSaveNote = () => {
-        setIsPending(true);
-        console.log("Creating new note");
-
         const note: InsertNote = {
             content: "",
             title,
             categoryGuid: null,
         }
-
-        useBearerToken().then((token) => {
-            fetch("http://localhost:5214/CreateNote", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + token,
-                },
-                body: JSON.stringify(note)
-            })
-                .then((res) => {
-                    console.log(res)
-                    if (!res.ok) {
-                        throw Error("Could not fetch resource");
-                    }
-                    return res.json();
-                })
-                .then((data: ApiResponse) => {
-                    if (!data.success) {
-                        setIsPending(false);
-                        setError("Server Error");
-                        return;
-                    }
-                    setError(null);
-                    setIsPending(false);
-                    navigate("/note/" + data.guid);
-                })
-                .catch(err => {
-                    setIsPending(false);
-                    setError(err.message);
-                })
-        })
+        addNoteFetch.doFetch("POST", [], note);
     }
+
+    useEffect(() => {
+        console.log("Useeffect")
+        if (addNoteFetch.data?.success) {
+            console.log("Redirect to " + addNoteFetch.data.guid)
+            navigate("/note/" + addNoteFetch.data?.guid)
+        }
+    }, [addNoteFetch.isPending])
 
     return (
         <main className='add-task'>
             <>
                 {
-                    !isPending &&
+                    !addNoteFetch.isPending &&
                     <>
                         <h1>Create new note</h1>
                         <div style={{ marginBottom: "1rem" }}>
@@ -75,15 +46,14 @@ export default function AddNote() {
                     </>
                 }
                 {
-                    isPending &&
+                    addNoteFetch.isPending &&
                     <div>Saving...</div>
                 }
                 {
-                    error &&
-                    <div>{error}</div>
+                    addNoteFetch.error &&
+                    <div>{addNoteFetch.error}</div>
                 }
             </>
-
         </main>
     )
 }
