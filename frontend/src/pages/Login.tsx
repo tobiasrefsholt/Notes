@@ -2,6 +2,7 @@ import './Login.css';
 import LoginForm from '../Components/Login/LoginForm';
 import RegisterForm from '../Components/Login/RegisterForm';
 import { useState } from 'react';
+import BackgroundImage from '../../public/LoginPageBG.jpg';
 
 type LoginProps = {
     setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
@@ -10,7 +11,7 @@ type LoginProps = {
 export default function Login({ setIsLoggedIn }: LoginProps) {
     const [showLogin, setShowLogin] = useState(true);
     return (
-        <div className="login-page">
+        <div className="login-page" style={{background: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(${BackgroundImage})`}}>
             <h1># Markdown Notes</h1>
             <p className='select-login-or-register'>
                 <span onClick={() => setShowLogin(true)}>[Login]</span>
