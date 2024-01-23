@@ -44,7 +44,7 @@ export default function RegisterForm({ setIsLoggedIn }: RegisterFormProps) {
 
     return (
         <>
-            <h1>Register new account</h1>
+            <h2 className="card-header">Register new account</h2>
             {
                 !isPending &&
                 <form onSubmit={handleRegister}>
@@ -54,11 +54,11 @@ export default function RegisterForm({ setIsLoggedIn }: RegisterFormProps) {
                     </div>
                     <div>
                         <label>Password:</label>
-                        <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
+                        <input type="password" value={password} onChange={e => setPassword(e.target.value)} autoComplete="new-password" />
                     </div>
                     <div>
                         <label>Repeat password:</label>
-                        <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
+                        <input type="password" value={password} onChange={e => setPassword(e.target.value)} autoComplete="new-password" />
                     </div>
                     <button type="submit">Register</button>
                 </form>

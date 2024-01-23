@@ -1,3 +1,61 @@
 .login-page {
-        
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: linear-gradient(rgba(0, 0, 0, 0.8),
+            rgba(0, 0, 0, 0.8)),
+        url(public/LoginPageBG.jpg
+);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.login-page>h1 {
+    font-size: 5rem;
+}
+
+.login-page>p {
+    font-weight: bold;
+}
+
+.login-page main {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.login-page .card {
+    background-color: black;
+    padding: 2rem;
+    border-radius: 1rem;
+    width: 25rem;
+    max-width: 100%;
+}
+
+.login-page .card .card-header {
+    margin-top: 0;
+}
+
+.login-page .card label {
+    display: block;
+}
+
+.login-page .card input {
+    width: 100%;
+    background-color: inherit;
+    border: none;
+    border-bottom: solid 1px #ffffff30;
+    color: white;
+    padding: .5rem 0;
+    margin-bottom: .5rem;
+}
+.login-page .card input:focus {
+    border-bottom: solid 1px #ffffff;
+    outline: none;
+}
+
+.login-page .card button {
+    margin-top: 1rem;
 }

@@ -37,13 +37,13 @@ export default function LoginForm({ setIsLoggedIn }: LoginFormProps) {
 
     return (
         <>
-            <h1>Login</h1>
+            <h2 className="card-header">Login</h2>
             {
                 !loginFetch.isPending &&
                 <form onSubmit={handleLogin}>
                     <div>
                         <label>Email:</label>
-                        <input type="text" value={email} onChange={e => setEmail(e.target.value)} />
+                        <input type="text" value={email} onChange={e => setEmail(e.target.value)} autoFocus={true} />
                     </div>
                     <div>
                         <label>Password:</label>
