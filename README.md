@@ -2,7 +2,7 @@
 
 Webapplication for taking notes in markdown, and organizing them into categories.
 
-[Create an accout and try it out here](https://mdnotes.refsholt.net/)
+Create an accout and try it out on [mdnotes.no](https://mdnotes.no/)
 
 ## Tech Stack
 
@@ -41,12 +41,28 @@ The biggest problem i had, was managing state between components in the react ap
 
 ### Frontend
 
+#### Setup for development
 ```bash
   cd frontend
-  cp .env.example .env
-  # define REACT_APP_BACKEND_URL or use default
+
+  # Setup environment variables for local testing
+  cp .env.example .env.development
+
+  # Run for local development
   npm run dev
 ```
+
+#### Build for production
+```bash
+  cd frontend
+
+  # Setup environment variables.
+  cp .env.example .env.production
+
+  # Build project
+  npm run build
+```
+
 ## Acknowledgements
 
  - [react-md-editor](https://github.com/uiwjs/react-md-editor)
