@@ -2,7 +2,7 @@ import './Login.css';
 import LoginForm from '../Components/Login/LoginForm';
 import RegisterForm from '../Components/Login/RegisterForm';
 import { useState } from 'react';
-import BackgroundImage from '../../public/LoginPageBG.jpg';
+import BackgroundImage from '../images/LoginPageBG.jpg';
 
 type LoginProps = {
     setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
