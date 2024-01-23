@@ -28,7 +28,7 @@ export default async function useBearerToken(): Promise<string | null> {
 
     if (refreshToken === null) return null;
 
-    const response = await fetch(process.env.REACT_APP_BACKEND_URL + "/refresh", {
+    const response = await fetch(import.meta.env.VITE_BACKEND_URL + "/refresh", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

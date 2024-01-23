@@ -19,7 +19,7 @@ export default function useFetch<fetchResponse>(apiEndpoint: string, deps: React
         requireAuthentication: boolean = true,
         callback: () => void | undefined = () => {}
     ) => {
-        const path = process.env.REACT_APP_BACKEND_URL + apiEndpoint + urlParameters.map((part) => "/" + part).join("");
+        const path = import.meta.env.VITE_BACKEND_URL + apiEndpoint + urlParameters.map((part) => "/" + part).join("");
         setIsPending(true);
         useBearerToken().then((token) => {
             if (requireAuthentication && token === null) {
