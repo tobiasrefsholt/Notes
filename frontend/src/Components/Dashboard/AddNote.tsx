@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useBearerToken from "../../hooks/useBearerToken";
-import { InsertNote, Note } from "../../types";
+import { InsertNote } from "../../types";
 
 type ApiResponse = {
     success: boolean;
@@ -10,7 +10,6 @@ type ApiResponse = {
 
 export default function AddNote() {
     const [title, setTitle] = useState("");
-    const [categoryGuid, setCategoryGuid] = useState<string|null>(null);
 
     const [isPending, setIsPending] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -24,7 +23,7 @@ export default function AddNote() {
         const note: InsertNote = {
             content: "",
             title,
-            categoryGuid,
+            categoryGuid: null,
         }
 
         useBearerToken().then((token) => {
