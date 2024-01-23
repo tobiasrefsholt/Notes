@@ -59,3 +59,11 @@
 .login-page .card button {
     margin-top: 1rem;
 }
+
+.login-page .select-login-or-register span {
+    cursor: pointer;
+}
+
+.login-page .card a {
+    color: #ffffff;
+}

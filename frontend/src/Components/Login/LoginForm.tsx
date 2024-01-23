@@ -20,7 +20,7 @@ export type LoginResponse = {
 export default function LoginForm({ setIsLoggedIn }: LoginFormProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const loginFetch = useFetch<LoginResponse>("/login", [], "Login failed");
+    const loginFetch = useFetch<LoginResponse>("/login", [], "Wrong username or password");
 
     const handleLogin = () => {
         loginFetch.doFetch("POST", [], { email, password }, false);
@@ -43,12 +43,13 @@ export default function LoginForm({ setIsLoggedIn }: LoginFormProps) {
                 <form onSubmit={handleLogin}>
                     <div>
                         <label>Email:</label>
-                        <input type="text" value={email} onChange={e => setEmail(e.target.value)} autoFocus={true} />
+                        <input type="email" value={email} onChange={e => setEmail(e.target.value)} autoFocus={true} />
                     </div>
                     <div>
                         <label>Password:</label>
                         <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
                     </div>
+                    {loginFetch.error && <p>{loginFetch.error}</p>}
                     <button type="submit">Login</button>
                 </form>
             }
@@ -56,10 +57,7 @@ export default function LoginForm({ setIsLoggedIn }: LoginFormProps) {
                 loginFetch.isPending &&
                 <p>Logging in...</p>
             }
-            {
-                loginFetch.error &&
-                <p>{loginFetch.error}</p>
-            }
+
         </>
     )
 }

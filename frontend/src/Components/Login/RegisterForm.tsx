@@ -27,7 +27,7 @@ type RegisterResponse = {
 export default function RegisterForm({ setIsLoggedIn }: RegisterFormProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const {error, isPending, data, doFetch} = useFetch<RegisterResponse>("/register", [], "Registration failed");
+    const { error, isPending, data, doFetch } = useFetch<RegisterResponse>("/register", [], "Registration failed");
 
     const handleRegister = () => {
         doFetch("POST", [], { email, password }, false);
@@ -50,7 +50,7 @@ export default function RegisterForm({ setIsLoggedIn }: RegisterFormProps) {
                 <form onSubmit={handleRegister}>
                     <div>
                         <label>Email:</label>
-                        <input type="text" value={email} onChange={e => setEmail(e.target.value)} />
+                        <input type="email" value={email} onChange={e => setEmail(e.target.value)} autoFocus={true} />
                     </div>
                     <div>
                         <label>Password:</label>
