@@ -41,7 +41,12 @@ export default function useFetch<fetchResponse>(apiEndpoint: string, deps: React
                     console.log(res);
                     if (!res.ok)
                         throw Error(fetchError || "Could not fetch resource");
-                    return res.json();
+                    const contentType = res.headers.get("content-type");
+                    if (contentType && contentType.indexOf("application/json") !== -1) {
+                        return res.json();
+                    } else {
+                        return true;
+                    }
                 })
                 .then((data: fetchResponse) => {
                     setError(null);
