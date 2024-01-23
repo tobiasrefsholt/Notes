@@ -1,53 +1,33 @@
-import { useEffect, useState } from "react";
+import { ReactEventHandler, useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 
 type RegisterFormProps = {
-    setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+    setShowLogin: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-type RegisterResponse = {
-    "type": string;
-    "title": string;
-    "status": 0,
-    "detail": string;
-    "instance": string;
-    "errors": {
-        "additionalProp1": [
-            "string"
-        ],
-        "additionalProp2": [
-            "string"
-        ],
-        "additionalProp3": [
-            "string"
-        ]
-    },
-}
-
-export default function RegisterForm({ setIsLoggedIn }: RegisterFormProps) {
+export default function RegisterForm({ setShowLogin }: RegisterFormProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { error, isPending, data, doFetch } = useFetch<RegisterResponse>("/register", [], "Registration failed");
+    const [isRegistered, setIsRegistered] = useState(false);
+    const { error, isPending, data, doFetch } = useFetch<boolean | null>("/register", [], "Registration failed");
 
     const handleRegister = () => {
         doFetch("POST", [], { email, password }, false);
     }
 
     useEffect(() => {
-        if (!data) return;
-        if (!("tokenType" in data)) return;
-
-        localStorage.setItem('accessToken', data.accessToken);
-        localStorage.setItem('refreshToken', data.refreshToken);
-        setIsLoggedIn(true);
-    }, [data]);
+        if (data !== true) return;
+        console.log("Registerd successfully");
+        setIsRegistered(true);
+    }, [data])
 
     return (
         <>
             <h2 className="card-header">Register new account</h2>
             {
                 !isPending &&
-                <form onSubmit={handleRegister}>
+                !isRegistered &&
+                <>
                     <div>
                         <label>Email:</label>
                         <input type="email" value={email} onChange={e => setEmail(e.target.value)} autoFocus={true} />
@@ -56,12 +36,8 @@ export default function RegisterForm({ setIsLoggedIn }: RegisterFormProps) {
                         <label>Password:</label>
                         <input type="password" value={password} onChange={e => setPassword(e.target.value)} autoComplete="new-password" />
                     </div>
-                    <div>
-                        <label>Repeat password:</label>
-                        <input type="password" value={password} onChange={e => setPassword(e.target.value)} autoComplete="new-password" />
-                    </div>
-                    <button type="submit">Register</button>
-                </form>
+                    <button onClick={handleRegister}>Register</button>
+                </>
             }
             {
                 isPending &&
@@ -70,6 +46,13 @@ export default function RegisterForm({ setIsLoggedIn }: RegisterFormProps) {
             {
                 error &&
                 <p>{error}</p>
+            }
+            {
+                isRegistered &&
+                <>
+                    <p>Account was created successfully</p>
+                    <button onClick={() => setShowLogin(true)}>Login</button>
+                </>
             }
         </>
     )

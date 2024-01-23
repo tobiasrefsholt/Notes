@@ -23,7 +23,7 @@ export default function Login({ setIsLoggedIn }: LoginProps) {
                     {
                         showLogin
                             ? <LoginForm setIsLoggedIn={setIsLoggedIn} />
-                            : <RegisterForm setIsLoggedIn={setIsLoggedIn} />
+                            : <RegisterForm setShowLogin={setShowLogin} />
                     }
                 </section>
                 <section className='card'>
