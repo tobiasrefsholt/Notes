@@ -1,6 +1,9 @@
 # Markdown notes
 
 Webapplication for taking notes in markdown, and organizing them into categories.
+
+[Create an accout and try it out here](https://mdnotes.refsholt.net/)
+
 ## Tech Stack
 
 **Client:** React, Vite, Typescript
