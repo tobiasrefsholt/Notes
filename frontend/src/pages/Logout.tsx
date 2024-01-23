@@ -8,4 +8,7 @@ export default function Logout() {
         localStorage.removeItem("refreshToken");
         navigate("/");
     })
+    return (
+        <>Logging Out...</>
+    )
 }

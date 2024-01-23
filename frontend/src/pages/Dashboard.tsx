@@ -34,7 +34,7 @@ export default function Dashboard() {
             }
             {
                 !isLoggedIn &&
-                <Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+                <Login setIsLoggedIn={setIsLoggedIn} />
             }
         </>
     )
