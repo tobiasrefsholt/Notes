@@ -3,13 +3,13 @@ import { FetchResponse, category } from "../../types"
 import getCategory from "../../hooks/useGetCategory";
 
 type CategoryDropdownProps = {
-    selectedCategory: category | null;
+    currentCategory: category | null;
     categoriesFetch: FetchResponse<category[]>;
     action: (category: category) => void;
 }
 
-export default function CategoryDropdown({ selectedCategory, categoriesFetch, action }: CategoryDropdownProps) {
-    const [selectedListItem, setSelectedListItem] = useState(selectedCategory);
+export default function CategoryDropdown({ currentCategory, categoriesFetch, action }: CategoryDropdownProps) {
+    const [selectedListItem, setSelectedListItem] = useState(currentCategory);
     const [dropdownIsOpen, setDropdownIsOpen] = useState<boolean>(false);
 
     useEffect(() => {
@@ -22,7 +22,7 @@ export default function CategoryDropdown({ selectedCategory, categoriesFetch, ac
             name: "Uncategorized"
         }
         setSelectedListItem(uncategorized);
-    }, [selectedListItem, selectedCategory])
+    }, [selectedListItem, currentCategory])
 
     function handleSelectCategory(guid: string | null) {
         const category = getCategory(categoriesFetch.data, guid);
@@ -39,7 +39,7 @@ export default function CategoryDropdown({ selectedCategory, categoriesFetch, ac
         <div className="dropdown">
             <button className="dropdown-button" onClick={() => setDropdownIsOpen(!dropdownIsOpen)}>
                 {
-                    (selectedCategory?.name || "Ungategorized")
+                    (currentCategory?.name || "Ungategorized")
                 }
             </button>
             {

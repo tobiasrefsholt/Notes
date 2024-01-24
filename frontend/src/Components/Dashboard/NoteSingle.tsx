@@ -11,7 +11,7 @@ import getCategory from '../../hooks/useGetCategory';
 
 export default function NoteSingle() {
     const { guid } = useParams();
-    const { selectedCategory, setSelectedCategory, categoriesFetch } = useDashboardContext();
+    const { setSelectedCategory, categoriesFetch } = useDashboardContext();
     const noteFetch = useFetch<Note>("/GetNotes", []);
     const saveFetch = useFetch<boolean>("/UpdateNote", [], "Unable to save note");
     const deleteFetch = useFetch<boolean>("/DeleteNote", [], "Unable to delete note");
@@ -74,7 +74,11 @@ export default function NoteSingle() {
                 <input className='note-heading' type='text' value={title} onChange={(e) => setTitle(e.target.value)} />
                 <div className='toolbar-buttons'>
                     {statusMessages}
-                    <CategoryDropdown selectedCategory={selectedCategory} categoriesFetch={categoriesFetch} action={handleChangeCategory} />
+                    <CategoryDropdown
+                        currentCategory={getCategory(categoriesFetch.data, noteFetch.data?.categoryGuid || null)}
+                        categoriesFetch={categoriesFetch}
+                        action={handleChangeCategory}
+                    />
                     <button onClick={handleSaveNote} disabled={(noteFetch.isPending || (saveFetch.data || false)).valueOf()}>Save</button>
                     <button onClick={handleDeleteNote}>Delete</button>
                 </div>
