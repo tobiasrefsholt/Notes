@@ -64,7 +64,8 @@ main {
 }
 
 .dashboard .dashboard-sigle-note .notes-sidebar {
-    min-width: 300px;
+    min-width: calc(300px - 1rem);
+    padding-right: 1rem;
     border-right: solid 1px #1F1F1F;
 }
 
@@ -73,6 +74,23 @@ main {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+}
+
+.dashboard .dashboard-sigle-note .notes-sidebar ul {
+    padding: 0;
+}
+
+.dashboard .dashboard-sigle-note .notes-sidebar .note-list-item {
+    cursor: pointer;
+    background-color: #202123;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-bottom: .5rem;
+    list-style: none;
+}
+
+.dashboard .dashboard-sigle-note .notes-sidebar .note-list-item.selected {
+    background-color: #404440;
 }
 
 .dashboard .note-heading {

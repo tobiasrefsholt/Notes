@@ -19,7 +19,7 @@ export default function SidebarLatestNotes() {
                 noteList &&
                 <ul>
                     {noteList.map((item: NoteCompact) => (
-                        <NoteListItem key={item.guid} guid={item.guid} title={item.title} categoryName={item.categoryName} />
+                        <NoteListItem key={item.guid} guid={item.guid} title={item.title} categoryName={item.categoryName} active={false} />
                     ))}
                 </ul>
             }
