@@ -5,20 +5,28 @@ import Login from "./Login";
 import './Dashboard.css';
 import { useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch";
-import { FetchResponse, category } from "../types";
+import { DashboardContext, category } from "../types";
 import useBearerToken from "../hooks/useBearerToken";
 
 export default function Dashboard() {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-    const categoriesResponse = useFetch<category[]>("/GetCategories", []);
+    const categoriesFetch = useFetch<category[]>("/GetCategories", []);
+
+    const [selectedCategory, setSelectedCategory] = useState<category | null>(null);
+    const [showAddCategory, setShowAddCategory] = useState(false);
+    const [showEditCategory, setShowEditCategory] = useState(false);
+
+    const dashboardContext:DashboardContext = {
+        categoriesFetch, selectedCategory, setSelectedCategory, showAddCategory, setShowAddCategory, showEditCategory, setShowEditCategory
+    }
 
     useEffect(() => {
-        if(!isLoggedIn) {
+        if (!isLoggedIn) {
             setIsLoggedIn(useBearerToken() !== null);
         };
         console.log("Checking if logged inn");
         setIsLoggedIn(localStorage.getItem("accessToken") !== null);
-        categoriesResponse.doFetch("GET");
+        categoriesFetch.doFetch("GET");
         console.log("Fetching categories: ");
     }, [isLoggedIn])
 
@@ -28,8 +36,8 @@ export default function Dashboard() {
                 isLoggedIn &&
                 <div className="dashboard">
                     <Navigaton />
-                    <Sidebar />
-                    <Outlet context={categoriesResponse}/>
+                    <Sidebar dashboardContext={dashboardContext} />
+                    <Outlet context={dashboardContext} />
                 </div>
             }
             {
@@ -40,6 +48,6 @@ export default function Dashboard() {
     )
 }
 
-export function useCategoriesContext() {
-    return useOutletContext<FetchResponse<category[]>>();
-  }
+export function useDashboardContext() {
+    return useOutletContext<DashboardContext>();
+}

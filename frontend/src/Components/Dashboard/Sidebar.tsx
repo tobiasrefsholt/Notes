@@ -1,16 +1,29 @@
-import { useState } from "react";
 import LatestNotes from "./LatestNotes";
+import CategoryList from "./CategoryList";
+import { DashboardContext } from "../../types";
 
-export default function Sidebar() {
-    const [refreshTimestap, setRefreshTimestap] = useState(0);
+type SidebarProps = {
+    dashboardContext: DashboardContext;
+}
+
+export default function Sidebar({ dashboardContext }: SidebarProps) {
+    const { categoriesFetch, selectedCategory, setSelectedCategory, setShowAddCategory, setShowEditCategory } = dashboardContext;
     return (
         <div className='dashboard-sidebar'>
-            <div className="sidebar-header">
+            <section className="category-list">
+                <CategoryList
+                    categoriesFetch={categoriesFetch}
+                    selectedCategory={selectedCategory}
+                    setSelectedCategory={setSelectedCategory}
+                    setShowAddCategory={setShowAddCategory}
+                    setShowEditCategory={setShowEditCategory}
+                />
+            </section>
+            <section>
                 <strong>Your latest notes</strong>
-                <button onClick={()=>{setRefreshTimestap(new Date().getTime())}}>Refresh list</button>
-            </div>
-            <hr />
-            <LatestNotes refreshTimestap={refreshTimestap} />
+                <hr />
+                <LatestNotes />
+            </section>
         </div>
     )
 }

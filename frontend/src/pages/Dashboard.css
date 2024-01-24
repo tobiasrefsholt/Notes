@@ -132,15 +132,11 @@ button:hover {
     gap: 1rem;
 }
 
-.dashboard .notes-browser .category-list {
-    min-width: 300px;
-}
-
-.dashboard .notes-browser .category-list ul {
+.dashboard .category-list ul {
     padding: 0;
 }
 
-.dashboard .notes-browser .category-list li {
+.dashboard .category-list li {
     cursor: pointer;
     list-style: none;
     padding: .5em 1em;
@@ -150,15 +146,15 @@ button:hover {
     border-radius: .5em;
 }
 
-.dashboard .notes-browser .category-list .new-category-button {
+.dashboard .category-list .new-category-button {
     background-color: transparent;
 }
 
-.dashboard .notes-browser .category-list strong {
+.dashboard .category-list strong {
     cursor: pointer;
 }
 
-.dashboard .notes-browser .notelist-details {
+.dashboard .notelist-details {
     flex-grow: 1;
 }
 

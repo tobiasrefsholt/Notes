@@ -29,10 +29,8 @@ export default function CategoryList({ categoriesFetch, selectedCategory, setSel
             {
                 categoriesFetch.data &&
                 <>
-                    <div className="category-header">
-                        <h1 onClick={handleSelectParentCategory}>{selectedCategory ? "↑ " + selectedCategory.name : "Browse categories"}</h1>
-                        {selectedCategory && <button onClick={() => setShowEditCategory(true)}>Edit</button>}
-                    </div>
+                    <strong onClick={handleSelectParentCategory}>{selectedCategory ? "↑ " + selectedCategory.name : "Browse categories"}</strong>
+                    <hr />
                     <ul>
                         {categoriesFetch.data
                             .filter((category) => category.parentGuid === (selectedCategory?.guid || null))

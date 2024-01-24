@@ -6,11 +6,11 @@ import { useParams } from 'react-router-dom';
 import useFetch from '../../hooks/useFetch';
 import CategoryDropdown from './CategoryDropdown';
 import { InsertNote, Note } from '../../types';
-import { useCategoriesContext } from '../../pages/Dashboard';
+import { useDashboardContext } from '../../pages/Dashboard';
 
 export default function SingleNote() {
     const { guid } = useParams();
-    const categoriesFetch = useCategoriesContext();
+    const categoriesFetch = useDashboardContext();
     const noteFetch = useFetch<Note>("/GetNotes", []);
     const saveFetch = useFetch<boolean>("/UpdateNote", [], "Unable to save note");
     const deleteFetch = useFetch<boolean>("/DeleteNote", [], "Unable to delete note");

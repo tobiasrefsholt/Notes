@@ -1,17 +1,12 @@
-import { useState } from "react"
 import CategoryList from "./CategoryList";
 import NotesList from "./NotesList";
 import AddCategory from "./AddCategory";
-import { category } from "../../types";
 import EditCategory from "./EditCategory";
 import DeleteCategory from "./DeleteCategory";
-import { useCategoriesContext } from "../../pages/Dashboard";
+import { useDashboardContext } from "../../pages/Dashboard";
 
 export default function Default() {
-    const categoriesFetch = useCategoriesContext();
-    const [selectedCategory, setSelectedCategory] = useState<category | null>(null);
-    const [showAddCategory, setShowAddCategory] = useState(false);
-    const [showEditCategory, setShowEditCategory] = useState(false);
+    const {categoriesFetch, selectedCategory, setSelectedCategory, showAddCategory, setShowAddCategory, showEditCategory, setShowEditCategory } = useDashboardContext();
 
     return (
         <main className="notes-browser">

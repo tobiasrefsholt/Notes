@@ -34,7 +34,16 @@ export type InsertNote = {
 export type FetchResponse<T> = {
     error: string | null;
     isPending: boolean;
-    data: T;
-    doFetch: (fetchMethod: "GET" | "POST", urlParameters?: string[], requestBody?: object | null, requireAuthentication?: boolean) => void;
-    callback: () => void | undefined;
+    data: T | null;
+    doFetch: (fetchMethod: "GET" | "POST", urlParameters?: string[], requestBody?: object | null, requireAuthentication?: boolean, callback?: () => void | undefined) => void;
+}
+
+export type DashboardContext = {
+    categoriesFetch: FetchResponse<category[]>;
+    selectedCategory: category | null;
+    setSelectedCategory: React.Dispatch<React.SetStateAction<category | null>>;
+    showAddCategory: boolean;
+    setShowAddCategory: React.Dispatch<React.SetStateAction<boolean>>;
+    showEditCategory: boolean;
+    setShowEditCategory: React.Dispatch<React.SetStateAction<boolean>>;
 }
