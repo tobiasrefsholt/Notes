@@ -1,19 +1,11 @@
 import { useEffect } from 'react';
 import NoteListItem from './NoteListItem';
 import useFetch from '../../hooks/useFetch';
-
-type noteCompact = {
-    guid: string;
-    title: string;
-    categoryGuid: string;
-    categoryName: string;
-    dateAdded: Date;
-    lastChanged: Date;
-}
+import { NoteCompact } from '../../types';
 
 export default function SidebarLatestNotes() {
 
-    const { data: noteList, isPending, error, doFetch } = useFetch<noteCompact[]>("/GetNotes", []);
+    const { data: noteList, isPending, error, doFetch } = useFetch<NoteCompact[]>("/GetNotes", []);
 
     useEffect(() => {
         doFetch("GET");
@@ -26,8 +18,8 @@ export default function SidebarLatestNotes() {
             {
                 noteList &&
                 <ul>
-                    {noteList.map((item: noteCompact) => (
-                        <NoteListItem key={item.guid} guid={item.guid} title={item.title} categoryName={item.categoryName} dateAdded={item.dateAdded} lastChanged={item.lastChanged} />
+                    {noteList.map((item: NoteCompact) => (
+                        <NoteListItem key={item.guid} guid={item.guid} title={item.title} categoryName={item.categoryName} />
                     ))}
                 </ul>
             }

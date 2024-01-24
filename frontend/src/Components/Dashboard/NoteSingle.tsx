@@ -8,10 +8,11 @@ import CategoryDropdown from './CategoryDropdown';
 import { InsertNote, Note, category } from '../../types';
 import { useDashboardContext } from '../../pages/Dashboard';
 import getCategory from '../../hooks/useGetCategory';
+import NoteSidebar from './NoteSidebar';
 
 export default function NoteSingle() {
     const { guid } = useParams();
-    const { setSelectedCategory, categoriesFetch } = useDashboardContext();
+    const { selectedCategory, setSelectedCategory, categoriesFetch } = useDashboardContext();
     const noteFetch = useFetch<Note>("/GetNotes", []);
     const saveFetch = useFetch<boolean>("/UpdateNote", [], "Unable to save note");
     const deleteFetch = useFetch<boolean>("/DeleteNote", [], "Unable to delete note");
@@ -90,10 +91,15 @@ export default function NoteSingle() {
     return (
         <>
             <main className='dashboard-sigle-note'>
-                {noteFetch.isPending && <div>Loading note content...</div>}
-                {noteFetch.error && <div>{noteFetch.error}</div>}
-                {deleteFetch.data && <h1>Note was deleted</h1>}
-                {noteFetch.data && !deleteFetch.data && !noteFetch.error && editView}
+                <div className='notes-sidebar'>
+                    <NoteSidebar selectedCategory={selectedCategory} />
+                </div>
+                <div className='editor'>
+                    {noteFetch.isPending && <div>Loading note content...</div>}
+                    {noteFetch.error && <div>{noteFetch.error}</div>}
+                    {deleteFetch.data && <h1>Note was deleted</h1>}
+                    {noteFetch.data && !deleteFetch.data && !noteFetch.error && editView}
+                </div>
             </main>
         </>
     );
