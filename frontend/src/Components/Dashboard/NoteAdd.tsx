@@ -8,7 +8,7 @@ type ApiResponse = {
     guid?: string;
 }
 
-export default function AddNote() {
+export default function NoteAdd() {
     const [title, setTitle] = useState("");
     const addNoteFetch = useFetch<ApiResponse>("/CreateNote", [], "Failed while creating note");
     const navigate = useNavigate();
@@ -31,7 +31,7 @@ export default function AddNote() {
     }, [addNoteFetch.isPending])
 
     return (
-        <main className='add-task'>
+        <main className='add-note'>
             <>
                 {
                     !addNoteFetch.isPending &&
@@ -42,6 +42,7 @@ export default function AddNote() {
                         </div>
                         <div className='toolbar-buttons'>
                             <button onClick={handleSaveNote}>Save</button>
+                            <button onClick={() => navigate(-1)}>Cancel</button>
                         </div>
                     </>
                 }

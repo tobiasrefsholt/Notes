@@ -180,12 +180,6 @@ button:hover {
     background-color: #202123;
 }
 
-.category-header {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-}
-
 .dropdown {
     position: relative;
     display: inline-block;
@@ -205,4 +199,10 @@ button:hover {
 .dropdown-content ul {
     list-style: none;
     padding: 0;
+}
+
+.browser-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }

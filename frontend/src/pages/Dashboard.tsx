@@ -13,11 +13,9 @@ export default function Dashboard() {
     const categoriesFetch = useFetch<category[]>("/GetCategories", []);
 
     const [selectedCategory, setSelectedCategory] = useState<category | null>(null);
-    const [showAddCategory, setShowAddCategory] = useState(false);
-    const [showEditCategory, setShowEditCategory] = useState(false);
 
     const dashboardContext:DashboardContext = {
-        categoriesFetch, selectedCategory, setSelectedCategory, showAddCategory, setShowAddCategory, showEditCategory, setShowEditCategory
+        categoriesFetch, selectedCategory, setSelectedCategory
     }
 
     useEffect(() => {

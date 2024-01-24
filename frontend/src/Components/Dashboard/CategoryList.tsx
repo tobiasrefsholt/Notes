@@ -1,20 +1,15 @@
-import { useEffect } from "react";
 import { FetchResponse, category } from "../../types";
+import { useNavigate } from "react-router-dom";
 
 type CategoryListProps = {
     categoriesFetch: FetchResponse<category[]>;
     selectedCategory: category | null;
     setSelectedCategory: React.Dispatch<React.SetStateAction<category | null>>;
-    setShowAddCategory: React.Dispatch<React.SetStateAction<boolean>>;
-    setShowEditCategory: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function CategoryList({ categoriesFetch, selectedCategory, setSelectedCategory, setShowAddCategory, setShowEditCategory }: CategoryListProps) {
+export default function CategoryList({ categoriesFetch, selectedCategory, setSelectedCategory }: CategoryListProps) {
 
-    useEffect(() => {
-        setShowAddCategory(false);
-        setShowEditCategory(false);
-    }, [selectedCategory])
+    const navigate = useNavigate();
 
     const handleSelectParentCategory = () => {
         if (categoriesFetch.data === null) return;
@@ -37,7 +32,7 @@ export default function CategoryList({ categoriesFetch, selectedCategory, setSel
                             .map((category) => (
                                 <li key={category.guid} onClick={() => setSelectedCategory(category)}>{category.name}</li>
                             ))}
-                        <li className="new-category-button" onClick={() => setShowAddCategory(true)}>
+                        <li className="new-category-button" onClick={() => navigate("/add-category")}>
                             {selectedCategory?.guid ? "Create subcategory" : "Create top level category"}
                         </li>
                     </ul>

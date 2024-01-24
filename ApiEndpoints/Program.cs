@@ -8,11 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(
-        policy => { policy.WithOrigins("http://localhost:5173"); });
-});
+builder.Services.AddCors();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -39,7 +35,11 @@ builder.Services.AddScoped<INoteCategoryRepository, NoteCategoryDbRepository>();
 
 
 var app = builder.Build();
-app.UseCors();
+app.UseCors(x => x
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+);
 app.MapIdentityApi<AppUser>();
 /*app.UseHttpsRedirection();*/
 app.UseDefaultFiles();
@@ -71,10 +71,10 @@ app.MapGet("/GetNotes/{guid:guid}", async (Guid guid, INoteRepository noteReposi
     .RequireAuthorization();
 
 app.MapGet("/GetNotesByCategory/", async (INoteRepository noteRepository, HttpContext context) =>
-        {
-            var service = new NoteService(noteRepository, context);
-            return await service.GetNotesByCategory(null);
-        })
+    {
+        var service = new NoteService(noteRepository, context);
+        return await service.GetNotesByCategory(null);
+    })
     .WithName("GetNotesByCategoryNull")
     .WithOpenApi()
     .RequireAuthorization();
@@ -136,7 +136,8 @@ app.MapPost("/CreateCategory",
     .RequireAuthorization();
 
 app.MapGet("/DeleteCategory/{guid:guid}",
-        async (Guid guid, INoteCategoryRepository noteCategoryRepository, INoteRepository noteRepository, HttpContext context) =>
+        async (Guid guid, INoteCategoryRepository noteCategoryRepository, INoteRepository noteRepository,
+            HttpContext context) =>
         {
             var categoryService = new NoteCategoryService(noteCategoryRepository, context);
             return await categoryService.DeleteCategory(guid, noteRepository);

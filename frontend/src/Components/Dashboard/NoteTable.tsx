@@ -5,7 +5,7 @@ type PostsTableProps = {
     data: NoteCompact[];
 }
 
-export default function NotesTable({data}:PostsTableProps) {
+export default function NoteTable({data}:PostsTableProps) {
     const navigate = useNavigate();
     return (
         <table>

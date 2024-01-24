@@ -5,15 +5,17 @@ import "@uiw/react-markdown-preview/markdown.css";
 import { useParams } from 'react-router-dom';
 import useFetch from '../../hooks/useFetch';
 import CategoryDropdown from './CategoryDropdown';
-import { InsertNote, Note } from '../../types';
+import { InsertNote, Note, category } from '../../types';
 import { useDashboardContext } from '../../pages/Dashboard';
+import getCategory from '../../hooks/useGetCategory';
 
-export default function SingleNote() {
+export default function NoteSingle() {
     const { guid } = useParams();
-    const categoriesFetch = useDashboardContext();
+    const { selectedCategory, setSelectedCategory, categoriesFetch } = useDashboardContext();
     const noteFetch = useFetch<Note>("/GetNotes", []);
     const saveFetch = useFetch<boolean>("/UpdateNote", [], "Unable to save note");
     const deleteFetch = useFetch<boolean>("/DeleteNote", [], "Unable to delete note");
+    const updateCategoryFetch = useFetch<boolean>("/UpdateNote", []);
 
     const [title, setTitle] = useState<string | undefined>();
     const [content, setContent] = useState<string | undefined>();
@@ -26,6 +28,7 @@ export default function SingleNote() {
     useEffect(() => {
         setTitle(noteFetch.data?.title);
         setContent(noteFetch.data?.content);
+        setSelectedCategory(getCategory(categoriesFetch.data, noteFetch.data?.categoryGuid || null));
     }, [noteFetch.data])
 
     const handleSaveNote = () => {
@@ -44,6 +47,17 @@ export default function SingleNote() {
         deleteFetch.doFetch("POST", [guid])
     }
 
+    function handleChangeCategory(category: category) {
+        console.log("Updating category...");
+        console.log(category);
+        const requestBody: InsertNote = {
+            guid: guid,
+            categoryGuid: category.guid
+        }
+        updateCategoryFetch.doFetch("POST", [], requestBody);
+        setSelectedCategory(category);
+    }
+
     const statusMessages = (
         <>
             {saveFetch.isPending && <span>Saving...</span>}
@@ -60,7 +74,7 @@ export default function SingleNote() {
                 <input className='note-heading' type='text' value={title} onChange={(e) => setTitle(e.target.value)} />
                 <div className='toolbar-buttons'>
                     {statusMessages}
-                    <CategoryDropdown note={noteFetch.data} categoriesFetch={categoriesFetch} />
+                    <CategoryDropdown selectedCategory={selectedCategory} categoriesFetch={categoriesFetch} action={handleChangeCategory} />
                     <button onClick={handleSaveNote} disabled={(noteFetch.isPending || (saveFetch.data || false)).valueOf()}>Save</button>
                     <button onClick={handleDeleteNote}>Delete</button>
                 </div>

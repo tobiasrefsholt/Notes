@@ -1,4 +1,4 @@
-import LatestNotes from "./LatestNotes";
+import SidebarLatestNotes from "./SidebarLatestNotes";
 import CategoryList from "./CategoryList";
 import { DashboardContext } from "../../types";
 
@@ -7,7 +7,7 @@ type SidebarProps = {
 }
 
 export default function Sidebar({ dashboardContext }: SidebarProps) {
-    const { categoriesFetch, selectedCategory, setSelectedCategory, setShowAddCategory, setShowEditCategory } = dashboardContext;
+    const { categoriesFetch, selectedCategory, setSelectedCategory } = dashboardContext;
     return (
         <div className='dashboard-sidebar'>
             <section className="category-list">
@@ -15,14 +15,12 @@ export default function Sidebar({ dashboardContext }: SidebarProps) {
                     categoriesFetch={categoriesFetch}
                     selectedCategory={selectedCategory}
                     setSelectedCategory={setSelectedCategory}
-                    setShowAddCategory={setShowAddCategory}
-                    setShowEditCategory={setShowEditCategory}
                 />
             </section>
             <section>
                 <strong>Your latest notes</strong>
                 <hr />
-                <LatestNotes />
+                <SidebarLatestNotes />
             </section>
         </div>
     )

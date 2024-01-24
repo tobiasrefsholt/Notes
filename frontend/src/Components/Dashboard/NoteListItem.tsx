@@ -8,7 +8,7 @@ type NotesListItemProps = {
     lastChanged: Date;
 }
 
-export default function NotesListItem({ guid, title, categoryName }: NotesListItemProps) {
+export default function NoteListItem({ guid, title, categoryName }: NotesListItemProps) {
     const navigate = useNavigate();
     return (
         <li onClick={() => { navigate("/note/" + guid) }}>

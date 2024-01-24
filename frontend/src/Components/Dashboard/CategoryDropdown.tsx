@@ -1,77 +1,57 @@
 import { useEffect, useState } from "react";
-import { FetchResponse, InsertNote, Note, category } from "../../types"
-import useFetch from "../../hooks/useFetch";
+import { FetchResponse, category } from "../../types"
+import getCategory from "../../hooks/useGetCategory";
 
 type CategoryDropdownProps = {
-    note: Note | null;
-    categoriesFetch: FetchResponse<category[]>
+    selectedCategory: category | null;
+    categoriesFetch: FetchResponse<category[]>;
+    action: (category: category) => void;
 }
 
-export default function CategoryDropdown({ note, categoriesFetch }: CategoryDropdownProps) {
-
-    const [selectedCategory, setSelectedCategory] = useState<category | undefined>();
+export default function CategoryDropdown({ selectedCategory, categoriesFetch, action }: CategoryDropdownProps) {
+    const [selectedListItem, setSelectedListItem] = useState(selectedCategory);
     const [dropdownIsOpen, setDropdownIsOpen] = useState<boolean>(false);
-    const updateCategory = useFetch<boolean>("/UpdateNote", [note]);
 
     useEffect(() => {
-        if (note?.categoryGuid !== null) {
-            setSelectedCategory(getCategory(note?.categoryGuid || null));
+        if (selectedListItem !== null) {
+            return;
         }
         const uncategorized: category = {
             guid: null,
             parentGuid: null,
             name: "Uncategorized"
         }
-        setSelectedCategory(uncategorized);
-        console.log(note);
-    }, [note])
+        setSelectedListItem(uncategorized);
+    }, [selectedListItem, selectedCategory])
 
     function handleSelectCategory(guid: string | null) {
-        const category = getCategory(guid);
-        setSelectedCategory(category);
-    }
-
-    function getCategory(guid: string | null) {
-        return categoriesFetch.data?.find((category) => category.guid === guid) || {
-            guid: null,
-            parentGuid: null,
-            name: "Uncategorized"
-        };
+        const category = getCategory(categoriesFetch.data, guid);
+        setSelectedListItem(category);
     }
 
     function handleUpdateCategory() {
-        if (!note || !selectedCategory) return;
-        note.categoryGuid = selectedCategory.guid;
-        note.categoryName = selectedCategory.name;
+        if (!selectedListItem) return;
         setDropdownIsOpen(false);
-        const requestBody: InsertNote = {
-            guid: note.guid,
-            categoryGuid: selectedCategory.guid
-        }
-        updateCategory.doFetch("POST", [], requestBody);
+        action(selectedListItem);
     }
 
     return (
         <div className="dropdown">
             <button className="dropdown-button" onClick={() => setDropdownIsOpen(!dropdownIsOpen)}>
-                {updateCategory.error && <>{updateCategory.error}</>}
-                {updateCategory.isPending && <>Changing category...</>}
                 {
-                    !updateCategory.error &&
-                    !updateCategory.isPending &&
-                    (note?.categoryName || "Ungategorized")
+                    (selectedCategory?.name || "Ungategorized")
                 }
             </button>
             {
                 dropdownIsOpen &&
-                selectedCategory &&
+                selectedListItem &&
                 <div className="dropdown-content">
-                    <strong onClick={() => handleSelectCategory(selectedCategory.parentGuid)}>
-                        {selectedCategory.guid == null ? "Top level" : "↑" + getCategory(selectedCategory.guid)?.name}
+                    <strong onClick={() => handleSelectCategory(selectedListItem.parentGuid)}>
+                        {selectedListItem.guid == null ? "Top level" : "↑" + getCategory(categoriesFetch.data, selectedListItem.guid)?.name}
                     </strong>
                     <ul>
                         {categoriesFetch.data
-                            ?.filter((category) => category.parentGuid === selectedCategory?.guid)
+                            ?.filter((category) => category.parentGuid === selectedListItem?.guid)
                             .map((category) => (
                                 <li key={category.guid} onClick={() => handleSelectCategory(category.guid)}>{category.name}</li>
                             ))}

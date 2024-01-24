@@ -1,12 +1,7 @@
 import { useState } from "react";
-import { FetchResponse, category } from "../../types";
 import useFetch from "../../hooks/useFetch";
-
-type AddCategoryProps = {
-    selectedCategory: category | null;
-    setShowAddCategory: React.Dispatch<React.SetStateAction<boolean>>;
-    categoriesFetch: FetchResponse<category[]>;
-}
+import { useDashboardContext } from "../../pages/Dashboard";
+import { useNavigate } from "react-router-dom";
 
 type newCategoryRequest = {
     parentGuid: string | null;
@@ -18,9 +13,12 @@ type apiData = {
     guid: string;
 }
 
-export default function AddCategory({ selectedCategory, setShowAddCategory, categoriesFetch }: AddCategoryProps) {
+export default function CategoryAdd() {
+    const { categoriesFetch, selectedCategory, setSelectedCategory } = useDashboardContext();
     const [newCategoryName, setNewCategoryName] = useState<string>("");
     const saveCategory = useFetch<apiData>("/CreateCategory", [selectedCategory], "Could on create category");
+
+    const navigate = useNavigate();
 
     const handleAddCategory = () => {
         const newCategory: newCategoryRequest = {
@@ -28,14 +26,20 @@ export default function AddCategory({ selectedCategory, setShowAddCategory, cate
             name: newCategoryName
         }
 
-        saveCategory.doFetch("POST", [], newCategory, true, () => {
-            categoriesFetch.doFetch("GET");
-        });
-        setShowAddCategory(false);
+        const refreshCategories = () => {
+            categoriesFetch.doFetch("GET", [], undefined, true, () => {
+                if (! saveCategory.data?.success) return;
+                const category = categoriesFetch.data?.find((category) => category.guid == saveCategory.data?.guid);
+                if (category) setSelectedCategory(category);
+                navigate("/");
+            });
+        }
+
+        saveCategory.doFetch("POST", [], newCategory, true, refreshCategories);
     }
 
     return (
-        <>
+        <main className="add-category">
             {saveCategory.isPending && <h1>Loading...</h1>}
             {saveCategory.error && <h1>{saveCategory.error}</h1>}
             {
@@ -45,10 +49,10 @@ export default function AddCategory({ selectedCategory, setShowAddCategory, cate
                     <input className='note-heading' type='text' value={newCategoryName} onChange={(e) => setNewCategoryName(e.target.value)} placeholder="Untitled" />
                     <div>
                         <button onClick={handleAddCategory}>Add</button>
-                        <button onClick={() => setShowAddCategory(false)}>Cancel</button>
+                        <button onClick={() => navigate(-1)}>Cancel</button>
                     </div>
                 </>
             }
-        </>
+        </main>
     );
 }

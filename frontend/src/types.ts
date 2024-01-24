@@ -42,8 +42,4 @@ export type DashboardContext = {
     categoriesFetch: FetchResponse<category[]>;
     selectedCategory: category | null;
     setSelectedCategory: React.Dispatch<React.SetStateAction<category | null>>;
-    showAddCategory: boolean;
-    setShowAddCategory: React.Dispatch<React.SetStateAction<boolean>>;
-    showEditCategory: boolean;
-    setShowEditCategory: React.Dispatch<React.SetStateAction<boolean>>;
 }
