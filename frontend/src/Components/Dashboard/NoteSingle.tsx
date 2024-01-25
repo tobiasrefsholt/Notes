@@ -91,9 +91,7 @@ export default function NoteSingle() {
 
     return (
         <main className='dashboard-sigle-note'>
-            <div className='notes-sidebar'>
-                <NoteSidebar selectedCategory={selectedCategory} />
-            </div>
+            <NoteSidebar selectedCategory={selectedCategory} />
             <div className='editor'>
                 {noteFetch.isPending && <div>Loading note content...</div>}
                 {noteFetch.error && <div>{noteFetch.error}</div>}

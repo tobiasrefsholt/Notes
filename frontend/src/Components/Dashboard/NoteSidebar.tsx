@@ -1,37 +1,45 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { NoteCompact, category } from "../../types";
 import NoteListItem from "./NoteListItem";
 import { useParams } from "react-router-dom";
+import CrossIcon from "../SVGs/CrossIcon";
 
 type NoteSidebarProps = {
     selectedCategory: category | null;
 }
 
 export default function NoteSidebar({ selectedCategory }: NoteSidebarProps) {
+    const [sidebarOpen, setSidebarOpen] = useState(true);
     const { error, isPending, data, doFetch } = useFetch<NoteCompact[]>("/GetNotesByCategory", []);
-    const {guid} = useParams();
+    const { guid } = useParams();
 
     useEffect(() => {
-        doFetch("GET", [selectedCategory?.guid || ""])
+        doFetch("GET", [selectedCategory?.guid || ""]);
+        setSidebarOpen(true);
     }, [selectedCategory])
 
+    if (!sidebarOpen) return "";
+
     return (
-        <>
-            {isPending && <strong>Loading notes...</strong>}
-            {error && <strong>{error}</strong>}
+        <div className='notes-sidebar'>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+                {isPending && <strong>Loading notes...</strong>}
+                {error && <strong>{error}</strong>}
+                {data && <strong>Found {data.length} notes:</strong>}
+                <div style={{ width: "1.5rem", height: "1.5rem" }} onClick={() => setSidebarOpen(false)}>
+                    <CrossIcon color="rgba(255, 255, 255, 0.8)" />
+                </div>
+            </div>
+            <hr />
             {
                 data &&
-                <>
-                    <strong>Found {data.length} notes:</strong>
-                    <hr />
-                    <ul>
-                        {data.map((item: NoteCompact) => (
-                            <NoteListItem key={item.guid} guid={item.guid} title={item.title} active={item.guid === guid}/>
-                        ))}
-                    </ul>
-                </>
+                <ul>
+                    {data.map((item: NoteCompact) => (
+                        <NoteListItem key={item.guid} guid={item.guid} title={item.title} active={item.guid === guid} />
+                    ))}
+                </ul>
             }
-        </>
+        </div>
     )
 }
