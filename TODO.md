@@ -4,7 +4,7 @@
 - [x] Assign categories to notes
 - [x] Filter notes based on tags
 - [ ] Color coded categories
-- [ ] Change parent category
+- [x] Change parent category
 
 ## Authentication
 - [ ] Properly handle logout on backend (invalidate access/refresh tokens).
@@ -21,8 +21,8 @@
 - [ ] Search function
 
 ## Login
-- [ ] Design login page
-- [ ] Add register accout page
+- [x] Design login page
+- [x] Add register accout page
 - [ ] Redirect to login page when refreshtoken is invalid (when attemting fetch from backend)
 
 ## Single note
