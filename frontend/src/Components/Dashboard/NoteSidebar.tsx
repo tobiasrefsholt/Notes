@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
-import { NoteCompact, category } from "../../types";
+import { FetchResponse, NoteCompact, category } from "../../types";
 import NoteListItem from "./NoteListItem";
 import { useParams } from "react-router-dom";
 import CrossIcon from "../SVGs/CrossIcon";
+import NoteSidebarNewNote from "./NoteSidebarNewNote";
 
 type NoteSidebarProps = {
     selectedCategory: category | null;
+    categoriesFetch: FetchResponse<category[]>
 }
 
-export default function NoteSidebar({ selectedCategory }: NoteSidebarProps) {
+export default function NoteSidebar({ selectedCategory, categoriesFetch }: NoteSidebarProps) {
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const { error, isPending, data, doFetch } = useFetch<NoteCompact[]>("/GetNotesByCategory", []);
     const { guid } = useParams();
@@ -32,14 +34,17 @@ export default function NoteSidebar({ selectedCategory }: NoteSidebarProps) {
                 </div>
             </div>
             <hr />
-            {
-                data &&
-                <ul>
-                    {data.map((item: NoteCompact) => (
-                        <NoteListItem key={item.guid} guid={item.guid} title={item.title} active={item.guid === guid} />
-                    ))}
-                </ul>
-            }
+            <ul>
+                <NoteSidebarNewNote selectedCategory={selectedCategory} categoriesFetch={categoriesFetch} />
+                {
+                    data &&
+                    <>
+                        {data.map((item: NoteCompact) => (
+                            <NoteListItem key={item.guid} guid={item.guid} title={item.title} active={item.guid === guid} />
+                        ))}
+                    </>
+                }
+            </ul>
         </div>
     )
 }

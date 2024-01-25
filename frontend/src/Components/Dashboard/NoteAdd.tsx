@@ -3,14 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { InsertNote } from "../../types";
 import useFetch from "../../hooks/useFetch";
 
-type ApiResponse = {
+type CreateNoteResponse = {
     success: boolean;
     guid?: string;
 }
 
 export default function NoteAdd() {
     const [title, setTitle] = useState("");
-    const addNoteFetch = useFetch<ApiResponse>("/CreateNote", [], "Failed while creating note");
+    const addNoteFetch = useFetch<CreateNoteResponse>("/CreateNote", [], "Failed while creating note");
     const navigate = useNavigate();
 
     const handleSaveNote = () => {

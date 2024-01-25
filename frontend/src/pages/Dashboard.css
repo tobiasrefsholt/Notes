@@ -63,17 +63,18 @@ main {
     gap: 1rem;
 }
 
-.dashboard .dashboard-sigle-note .notes-sidebar {
-    min-width: calc(300px - 1rem);
-    padding-right: 1rem;
-    border-right: solid 1px #1F1F1F;
-}
-
 .dashboard .dashboard-sigle-note .editor {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     gap: 1rem;
+}
+
+.dashboard .dashboard-sigle-note .notes-sidebar {
+    width: calc(300px - 1rem);
+    min-width: calc(300px - 1rem);
+    padding-right: 1rem;
+    border-right: solid 1px #1F1F1F;
 }
 
 .dashboard .dashboard-sigle-note .notes-sidebar ul {
@@ -83,7 +84,7 @@ main {
 .dashboard .dashboard-sigle-note .notes-sidebar .note-list-item {
     cursor: pointer;
     background-color: #202123;
-    border-radius: 1rem;
+    border-radius: .5rem;
     padding: 1rem;
     margin-bottom: .5rem;
     list-style: none;
@@ -91,6 +92,29 @@ main {
 
 .dashboard .dashboard-sigle-note .notes-sidebar .note-list-item.selected {
     background-color: #404440;
+}
+
+.dashboard .dashboard-sigle-note .notes-sidebar .new-note-list-item {
+    /* border: solid 3px #202123; */
+    background-color: #E7DFC6;
+    cursor: unset;
+}
+
+.dashboard .dashboard-sigle-note .notes-sidebar .new-note-list-item input {
+    background-color: inherit;
+    border: none;
+    margin-bottom: .5rem;
+    color: black;
+    outline: none;
+    font-size: 1rem;
+    font-weight: bold;
+    width: 100%;
+}
+
+.dashboard .dashboard-sigle-note .notes-sidebar .new-note-list-item button {
+    background-color: inherit;
+    border: solid 1px black;
+    color: black;
 }
 
 .dashboard .note-heading {
@@ -255,6 +279,7 @@ button:hover {
     flex-grow: 1;
 }
 
-.settings-grid .card h2, .settings-grid .card p {
+.settings-grid .card h2,
+.settings-grid .card p {
     margin-top: 0;
 }
