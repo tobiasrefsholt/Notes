@@ -94,8 +94,15 @@ public class NoteCategoryDbRepository : INoteCategoryRepository
         return rowsChanged > 0;
     }
 
-    public Task<bool> UpdateName(Guid category, Guid user)
+    public async Task<bool> UpdateName(Guid category, string newName, Guid userGuid)
     {
-        throw new NotImplementedException();
+        await using var conn = _connectionFactory.Create();
+        var sql = @"
+                UPDATE NotesCategories
+                SET Name = @NewName
+                WHERE Guid LIKE @Category AND User LIKE @User
+            ";
+        var rowsChanged = await conn.ExecuteAsync(sql, new { Category = category, NewName = newName, User = userGuid });
+        return rowsChanged > 0;
     }
 }

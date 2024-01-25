@@ -56,4 +56,16 @@ public class NoteCategoryService : AppService
             await _noteCategoryRepository.UpdateParent(subCategory.Guid, categoryToDelete.ParentGuid, _userGuid);
         }
     }
+
+    public async Task<object> UpdateCategory(NoteCategory viewCategory)
+    {
+        var results = new bool[2];
+        if (viewCategory.Guid == Guid.Empty)
+            return false;
+        if (viewCategory.ParentGuid != Guid.Empty)
+            results[0] = await _noteCategoryRepository.UpdateParent(viewCategory.Guid, viewCategory.ParentGuid, _userGuid);
+        if (!string.IsNullOrEmpty(viewCategory.Name))
+            results[1] = await _noteCategoryRepository.UpdateName(viewCategory.Guid, viewCategory.Name, _userGuid);
+        return results.FirstOrDefault(result => result);
+    }
 }
