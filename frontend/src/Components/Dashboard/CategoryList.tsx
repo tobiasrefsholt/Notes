@@ -1,5 +1,6 @@
 import { FetchResponse, category } from "../../types";
 import { useNavigate } from "react-router-dom";
+import EditIcon from "../SVGs/EditIcon";
 
 type CategoryListProps = {
     categoriesFetch: FetchResponse<category[]>;
@@ -17,6 +18,10 @@ export default function CategoryList({ categoriesFetch, selectedCategory, setSel
         setSelectedCategory(target);
     }
 
+    function handleNoteOnClick(category: category) {
+        setSelectedCategory(category);
+    }
+
     return (
         <>
             {categoriesFetch.isPending && <span>Loading categories...</span>}
@@ -24,13 +29,18 @@ export default function CategoryList({ categoriesFetch, selectedCategory, setSel
             {
                 categoriesFetch.data &&
                 <>
-                    <strong onClick={handleSelectParentCategory}>{selectedCategory ? "↑ " + selectedCategory.name : "Browse categories"}</strong>
+                    <div style={{display: "flex", justifyContent: "space-between", alignItems: "baseline"}}>
+                        <strong onClick={handleSelectParentCategory}>{selectedCategory ? "↑ " + selectedCategory.name : "Browse categories"}</strong>
+                        {selectedCategory && <div onClick={() => navigate("/edit-category")} style={{width: "1rem", height: "1rem"}}>
+                            <EditIcon color="rgba(255, 255, 255, 0.8)" />
+                        </div>}
+                    </div>
                     <hr />
                     <ul>
                         {categoriesFetch.data
                             .filter((category) => category.parentGuid === (selectedCategory?.guid || null))
                             .map((category) => (
-                                <li key={category.guid} onClick={() => setSelectedCategory(category)}>{category.name}</li>
+                                <li key={category.guid} onClick={() => handleNoteOnClick(category)}>{category.name}</li>
                             ))}
                         <li className="new-category-button" onClick={() => navigate("/add-category")}>
                             {selectedCategory?.guid ? "Create subcategory" : "Create top level category"}

@@ -3,13 +3,14 @@ import { FetchResponse, category } from "../../types"
 import getCategory from "../../hooks/useGetCategory";
 
 type CategoryDropdownProps = {
-    currentCategory: category | null;
+    selectedCategory: category | null;
     categoriesFetch: FetchResponse<category[]>;
+    excludeGuid: string | null | undefined;
     action: (category: category) => void;
 }
 
-export default function CategoryDropdown({ currentCategory, categoriesFetch, action }: CategoryDropdownProps) {
-    const [selectedListItem, setSelectedListItem] = useState(currentCategory);
+export default function CategoryDropdown({ selectedCategory, categoriesFetch, excludeGuid, action }: CategoryDropdownProps) {
+    const [selectedListItem, setSelectedListItem] = useState(JSON.parse(JSON.stringify(selectedCategory)));
     const [dropdownIsOpen, setDropdownIsOpen] = useState<boolean>(false);
 
     useEffect(() => {
@@ -22,7 +23,7 @@ export default function CategoryDropdown({ currentCategory, categoriesFetch, act
             name: "Uncategorized"
         }
         setSelectedListItem(uncategorized);
-    }, [selectedListItem, currentCategory])
+    }, [selectedListItem]);
 
     function handleSelectCategory(guid: string | null) {
         const category = getCategory(categoriesFetch.data, guid);
@@ -30,7 +31,7 @@ export default function CategoryDropdown({ currentCategory, categoriesFetch, act
     }
 
     function handleUpdateCategory() {
-        if (!selectedListItem) return;
+        if (!selectedListItem || (selectedListItem.guid === excludeGuid)) return;
         setDropdownIsOpen(false);
         action(selectedListItem);
     }
@@ -39,7 +40,7 @@ export default function CategoryDropdown({ currentCategory, categoriesFetch, act
         <div className="dropdown">
             <button className="dropdown-button" onClick={() => setDropdownIsOpen(!dropdownIsOpen)}>
                 {
-                    (currentCategory?.name || "Ungategorized")
+                    (selectedCategory?.name || "Ungategorized")
                 }
             </button>
             {
@@ -51,7 +52,7 @@ export default function CategoryDropdown({ currentCategory, categoriesFetch, act
                     </strong>
                     <ul>
                         {categoriesFetch.data
-                            ?.filter((category) => category.parentGuid === selectedListItem?.guid)
+                            ?.filter((category) => (category.parentGuid === selectedListItem?.guid))
                             .map((category) => (
                                 <li key={category.guid} onClick={() => handleSelectCategory(category.guid)}>{category.name}</li>
                             ))}

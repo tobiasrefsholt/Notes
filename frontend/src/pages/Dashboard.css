@@ -6,7 +6,7 @@
         "sidebar main   main"
     ;
     grid-template-rows: min-content 1fr;
-    grid-template-columns: minmax(300px, 1fr) 6fr;
+    grid-template-columns: 300px 6fr;
     font-size: 1rem;
 }
 
@@ -234,4 +234,27 @@ button:hover {
     display: flex;
     align-items: center;
     gap: 1rem;
+}
+
+.settings-grid {
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+}
+
+.settings-grid .card {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border: solid black 1px;
+    border-radius: .5rem;
+}
+
+.settings-grid .card .card-content {
+    flex-grow: 1;
+}
+
+.settings-grid .card h2, .settings-grid .card p {
+    margin-top: 0;
 }

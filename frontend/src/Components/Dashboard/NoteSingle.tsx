@@ -76,8 +76,9 @@ export default function NoteSingle() {
                 <div className='toolbar-buttons'>
                     {statusMessages}
                     <CategoryDropdown
-                        currentCategory={getCategory(categoriesFetch.data, noteFetch.data?.categoryGuid || null)}
+                        selectedCategory={selectedCategory}
                         categoriesFetch={categoriesFetch}
+                        excludeGuid={undefined}
                         action={handleChangeCategory}
                     />
                     <button onClick={handleSaveNote} disabled={(noteFetch.isPending || (saveFetch.data || false)).valueOf()}>Save</button>
@@ -89,18 +90,16 @@ export default function NoteSingle() {
     )
 
     return (
-        <>
-            <main className='dashboard-sigle-note'>
-                <div className='notes-sidebar'>
-                    <NoteSidebar selectedCategory={selectedCategory} />
-                </div>
-                <div className='editor'>
-                    {noteFetch.isPending && <div>Loading note content...</div>}
-                    {noteFetch.error && <div>{noteFetch.error}</div>}
-                    {deleteFetch.data && <h1>Note was deleted</h1>}
-                    {noteFetch.data && !deleteFetch.data && !noteFetch.error && editView}
-                </div>
-            </main>
-        </>
+        <main className='dashboard-sigle-note'>
+            <div className='notes-sidebar'>
+                <NoteSidebar selectedCategory={selectedCategory} />
+            </div>
+            <div className='editor'>
+                {noteFetch.isPending && <div>Loading note content...</div>}
+                {noteFetch.error && <div>{noteFetch.error}</div>}
+                {deleteFetch.data && <h1>Note was deleted</h1>}
+                {noteFetch.data && !deleteFetch.data && !noteFetch.error && editView}
+            </div>
+        </main>
     );
 }

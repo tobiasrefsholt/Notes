@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FetchResponse, category } from "../../types";
 import CategoryDropdown from "./CategoryDropdown";
+import useGetCategory from "../../hooks/useGetCategory";
+import useFetch from "../../hooks/useFetch";
 
 type ChangeParentProps = {
     selectedCategory: category | null;
@@ -8,21 +10,36 @@ type ChangeParentProps = {
 }
 
 export default function CategoryEditChangeParent({ selectedCategory, categoriesFetch }: ChangeParentProps) {
-    const [dropdownSelectedCategoryGuid, setDropdownSelectedCategoryGuid] = useState<string | null>();
 
-    function dropdownAction(category:category) {
-        setDropdownSelectedCategoryGuid(category.guid);
-    }
+    const changeParentFetch = useFetch("/UpdateCategory", []);
+    const [currentParentCategory, setCurrentParentCategory] = useState<category>(useGetCategory(categoriesFetch.data, selectedCategory?.parentGuid || null))
 
-    function handleSave() {
-        
+    useEffect(() => {
+        setCurrentParentCategory(useGetCategory(categoriesFetch.data, selectedCategory?.parentGuid || null));
+    }, [selectedCategory]);
+
+    function handleChangeParent(parentCategory: category) {
+        if (!selectedCategory?.guid) return;
+
+        const requestBody = {
+            guid: selectedCategory.guid,
+            parentGuid: parentCategory.guid
+        }
+
+        changeParentFetch.doFetch("POST", [], requestBody, true, () => {
+            categoriesFetch.doFetch("GET");
+        })
     }
 
     return (
         <div className="card">
-            <h2>Change parent category</h2>
-            <CategoryDropdown selectedCategory={selectedCategory} categoriesFetch={categoriesFetch} action={dropdownAction} />
-            <button onClick={handleSave}>Save</button>
+            <h2>Parent</h2>
+            <div className="card-content">
+                <p>Change the parent category of {selectedCategory?.name}</p>
+            </div>
+            <div>
+                <CategoryDropdown selectedCategory={currentParentCategory} categoriesFetch={categoriesFetch} excludeGuid={selectedCategory?.guid} action={handleChangeParent}/>
+            </div>
         </div>
     )
 }
