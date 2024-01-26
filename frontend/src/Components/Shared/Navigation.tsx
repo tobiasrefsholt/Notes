@@ -10,9 +10,6 @@ export default function Navigaton() {
                         <Link to="/">List view</Link>
                     </li>
                     <li>
-                        <Link to="/add-note">Add note</Link>
-                    </li>
-                    <li>
                         <Link to="/user-settings">User settings</Link>
                     </li>
                     <li>
