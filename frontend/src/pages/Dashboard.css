@@ -91,12 +91,11 @@ main {
 }
 
 .dashboard .dashboard-sigle-note .notes-sidebar .note-list-item.selected {
-    background-color: #404440;
+    background-color: #945600;
 }
 
 .dashboard .dashboard-sigle-note .notes-sidebar .new-note-list-item {
     /* border: solid 3px #202123; */
-    background-color: #E7DFC6;
     cursor: unset;
 }
 
@@ -104,7 +103,7 @@ main {
     background-color: inherit;
     border: none;
     margin-bottom: .5rem;
-    color: black;
+    color: white;
     outline: none;
     font-size: 1rem;
     font-weight: bold;
@@ -113,8 +112,13 @@ main {
 
 .dashboard .dashboard-sigle-note .notes-sidebar .new-note-list-item button {
     background-color: inherit;
-    border: solid 1px black;
-    color: black;
+    border: solid 1px #ffffffcc;
+    color: #ffffffcc;
+}
+
+.dashboard .dashboard-sigle-note .notes-sidebar .new-note-list-item button:hover {
+    background-color: #945600;
+    border-color: #945600;
 }
 
 .dashboard .note-heading {
@@ -282,4 +286,24 @@ button:hover {
 .settings-grid .card h2,
 .settings-grid .card p {
     margin-top: 0;
+}
+
+.settings-grid .card .card-content input {
+    width: 100%;
+    margin-bottom: 1rem;
+    background-color: inherit;
+    border: none;
+    border-bottom: solid 1px #ffffff50;
+    outline: none;
+    color: white;
+    padding: .5rem;
+}
+
+.settings-grid .card .card-content input:focus {
+    border-bottom: solid 1px #ffffffcc;
+}
+
+.settings-grid .card .card-content label {
+    display: inline-block;
+    margin-bottom: .5rem;
 }

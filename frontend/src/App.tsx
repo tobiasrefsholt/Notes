@@ -7,6 +7,7 @@ import CategoryBrowser from './Components/Dashboard/CategoryBrowser';
 import './App.css';
 import CategoryAdd from "./Components/Dashboard/CategoryAdd";
 import CategoryEdit from "./Components/Dashboard/CategoryEdit";
+import UserSettings from "./Components/Dashboard/UserSettings";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
           <Route path='add-note' element={<NoteAdd />} />
           <Route path='add-category' element={<CategoryAdd />} />
           <Route path='edit-category' element={<CategoryEdit />} />
+          <Route path="/user-settings" element={<UserSettings />} />
         </Route>
         <Route path='/logout' element={<Logout />} />
       </Routes>
