@@ -81,7 +81,7 @@ main {
     padding: 0;
 }
 
-.dashboard .dashboard-sigle-note .notes-sidebar .note-list-item {
+.dashboard .note-list-item {
     cursor: pointer;
     background-color: #202123;
     border-radius: .5rem;
@@ -90,16 +90,21 @@ main {
     list-style: none;
 }
 
-.dashboard .dashboard-sigle-note .notes-sidebar .note-list-item.selected {
+.dashboard .note-list-item:not(.new-note-list-item, .selected):hover {
+    background-color: #94560090;
+}
+
+.dashboard .note-list-item.selected {
     background-color: #945600;
 }
 
-.dashboard .dashboard-sigle-note .notes-sidebar .new-note-list-item {
+
+.dashboard .new-note-list-item {
     /* border: solid 3px #202123; */
     cursor: unset;
 }
 
-.dashboard .dashboard-sigle-note .notes-sidebar .new-note-list-item input {
+.dashboard .new-note-list-item input {
     background-color: inherit;
     border: none;
     margin-bottom: .5rem;
@@ -110,13 +115,13 @@ main {
     width: 100%;
 }
 
-.dashboard .dashboard-sigle-note .notes-sidebar .new-note-list-item button {
+.dashboard .new-note-list-item button {
     background-color: inherit;
     border: solid 1px #ffffffcc;
     color: #ffffffcc;
 }
 
-.dashboard .dashboard-sigle-note .notes-sidebar .new-note-list-item button:hover {
+.dashboard .new-note-list-item button:hover {
     background-color: #945600;
     border-color: #945600;
 }
@@ -211,6 +216,24 @@ button:hover {
     cursor: pointer;
 }
 
+.dashboard .category-browser .category-browser-toolbar {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    list-style: none;
+    padding: 0;
+}
+
+.dashboard .category-browser .category-browser-toolbar button {
+    background-color: #945600;
+    border-color: #945600;
+}
+
+.dashboard .category-browser .category-browser-toolbar button:hover {
+    background-color: #94560090;
+    border-color: #94560090;
+}
+
 .dashboard .notelist-details {
     flex-grow: 1;
 }
@@ -224,7 +247,7 @@ button:hover {
 }
 
 .dashboard .notelist-details table tr:hover {
-    background-color: #204F5A;
+    background-color: #94560090;
 }
 
 .dashboard .notelist-details table th,

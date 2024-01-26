@@ -4,9 +4,10 @@ import { useDashboardContext } from "../../pages/Dashboard";
 import { NoteCompact } from "../../types";
 import NoteTable from "./NoteTable";
 import { useEffect } from "react";
+import NoteSidebarNewNote from "./NoteSidebarNewNote";
 
 export default function CategoryBrowser() {
-    const { selectedCategory } = useDashboardContext();
+    const { selectedCategory, categoriesFetch } = useDashboardContext();
     const { data, isPending, error, doFetch } = useFetch<NoteCompact[]>("/GetNotesByCategory", []);
     const navigate = useNavigate();
 
@@ -22,14 +23,14 @@ export default function CategoryBrowser() {
 
     return (
         <main className="category-browser">
-            <div className="browser-toolbar">
-                <h1>
-                    {data && headerText}
-                    {isPending && <>Loading notes...</>}
-                    {error && <>{error}</>}
-                </h1>
-                {selectedCategory?.guid && <button onClick={handleEdit}>Edit category</button>}
-            </div>
+            <h1>
+                {data && headerText}
+                {isPending && <>Loading notes...</>}
+                {error && <>{error}</>}
+            </h1>
+            <ul className="category-browser-toolbar">
+                <NoteSidebarNewNote selectedCategory={selectedCategory} categoriesFetch={categoriesFetch} />
+            </ul>
             <section className="notelist-details">
                 {data && <NoteTable data={data} />}
             </section>
