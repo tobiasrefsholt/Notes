@@ -7,10 +7,13 @@ export default function Navigaton() {
             <nav>
                 <ul>
                     <li>
-                        <Link to="/">Dashboard</Link>
+                        <Link to="/">List view</Link>
                     </li>
                     <li>
                         <Link to="/add-note">Add note</Link>
+                    </li>
+                    <li>
+                        <Link to="/user-settings">User settings</Link>
                     </li>
                     <li>
                         <Link to="/logout">Log out</Link>
