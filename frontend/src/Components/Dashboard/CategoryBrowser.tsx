@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import { useDashboardContext } from "../../pages/Dashboard";
 import { NoteCompact } from "../../types";
@@ -9,17 +8,12 @@ import NoteSidebarNewNote from "./NoteSidebarNewNote";
 export default function CategoryBrowser() {
     const { selectedCategory, categoriesFetch } = useDashboardContext();
     const { data, isPending, error, doFetch } = useFetch<NoteCompact[]>("/GetNotesByCategory", []);
-    const navigate = useNavigate();
 
     useEffect(() => {
         doFetch("GET", [selectedCategory?.guid || ""]);
     }, [selectedCategory])
 
     const headerText = selectedCategory !== null ? `${data?.length} Note(s) with category "${selectedCategory.name}"` : `${data?.length} Uncategorized note(s)`;
-
-    const handleEdit = () => {
-        navigate("/edit-category");
-    }
 
     return (
         <main className="category-browser">
