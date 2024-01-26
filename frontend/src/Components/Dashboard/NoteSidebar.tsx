@@ -28,7 +28,7 @@ export default function NoteSidebar({ selectedCategory, categoriesFetch }: NoteS
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
                 {isPending && <strong>Loading notes...</strong>}
                 {error && <strong>{error}</strong>}
-                {data && <strong>Found {data.length} notes:</strong>}
+                {!isPending && data && <strong>Found {data.length} notes:</strong>}
                 <div style={{ width: "1.5rem", height: "1.5rem" }} onClick={() => setSidebarOpen(false)}>
                     <CrossIcon color="rgba(255, 255, 255, 0.8)" />
                 </div>
