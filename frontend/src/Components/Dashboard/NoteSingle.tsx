@@ -13,6 +13,7 @@ import NoteSidebar from './NoteSidebar';
 export default function NoteSingle() {
     const { guid } = useParams();
     const { selectedCategory, setSelectedCategory, categoriesFetch } = useDashboardContext();
+    const [noteCategory, setNoteCategory] = useState<category | null>(null);
     const [title, setTitle] = useState<string | undefined>();
     const [content, setContent] = useState<string | undefined>();
     const noteFetch = useFetch<Note>("/GetNotes", []);
@@ -27,7 +28,9 @@ export default function NoteSingle() {
     useEffect(() => {
         setTitle(noteFetch.data?.title);
         setContent(noteFetch.data?.content);
-        setSelectedCategory(getCategory(categoriesFetch.data, noteFetch.data?.categoryGuid || null));
+        const fetchedNoteCategory = getCategory(categoriesFetch.data, noteFetch.data?.categoryGuid || null);
+        setSelectedCategory(fetchedNoteCategory);
+        setNoteCategory(fetchedNoteCategory);
     }, [noteFetch.data])
 
     const handleSaveNote = () => {
@@ -56,6 +59,7 @@ export default function NoteSingle() {
             categoryGuid: category.guid
         }
         saveFetch.doFetch("POST", [], requestBody);
+        setNoteCategory(category);
         setSelectedCategory(category);
     }
 
@@ -76,7 +80,7 @@ export default function NoteSingle() {
                 <div className='toolbar-buttons'>
                     {statusMessages}
                     <CategoryDropdown
-                        selectedCategory={selectedCategory}
+                        selectedCategory={noteCategory}
                         categoriesFetch={categoriesFetch}
                         excludeGuid={undefined}
                         action={handleChangeCategory}
