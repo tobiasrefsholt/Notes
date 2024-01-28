@@ -1,9 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch"
+
+type EmailResponse = {
+    email: string;
+    isEmailConfirmed: true;
+}
 
 export default function UserSettingsChangePassword() {
     const [newEmail, setNewEmail] = useState("");
-    const changePasswordFetch = useFetch("/manage/info", []);
+    const changePasswordFetch = useFetch<EmailResponse>("/manage/info", []);
+
+    useEffect(() => {
+        changePasswordFetch.doFetch("GET");
+    }, [])
 
     const handleChangeEmail = () => {
         const requestBody = {
@@ -17,8 +26,17 @@ export default function UserSettingsChangePassword() {
         <div className="card">
             <h2>Change email address</h2>
             <div className="card-content">
-                <label htmlFor="new-email">New email</label>
-                <input type="email" id="new-email" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} />
+                {changePasswordFetch.isPending && <p>Loading data...</p>}
+                {changePasswordFetch.error && <p>{changePasswordFetch.error}</p>}
+                {
+                    !changePasswordFetch.isPending &&
+                    <>
+                        <p>Current email: {changePasswordFetch.data?.email}</p>
+                        <p>Is verified: {changePasswordFetch.data?.isEmailConfirmed}</p>
+                        <label htmlFor="new-email">New email</label>
+                        <input type="email" id="new-email" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} />   
+                    </>
+                }
             </div>
             <div>
                 <button onClick={handleChangeEmail}>Submit</button>
