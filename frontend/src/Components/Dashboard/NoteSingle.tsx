@@ -13,12 +13,11 @@ import NoteSidebar from './NoteSidebar';
 export default function NoteSingle() {
     const { guid } = useParams();
     const { selectedCategory, setSelectedCategory, categoriesFetch } = useDashboardContext();
-    const noteFetch = useFetch<Note>("/GetNotes", []);
-    const saveFetch = useFetch<boolean>("/UpdateNote", [guid], "Unable to save note");
-    const deleteFetch = useFetch<boolean>("/DeleteNote", [guid], "Unable to delete note");
-
     const [title, setTitle] = useState<string | undefined>();
     const [content, setContent] = useState<string | undefined>();
+    const noteFetch = useFetch<Note>("/GetNotes", []);
+    const saveFetch = useFetch<boolean>("/UpdateNote", [guid, title, content], "Unable to save note");
+    const deleteFetch = useFetch<boolean>("/DeleteNote", [guid], "Unable to delete note");
 
     useEffect(() => {
         if (!guid) return;
