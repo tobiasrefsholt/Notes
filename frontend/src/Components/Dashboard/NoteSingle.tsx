@@ -32,7 +32,9 @@ export default function NoteSingle() {
     }, [noteFetch.data])
 
     const handleSaveNote = () => {
+        console.log("saving...", guid);
         if (!guid) return;
+        console.log("test");
         const requestBody: InsertNote = {
             guid,
             title,
@@ -80,7 +82,7 @@ export default function NoteSingle() {
                         excludeGuid={undefined}
                         action={handleChangeCategory}
                     />
-                    <button onClick={handleSaveNote} disabled={(noteFetch.isPending || (saveFetch.data || false)).valueOf()}>Save</button>
+                    <button onClick={handleSaveNote}>Save</button>
                     <button onClick={handleDeleteNote}>Delete</button>
                 </div>
             </div>
