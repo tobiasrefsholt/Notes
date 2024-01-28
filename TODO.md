@@ -8,9 +8,9 @@
 
 ## Authentication
 - [ ] Properly handle logout on backend (invalidate access/refresh tokens).
-- [ ] Two factor authentication
+- [x] Two factor authentication
 - [ ] Email verification
-- [ ] Reset password
+- [x] Reset password
 - [ ] SSO
 
 # Pages
