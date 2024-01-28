@@ -20,10 +20,11 @@ export type LoginResponse = {
 export default function LoginForm({ setIsLoggedIn }: LoginFormProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [twoFactorCode, setTwoFactorCode] = useState("");
     const loginFetch = useFetch<LoginResponse>("/login", [], "Wrong username or password");
 
     const handleLogin = () => {
-        loginFetch.doFetch("POST", [], { email, password }, false);
+        loginFetch.doFetch("POST", [], { email, password, twoFactorCode }, false);
     }
 
     useEffect(() => {
@@ -48,6 +49,10 @@ export default function LoginForm({ setIsLoggedIn }: LoginFormProps) {
                     <div>
                         <label>Password:</label>
                         <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
+                    </div>
+                    <div>
+                        <label>Two factor code (if enabled):</label>
+                        <input type="nubmer" value={twoFactorCode} onChange={e => setTwoFactorCode(e.target.value)} />
                     </div>
                     {loginFetch.error && <p>{loginFetch.error}</p>}
                     <button type="submit">Login</button>
