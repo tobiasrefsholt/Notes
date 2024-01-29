@@ -4,7 +4,9 @@ using ApiEndpoints.ApplicationServices;
 using ApiEndpoints.DomainServices;
 using ApiEndpoints.Infrastructure;
 using ApiEndpoints.ViewModel;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using sib_api_v3_sdk.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,12 +28,19 @@ builder.Services.AddDbContext<AppDbContext>(dbContextOptions =>
 });
 builder.Services.AddAuthorizationBuilder();
 builder.Services
-    .AddIdentityApiEndpoints<AppUser>()
+    .AddIdentityApiEndpoints<AppUser>(options =>
+    {
+        // Configure identity options if needed
+        options.SignIn.RequireConfirmedEmail = true;
+    })
     .AddEntityFrameworkStores<AppDbContext>();
 var connectionFactory = new SqlConnectionFactory(connectionString);
 builder.Services.AddSingleton<SqlConnectionFactory>(connectionFactory);
 builder.Services.AddScoped<INoteRepository, NoteDbRepository>();
 builder.Services.AddScoped<INoteCategoryRepository, NoteCategoryDbRepository>();
+builder.Services.Configure<BrevoOptions>(
+    builder.Configuration.GetSection("Brevo"));
+builder.Services.AddTransient<IEmailSender, EmailService>();
 
 
 var app = builder.Build();
@@ -146,11 +155,12 @@ app.MapGet("/DeleteCategory/{guid:guid}",
     .WithOpenApi()
     .RequireAuthorization();
 
-app.MapPost("/UpdateCategory", async (NoteCategory category, INoteCategoryRepository categoryRepository, HttpContext context) =>
-    {
-        var service = new NoteCategoryService(categoryRepository, context);
-        return await service.UpdateCategory(category);
-    })
+app.MapPost("/UpdateCategory",
+        async (NoteCategory category, INoteCategoryRepository categoryRepository, HttpContext context) =>
+        {
+            var service = new NoteCategoryService(categoryRepository, context);
+            return await service.UpdateCategory(category);
+        })
     .WithName("UpdateCategory")
     .WithOpenApi()
     .RequireAuthorization();
