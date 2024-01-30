@@ -68,7 +68,3 @@ The biggest problem i had, was managing state between components in the react ap
  - [react-md-editor](https://github.com/uiwjs/react-md-editor)
  - [readme.so](https://readme.so/editor)
  - [Exploring Identity Endpoints in .NET 8](https://dev.to/grontis/exploring-identity-endpoints-in-net-8-3lid)
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
-
