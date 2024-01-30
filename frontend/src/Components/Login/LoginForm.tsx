@@ -36,6 +36,21 @@ export default function LoginForm({ setIsLoggedIn }: LoginFormProps) {
         setIsLoggedIn(true);
     }, [loginFetch.data]);
 
+    function LoginError() {
+        if (!(loginFetch.data && "detail" in loginFetch.data))
+            return "";
+
+        if (loginFetch.data.detail === "NotAllowed")
+            return (
+                <div>
+                    <p>Email is not verified, please check your email or requset a new code.</p>
+                    <button>Send verification email</button>
+                </div>
+            )
+
+        return (<p>Wrong username or password</p>)
+    }
+
     return (
         <>
             <h2 className="card-header">Login</h2>
@@ -54,10 +69,10 @@ export default function LoginForm({ setIsLoggedIn }: LoginFormProps) {
                         <label>Two factor code (if enabled):</label>
                         <input type="nubmer" value={twoFactorCode} onChange={e => setTwoFactorCode(e.target.value)} />
                     </div>
-                    {loginFetch.error && <p>{loginFetch.error}</p>}
                     <button type="submit">Login</button>
                 </form>
             }
+            {loginFetch.error && <LoginError />}
             {
                 loginFetch.isPending &&
                 <p>Logging in...</p>
