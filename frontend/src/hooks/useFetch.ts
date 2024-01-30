@@ -17,7 +17,7 @@ export default function useFetch<fetchResponse>(apiEndpoint: string, deps: React
         urlParameters: string[] = [],
         requestBody: object | null = null,
         requireAuthentication: boolean = true,
-        callback: () => void | undefined = () => {}
+        callback: () => void | undefined = () => { }
     ) => {
         const path = import.meta.env.VITE_BACKEND_URL + apiEndpoint + urlParameters.map((part) => "/" + part).join("");
         setIsPending(true);
@@ -38,25 +38,41 @@ export default function useFetch<fetchResponse>(apiEndpoint: string, deps: React
                 body: requestBody !== null ? JSON.stringify(requestBody) : undefined
             })
                 .then((res) => {
-                    console.log(res);
-                    if (!res.ok)
-                        throw Error(fetchError || "Could not fetch resource");
                     const contentType = res.headers.get("content-type");
-                    if (contentType && contentType.indexOf("application/json") !== -1) {
-                        return res.json();
-                    } else {
-                        return true;
+                    const isJsonResponse = contentType && (
+                        (contentType.indexOf("application/json") !== -1) ||
+                        (contentType.indexOf("application/problem+json") !== -1)
+                    );
+
+                    if (!res.ok && isJsonResponse) {
+                        console.log("Response is in JSON");
+                        return res.json().then((errorData) => {
+                            throw errorData;
+                        });
                     }
+
+                    if (!res.ok && !isJsonResponse) {
+                        console.log("Response is in Text");
+                        return res.text().then((errorData) => {
+                            throw errorData;
+                        });
+                    }
+
+                    if (isJsonResponse)
+                        return res.json();
+
+                    return true;
                 })
                 .then((data: fetchResponse) => {
                     setError(null);
                     setIsPending(false);
                     setData(data);
                 })
-                .catch(err => {
-                    setError(err.message);
+                .catch(error => {
+                    setError(fetchError || "Could not fetch resource");
                     setIsPending(false);
-                    setData(null);
+                    setData(error);
+                    console.log(error);
                 })
                 .finally(() => callback())
         })
