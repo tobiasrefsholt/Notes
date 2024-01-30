@@ -8,7 +8,7 @@ type RegisterFormProps = {
 type RegisterResponse = true | {
     type: string;
     title: string;
-    status: 400;
+    status: number;
     errors: {
         InvalidEmail?: string[];
         DuplicateEmail?: string[];
