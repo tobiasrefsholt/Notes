@@ -22,6 +22,7 @@ export default function LoginForm({ setIsLoggedIn }: LoginFormProps) {
     const [password, setPassword] = useState('');
     const [twoFactorCode, setTwoFactorCode] = useState("");
     const loginFetch = useFetch<LoginResponse>("/login", [], "Wrong username or password");
+    const confirmationEmailFetch = useFetch<boolean>("/resendConfirmationEmail", [], "Failed sending email");
 
     const handleLogin = () => {
         loginFetch.doFetch("POST", [], { email, password, twoFactorCode }, false);
@@ -36,6 +37,10 @@ export default function LoginForm({ setIsLoggedIn }: LoginFormProps) {
         setIsLoggedIn(true);
     }, [loginFetch.data]);
 
+    function resendVerificationEmail() {
+        confirmationEmailFetch.doFetch("POST", [], {email}, false);
+    }
+
     function LoginError() {
         if (!(loginFetch.data && "detail" in loginFetch.data))
             return "";
@@ -44,9 +49,15 @@ export default function LoginForm({ setIsLoggedIn }: LoginFormProps) {
             return (
                 <div>
                     <p>Email is not verified, please check your email or requset a new code.</p>
-                    <button>Send verification email</button>
+                    <button onClick={resendVerificationEmail}>Send verification email</button>
                 </div>
             )
+
+        if (loginFetch.data.detail === "RequiresTwoFactor")
+            return (<p>Account requiers two factor</p>)
+
+        if (loginFetch.data.detail === "LockedOut")
+            return (<p>Account locked. Wait a few minutes and try again.</p>)
 
         return (<p>Wrong username or password</p>)
     }
@@ -77,6 +88,9 @@ export default function LoginForm({ setIsLoggedIn }: LoginFormProps) {
                 loginFetch.isPending &&
                 <p>Logging in...</p>
             }
+            {confirmationEmailFetch.isPending && <p>Sending email</p>}
+            {confirmationEmailFetch.data === true && <p>Email sent successfully</p>}
+            {confirmationEmailFetch.error && <p>{confirmationEmailFetch.error}</p>}
 
         </>
     )

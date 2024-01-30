@@ -106,7 +106,7 @@ export default function RegisterForm({ setShowLogin }: RegisterFormProps) {
             {
                 isRegistered &&
                 <>
-                    <p>Account was created successfully</p>
+                    <p>Account was created successfully! Please check your email to verfy you account.</p>
                     <button onClick={() => setShowLogin(true)}>Login</button>
                 </>
             }
