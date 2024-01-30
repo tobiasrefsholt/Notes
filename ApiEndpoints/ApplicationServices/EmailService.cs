@@ -35,6 +35,7 @@ public class EmailService : IEmailSender
                     _configuration["Brevo:SenderEmail"]
                 ),
                 to: [recipient],
+                subject: subject,
                 htmlContent: htmlMessage
             );
             await client.SendTransacEmailAsync(sendSmtpEmail);

@@ -32,6 +32,7 @@ builder.Services
     {
         // Configure identity options if needed
         options.SignIn.RequireConfirmedEmail = true;
+        options.User.RequireUniqueEmail = true;
     })
     .AddEntityFrameworkStores<AppDbContext>();
 var connectionFactory = new SqlConnectionFactory(connectionString);
