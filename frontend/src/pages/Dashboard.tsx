@@ -22,10 +22,8 @@ export default function Dashboard() {
         if (!isLoggedIn) {
             setIsLoggedIn(useBearerToken() !== null);
         };
-        console.log("Checking if logged inn");
         setIsLoggedIn(localStorage.getItem("accessToken") !== null);
         categoriesFetch.doFetch("GET");
-        console.log("Fetching categories: ");
     }, [isLoggedIn])
 
     return (

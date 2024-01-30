@@ -31,7 +31,6 @@ export default function NoteSidebarNewNote({selectedCategory, categoriesFetch}:N
     }
 
     useEffect(() => {
-        console.log("Useeffect")
         if (addNoteFetch.data?.success) {
             console.log("Redirect to " + addNoteFetch.data.guid)
             navigate("/note/" + addNoteFetch.data?.guid)
