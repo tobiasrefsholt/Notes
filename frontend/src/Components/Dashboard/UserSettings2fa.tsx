@@ -36,9 +36,9 @@ export default function UserSettings2fa() {
     async function handleCopySecret() {
         try {
             await navigator.clipboard.writeText(twoFactorFetch.data?.sharedKey || "");
-            setCopyText("Copied secret!")
+            setCopyText("Copied secret!");
           } catch (err) {
-            console.error('Failed to copy: ', err);
+            setCopyText("Failed to copy");
           }
     }
 
