@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
+import { LoginPageView } from "../../types";
 
 type RegisterFormProps = {
-    setShowLogin: React.Dispatch<React.SetStateAction<boolean>>;
+    setLoginState: React.Dispatch<React.SetStateAction<LoginPageView>>;
+    email: string;
+    setEmail: React.Dispatch<React.SetStateAction<string>>;
 }
 
 type RegisterResponse = true | {
@@ -22,8 +25,7 @@ type RegisterResponse = true | {
     }
 }
 
-export default function RegisterForm({ setShowLogin }: RegisterFormProps) {
-    const [email, setEmail] = useState('');
+export default function RegisterForm({ email, setEmail, setLoginState }: RegisterFormProps) {
     const [password, setPassword] = useState('');
     const [isRegistered, setIsRegistered] = useState(false);
     const { error, isPending, data, doFetch } = useFetch<RegisterResponse | null>("/register", [], "Registration failed");
@@ -107,7 +109,7 @@ export default function RegisterForm({ setShowLogin }: RegisterFormProps) {
                 isRegistered &&
                 <>
                     <p>Account was created successfully! Please check your email to verfy you account.</p>
-                    <button onClick={() => setShowLogin(true)}>Login</button>
+                    <button onClick={() => setLoginState("login")}>Login</button>
                 </>
             }
         </>

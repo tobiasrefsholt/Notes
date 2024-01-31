@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
+import { LoginPageView } from "../../types";
 
 type LoginFormProps = {
     setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+    setLoginState: React.Dispatch<React.SetStateAction<LoginPageView>>
+    email: string;
+    setEmail: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export type LoginResponse = {
@@ -17,8 +21,7 @@ export type LoginResponse = {
     detail: string;
 }
 
-export default function LoginForm({ setIsLoggedIn }: LoginFormProps) {
-    const [email, setEmail] = useState('');
+export default function LoginForm({ email, setEmail, setIsLoggedIn, setLoginState }: LoginFormProps) {
     const [password, setPassword] = useState('');
     const [twoFactorCode, setTwoFactorCode] = useState("");
     const loginFetch = useFetch<LoginResponse>("/login", [], "Wrong username or password");
@@ -62,6 +65,11 @@ export default function LoginForm({ setIsLoggedIn }: LoginFormProps) {
         return (<p>Wrong username or password</p>)
     }
 
+    function showPasswordReset(e:React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+        e.preventDefault();
+        setLoginState("getResetCode");
+    }
+
     return (
         <>
             <h2 className="card-header">Login</h2>
@@ -80,7 +88,8 @@ export default function LoginForm({ setIsLoggedIn }: LoginFormProps) {
                         <label>Two factor code (if enabled):</label>
                         <input type="nubmer" value={twoFactorCode} onChange={e => setTwoFactorCode(e.target.value)} />
                     </div>
-                    <button type="submit">Login</button>
+                    <button style={{backgroundColor: "#945600"}} type="submit">Login</button>
+                    <button style={{marginLeft: ".5rem"}} onClick={(e) => showPasswordReset(e)}>Forgot password</button>
                 </form>
             }
             {loginFetch.error && <LoginError />}
