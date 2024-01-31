@@ -43,3 +43,5 @@ export type DashboardContext = {
     selectedCategory: category | null;
     setSelectedCategory: React.Dispatch<React.SetStateAction<category | null>>;
 }
+
+export type LoginPageView = "login" | "register" | "getResetCode" | "resetPassword";
