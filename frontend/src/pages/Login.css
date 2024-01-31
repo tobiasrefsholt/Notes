@@ -58,6 +58,7 @@
 
 .login-page .select-login-or-register span {
     cursor: pointer;
+    color: #ffffff;
 }
 
 .login-page .card a {
