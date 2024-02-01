@@ -3,8 +3,9 @@
 ## Categories
 - [x] Assign categories to notes
 - [x] Filter notes based on tags
-- [ ] Color coded categories
 - [x] Change parent category
+- [ ] Color coded categories
+- [ ] Sorting - by name, date added, last edit
 
 ## Authentication
 - [x] Two factor authentication
@@ -36,3 +37,4 @@
     - [ ] Switch between edit and preview
     - [ ] Delete
     - [ ] Change category
+    - [ ] New note
