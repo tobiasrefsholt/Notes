@@ -3,7 +3,7 @@ import useFetch from "../../hooks/useFetch"
 
 type EmailResponse = {
     email: string;
-    isEmailConfirmed: true;
+    isEmailConfirmed: boolean;
 }
 
 export default function UserSettingsChangePassword() {
@@ -30,9 +30,10 @@ export default function UserSettingsChangePassword() {
                 {changePasswordFetch.error && <p>{changePasswordFetch.error}</p>}
                 {
                     !changePasswordFetch.isPending &&
+                    changePasswordFetch.data &&
                     <>
-                        <p>Current email: {changePasswordFetch.data?.email}</p>
-                        <p>Is verified: {changePasswordFetch.data?.isEmailConfirmed}</p>
+                        <p>Current email: {changePasswordFetch.data.email}</p>
+                        <p>{changePasswordFetch.data.isEmailConfirmed ? "Is verified" : "Not verified"}</p>
                         <label htmlFor="new-email">New email</label>
                         <input type="email" id="new-email" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} />   
                     </>

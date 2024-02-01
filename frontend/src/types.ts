@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export type category = {
     guid: string | null;
     parentGuid: string | null;
@@ -45,3 +47,12 @@ export type DashboardContext = {
 }
 
 export type LoginPageView = "login" | "register" | "getResetCode" | "resetPassword";
+
+export type GlobalState = {
+    isLoggedIn: boolean;
+}
+
+export type GlobalStateProps = {
+    globalState: GlobalState;
+    setGlobalState:Dispatch<SetStateAction<GlobalState>>;
+}

@@ -3,27 +3,25 @@ import Navigaton from "../Components/Shared/Navigation";
 import Sidebar from "../Components/Dashboard/Sidebar";
 import Login from "./Login";
 import './Dashboard.css';
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch";
 import { DashboardContext, category } from "../types";
-import useBearerToken from "../hooks/useBearerToken";
+import GlobalStateContext from "../context/GlobalStateContext";
 
 export default function Dashboard() {
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    const {globalState, setGlobalState} = useContext(GlobalStateContext)!;
     const categoriesFetch = useFetch<category[]>("/GetCategories", []);
+    const {isLoggedIn} = globalState;
 
     const [selectedCategory, setSelectedCategory] = useState<category | null>(null);
 
-    const dashboardContext:DashboardContext = {
+    const dashboardContext: DashboardContext = {
         categoriesFetch, selectedCategory, setSelectedCategory
     }
 
     useEffect(() => {
-        if (!isLoggedIn) {
-            setIsLoggedIn(useBearerToken() !== null);
-        };
-        setIsLoggedIn(localStorage.getItem("accessToken") !== null);
-        categoriesFetch.doFetch("GET");
+        if (isLoggedIn)
+            categoriesFetch.doFetch("GET");
     }, [isLoggedIn])
 
     return (
@@ -38,7 +36,7 @@ export default function Dashboard() {
             }
             {
                 !isLoggedIn &&
-                <Login setIsLoggedIn={setIsLoggedIn} />
+                <Login />
             }
         </>
     )

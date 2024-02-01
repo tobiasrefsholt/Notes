@@ -7,11 +7,7 @@ import { LoginPageView } from '../types';
 import RequestResetCodeForm from '../Components/Login/RequestResetCodeForm';
 import ResetPasswordForm from '../Components/Login/ResetPasswordForm';
 
-type LoginProps = {
-    setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-export default function Login({ setIsLoggedIn }: LoginProps) {
+export default function Login() {
     const [loginState, setLoginState] = useState<LoginPageView>("login");
     const [email, setEmail] = useState("");
 
@@ -26,7 +22,7 @@ export default function Login({ setIsLoggedIn }: LoginProps) {
             </p>
             <main>
                 <section className='card'>
-                    {loginState === "login" && <LoginForm email={email} setEmail={setEmail} setIsLoggedIn={setIsLoggedIn} setLoginState={setLoginState} />}
+                    {loginState === "login" && <LoginForm email={email} setEmail={setEmail} setLoginState={setLoginState} />}
                     {loginState === "register" && <RegisterForm email={email} setEmail={setEmail} setLoginState={setLoginState} />}
                     {loginState === "getResetCode" && <RequestResetCodeForm email={email} setEmail={setEmail} setLoginState={setLoginState} />}
                     {loginState === "resetPassword" && <ResetPasswordForm email={email} setEmail={setEmail} setLoginState={setLoginState} />}

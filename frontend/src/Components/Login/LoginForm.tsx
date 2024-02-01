@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import { LoginPageView } from "../../types";
+import GlobalStateContext from "../../context/GlobalStateContext";
 
 type LoginFormProps = {
-    setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
     setLoginState: React.Dispatch<React.SetStateAction<LoginPageView>>
     email: string;
     setEmail: React.Dispatch<React.SetStateAction<string>>;
@@ -21,7 +21,8 @@ export type LoginResponse = {
     detail: string;
 }
 
-export default function LoginForm({ email, setEmail, setIsLoggedIn, setLoginState }: LoginFormProps) {
+export default function LoginForm({ email, setEmail, setLoginState }: LoginFormProps) {
+    const {globalState, setGlobalState} = useContext(GlobalStateContext)!;
     const [password, setPassword] = useState('');
     const [twoFactorCode, setTwoFactorCode] = useState("");
     const loginFetch = useFetch<LoginResponse>("/login", [], "Wrong username or password");
@@ -37,7 +38,7 @@ export default function LoginForm({ email, setEmail, setIsLoggedIn, setLoginStat
 
         localStorage.setItem('accessToken', loginFetch.data.accessToken);
         localStorage.setItem('refreshToken', loginFetch.data.refreshToken);
-        setIsLoggedIn(true);
+        setGlobalState({...globalState, isLoggedIn: true});
     }, [loginFetch.data]);
 
     function resendVerificationEmail() {
