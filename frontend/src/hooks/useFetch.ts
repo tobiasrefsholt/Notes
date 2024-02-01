@@ -1,32 +1,35 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import useBearerToken from "./useBearerToken";
+import GlobalStateContext from "../context/GlobalStateContext";
 
 export default function useFetch<fetchResponse>(apiEndpoint: string, deps: React.DependencyList | undefined, fetchError: string | null = null) {
+    const {globalState, setGlobalState} = useContext(GlobalStateContext)!;
     const [error, setError] = useState<string | null>(null);
     const [isPending, setIsPending] = useState(false);
     const [data, setData] = useState<fetchResponse | null>(null);
-
+    
     useEffect(() => {
         setError(null);
         setIsPending(false);
         setData(null);
     }, deps)
-
+    
     const doFetch = (
         fetchMethod: "GET" | "POST",
         urlParameters: string[] = [],
         requestBody: object | null = null,
         requireAuthentication: boolean = true,
         callback: () => void | undefined = () => { }
-    ) => {
-        const path = import.meta.env.VITE_BACKEND_URL + apiEndpoint + urlParameters.map((part) => "/" + part).join("");
-        setIsPending(true);
-        useBearerToken().then((token) => {
+        ) => {
+            const path = import.meta.env.VITE_BACKEND_URL + apiEndpoint + urlParameters.map((part) => "/" + part).join("");
+            setIsPending(true);
+            useBearerToken().then((token) => {
             if (requireAuthentication && token === null) {
                 console.log("Not autheticated");
                 setError("Not autheticated");
                 setIsPending(false);
                 setData(null);
+                setGlobalState({...globalState, isLoggedIn: false});
                 return;
             }
             fetch(path, {
