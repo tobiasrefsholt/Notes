@@ -3,15 +3,15 @@
 ## Categories
 - [x] Assign categories to notes
 - [x] Filter notes based on tags
-- [ ] Color coded categories
 - [x] Change parent category
+- [ ] Color coded categories
+- [ ] Sorting - by name, date added, last edit
 
 ## Authentication
-- [ ] Properly handle logout on backend (invalidate access/refresh tokens).
 - [x] Two factor authentication
 - [x] Email verification
 - [x] Reset password
-- [ ] Forgot password function
+- [x] Forgot password function
 - [ ] SSO
 
 # Pages
@@ -24,13 +24,17 @@
 ## Login
 - [x] Design login page
 - [x] Add register accout page
-- [ ] Redirect to login page when refreshtoken is invalid (when attemting fetch from backend)
+- [x] Redirect to login page when refreshtoken is invalid (when attemting fetch from backend)
+- [ ] Error handling forgot password
 
 ## Single note
 - [ ] Better way to toggle between edit and preview mode
 - [ ] Confirmation before delete
+- [ ] Maybe add version history
+- [ ] Autosave
 - [ ] Keyboard shortcuts
     - [ ] Save
     - [ ] Switch between edit and preview
     - [ ] Delete
     - [ ] Change category
+    - [ ] New note
