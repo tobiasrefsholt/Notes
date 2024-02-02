@@ -9,7 +9,7 @@ import { DashboardContext, category } from "../types";
 import GlobalStateContext from "../context/GlobalStateContext";
 
 export default function Dashboard() {
-    const {globalState, setGlobalState} = useContext(GlobalStateContext)!;
+    const {globalState} = useContext(GlobalStateContext)!;
     const categoriesFetch = useFetch<category[]>("/GetCategories", []);
     const {isLoggedIn} = globalState;
 
