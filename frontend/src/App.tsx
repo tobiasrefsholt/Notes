@@ -7,8 +7,19 @@ import './App.css';
 import CategoryAdd from "./Components/Dashboard/CategoryAdd";
 import CategoryEdit from "./Components/Dashboard/CategoryEdit";
 import UserSettings from "./Components/Dashboard/UserSettings";
+import { useContext, useEffect } from "react";
+import GlobalStateContext from "./context/GlobalStateContext";
+import useBearerToken from "./hooks/useBearerToken";
 
 export default function App() {
+  const { globalState, setGlobalState } = useContext(GlobalStateContext)!;
+  useEffect(() => {
+    useBearerToken()
+      .then((token) => {
+        if (token !== null)
+          setGlobalState({ ...globalState, isLoggedIn: true })
+      })
+  }, [])
   return (
     <>
       <Routes>
