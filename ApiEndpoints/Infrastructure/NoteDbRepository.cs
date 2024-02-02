@@ -23,7 +23,7 @@ public class NoteDbRepository : INoteRepository
                     ON CategoryGuid = c.Guid
                 WHERE n.User LIKE @User 
                 ORDER BY UNIX_TIMESTAMP(LastChanged) DESC
-                LIMIT 100;
+                LIMIT 5;
             ";
         var dbObjects = await conn.QueryAsync<Note>(sql, new { User = userGuid });
         return dbObjects;
