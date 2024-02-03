@@ -17,12 +17,7 @@ export default function CategoryDropdown({ selectedCategory, categoriesFetch, ex
         if (selectedListItem !== null) {
             return;
         }
-        const uncategorized: category = {
-            guid: null,
-            parentGuid: null,
-            name: "Uncategorized"
-        }
-        setSelectedListItem(uncategorized);
+        setSelectedListItem(getCategory(null, null));
     }, [selectedListItem]);
 
     function handleSelectCategory(guid: string | null) {
