@@ -25,10 +25,11 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Dashboard />}>
           <Route index element={<CategoryBrowser />} />
+          <Route path='note' element={<NoteSingle />} />
           <Route path='note/:guid' element={<NoteSingle />} />
           <Route path='add-category' element={<CategoryAdd />} />
           <Route path='edit-category' element={<CategoryEdit />} />
-          <Route path="/user-settings" element={<UserSettings />} />
+          <Route path="user-settings" element={<UserSettings />} />
         </Route>
         <Route path='/logout' element={<Logout />} />
       </Routes>
