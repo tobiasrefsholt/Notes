@@ -33,7 +33,6 @@ export default function NoteSidebar({ selectedCategory, categoriesFetch }: NoteS
                     <CrossIcon color="rgba(255, 255, 255, 0.8)" />
                 </div>
             </div>
-            <hr />
             <ul>
                 <NoteSidebarNewNote selectedCategory={selectedCategory} categoriesFetch={categoriesFetch} />
                 {

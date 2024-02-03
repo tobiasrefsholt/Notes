@@ -4,6 +4,7 @@ export type category = {
     guid: string | null;
     parentGuid: string | null;
     name: string;
+    color: string;
 }
 
 export type Note = {

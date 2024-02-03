@@ -2,11 +2,9 @@
     height: 100vh;
     display: grid;
     grid-template-areas:
-        "topnav topnav topnav"
-        "sidebar main   main"
+        "sidebar main"
     ;
-    grid-template-rows: min-content 1fr;
-    grid-template-columns: 300px 6fr;
+    grid-template-columns: 300px 1fr;
     font-size: 1rem;
 }
 
@@ -17,8 +15,11 @@ main {
 
 .dashboard-sidebar {
     grid-area: sidebar;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: #202123;
     padding: 1rem;
-    border-right: solid 1px #1F1F1F;
     overflow-y: auto;
 }
 
@@ -83,7 +84,7 @@ main {
 
 .dashboard .note-list-item {
     cursor: pointer;
-    background-color: #202123;
+    background-color: #ffffff0c;
     border-radius: .5rem;
     padding: 1rem;
     margin-bottom: .5rem;
@@ -105,9 +106,8 @@ main {
 }
 
 .dashboard .new-note-list-item input {
-    background-color: inherit;
+    background-color: transparent;
     border: none;
-    margin-bottom: .5rem;
     color: white;
     outline: none;
     font-size: 1rem;
@@ -119,6 +119,7 @@ main {
     background-color: inherit;
     border: solid 1px #ffffffcc;
     color: #ffffffcc;
+    margin-top: .5rem;
 }
 
 .dashboard .new-note-list-item button:hover {
@@ -146,6 +147,7 @@ main {
 
 .note-toolbar {
     display: flex;
+    align-items: center;
     gap: 1rem;
     flex-wrap: wrap;
 }

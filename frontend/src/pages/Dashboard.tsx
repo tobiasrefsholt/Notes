@@ -4,13 +4,13 @@ import Sidebar from "../Components/Dashboard/Sidebar";
 import Login from "./Login";
 import './Dashboard.css';
 import { useContext, useEffect, useState } from "react";
-import useFetch from "../hooks/useFetch";
+import useFetch, { ApiEndpoint } from "../hooks/useFetch";
 import { DashboardContext, category } from "../types";
 import GlobalStateContext from "../context/GlobalStateContext";
 
 export default function Dashboard() {
     const {globalState} = useContext(GlobalStateContext)!;
-    const categoriesFetch = useFetch<category[]>("/GetCategories", []);
+    const categoriesFetch = useFetch<category[]>(ApiEndpoint.GetCategories, []);
     const {isLoggedIn} = globalState;
 
     const [selectedCategory, setSelectedCategory] = useState<category | null>(null);
@@ -29,7 +29,6 @@ export default function Dashboard() {
             {
                 isLoggedIn &&
                 <div className="dashboard">
-                    <Navigaton />
                     <Sidebar dashboardContext={dashboardContext} />
                     <Outlet context={dashboardContext} />
                 </div>
