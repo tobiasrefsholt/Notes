@@ -32,7 +32,7 @@ export default function CategoryList({ categoriesFetch, selectedCategory, setSel
                 <>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
                         <strong onClick={handleSelectParentCategory}>{selectedCategory?.guid ? "↑ " + selectedCategory.name : "Browse categories"}</strong>
-                        {selectedCategory && <div onClick={() => navigate("/edit-category")} style={{ width: "1rem", height: "1rem" }}>
+                        {selectedCategory?.guid && <div onClick={() => navigate("/edit-category")} style={{ width: "1rem", height: "1rem" }}>
                             <EditIcon color="rgba(255, 255, 255, 0.8)" />
                         </div>}
                     </div>
