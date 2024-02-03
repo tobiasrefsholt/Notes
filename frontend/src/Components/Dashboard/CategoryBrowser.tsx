@@ -13,7 +13,7 @@ export default function CategoryBrowser() {
         doFetch("GET", [selectedCategory?.guid || ""]);
     }, [selectedCategory])
 
-    const headerText = selectedCategory !== null ? `${data?.length} Note(s) with category "${selectedCategory.name}"` : `${data?.length} Uncategorized note(s)`;
+    const headerText = selectedCategory !== null ? `${data?.length} Note(s) in category "${selectedCategory.name}"` : `${data?.length} Uncategorized note(s)`;
 
     return (
         <main className="category-browser">
