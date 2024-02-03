@@ -1,4 +1,4 @@
-import useFetch from "../../hooks/useFetch";
+import useFetch, { ApiEndpoint } from "../../hooks/useFetch";
 import { LoginPageView } from "../../types";
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
 }
 
 export default function RequestResetCodeForm({ email, setEmail, setLoginState }: Props) {
-    const resetPasswordFetch = useFetch("/forgotPassword", []);
+    const resetPasswordFetch = useFetch(ApiEndpoint.ForgotPassword, []);
 
     function handleGetToken() {
         resetPasswordFetch.doFetch("POST", [], { email }, false);

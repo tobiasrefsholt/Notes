@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import NoteListItem from './NoteListItem';
-import useFetch from '../../hooks/useFetch';
+import useFetch, { ApiEndpoint } from '../../hooks/useFetch';
 import { NoteCompact } from '../../types';
 
 export default function SidebarLatestNotes() {
 
-    const { data: noteList, isPending, error, doFetch } = useFetch<NoteCompact[]>("/GetNotes", []);
+    const { data: noteList, isPending, error, doFetch } = useFetch<NoteCompact[]>(ApiEndpoint.GetNotes, []);
 
     useEffect(() => {
         doFetch("GET");

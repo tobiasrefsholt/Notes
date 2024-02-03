@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useFetch from "../../hooks/useFetch"
+import useFetch, { ApiEndpoint } from "../../hooks/useFetch"
 import QRCode from "react-qr-code";
 
 type TwoFactorResponse = {
@@ -12,7 +12,7 @@ type TwoFactorResponse = {
 
 
 export default function UserSettings2fa() {
-    const twoFactorFetch = useFetch<TwoFactorResponse>("/manage/2fa", []);
+    const twoFactorFetch = useFetch<TwoFactorResponse>(ApiEndpoint.ManageTwoFactor, []);
     const [twoFactorCode, setTwoFactorCode] = useState("");
     const [copyText, setCopyText] = useState("Copy secret");
 

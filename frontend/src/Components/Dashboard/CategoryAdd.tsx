@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useFetch from "../../hooks/useFetch";
+import useFetch, { ApiEndpoint } from "../../hooks/useFetch";
 import { useDashboardContext } from "../../pages/Dashboard";
 import { useNavigate } from "react-router-dom";
 
@@ -16,7 +16,7 @@ type apiData = {
 export default function CategoryAdd() {
     const { categoriesFetch, selectedCategory, setSelectedCategory } = useDashboardContext();
     const [newCategoryName, setNewCategoryName] = useState<string>("");
-    const saveCategory = useFetch<apiData>("/CreateCategory", [selectedCategory], "Could on create category");
+    const saveCategory = useFetch<apiData>(ApiEndpoint.CreateCategory, [selectedCategory], "Could not create category");
 
     const navigate = useNavigate();
 

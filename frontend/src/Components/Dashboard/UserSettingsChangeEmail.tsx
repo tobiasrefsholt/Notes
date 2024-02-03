@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useFetch from "../../hooks/useFetch"
+import useFetch, { ApiEndpoint } from "../../hooks/useFetch"
 
 type EmailResponse = {
     email: string;
@@ -8,7 +8,7 @@ type EmailResponse = {
 
 export default function UserSettingsChangePassword() {
     const [newEmail, setNewEmail] = useState("");
-    const changePasswordFetch = useFetch<EmailResponse>("/manage/info", []);
+    const changePasswordFetch = useFetch<EmailResponse>(ApiEndpoint.ManageInfo, []);
 
     useEffect(() => {
         changePasswordFetch.doFetch("GET");

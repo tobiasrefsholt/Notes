@@ -1,3 +1,5 @@
+import { ApiEndpoint } from "./useFetch";
+
 type loginSuccessfulResponse = {
     tokenType: string;
     accessToken: string;
@@ -28,7 +30,7 @@ export default async function useBearerToken(): Promise<string | null> {
             throw Error();
 
         // Fetch new access token
-        const response = await fetch(import.meta.env.VITE_BACKEND_URL + "/refresh", {
+        const response = await fetch(import.meta.env.VITE_BACKEND_URL + ApiEndpoint.Refresh, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useFetch from "../../hooks/useFetch";
+import useFetch, { ApiEndpoint } from "../../hooks/useFetch";
 import { LoginPageView } from "../../types";
 
 type RegisterFormProps = {
@@ -28,7 +28,7 @@ type RegisterResponse = true | {
 export default function RegisterForm({ email, setEmail, setLoginState }: RegisterFormProps) {
     const [password, setPassword] = useState('');
     const [isRegistered, setIsRegistered] = useState(false);
-    const { error, isPending, data, doFetch } = useFetch<RegisterResponse | null>("/register", [], "Registration failed");
+    const { error, isPending, data, doFetch } = useFetch<RegisterResponse | null>(ApiEndpoint.Register, [], "Registration failed");
 
     const handleRegister = () => {
         doFetch("POST", [], { email, password }, false);

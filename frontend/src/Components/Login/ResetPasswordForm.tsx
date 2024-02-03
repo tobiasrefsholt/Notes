@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { LoginPageView } from "../../types"
-import useFetch from "../../hooks/useFetch";
+import useFetch, { ApiEndpoint } from "../../hooks/useFetch";
 
 type Props = {
     setLoginState: React.Dispatch<React.SetStateAction<LoginPageView>>;
@@ -11,7 +11,7 @@ type Props = {
 export default function ResetPasswordForm({ email, setEmail, setLoginState }: Props) {
     const [resetCode, setResetCode] = useState("");
     const [newPassword, setNewPassword] = useState("");
-    const resetPasswordFetch = useFetch("/resetPassword", []);
+    const resetPasswordFetch = useFetch(ApiEndpoint.ResetPassword, []);
 
     function handleResetPassword(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();

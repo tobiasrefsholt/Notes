@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FetchResponse, category } from "../../types";
 import CategoryDropdown from "./CategoryDropdown";
 import useGetCategory from "../../hooks/useGetCategory";
-import useFetch from "../../hooks/useFetch";
+import useFetch, { ApiEndpoint } from "../../hooks/useFetch";
 
 type ChangeParentProps = {
     selectedCategory: category | null;
@@ -11,7 +11,7 @@ type ChangeParentProps = {
 
 export default function CategoryEditChangeParent({ selectedCategory, categoriesFetch }: ChangeParentProps) {
 
-    const changeParentFetch = useFetch("/UpdateCategory", []);
+    const changeParentFetch = useFetch(ApiEndpoint.UpdateCategory, []);
     const [currentParentCategory, setCurrentParentCategory] = useState<category>(useGetCategory(categoriesFetch.data, selectedCategory?.parentGuid || null))
 
     useEffect(() => {

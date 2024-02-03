@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import useFetch from "../../hooks/useFetch"
+import useFetch, { ApiEndpoint } from "../../hooks/useFetch"
 import { FetchResponse, category } from "../../types";
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +10,7 @@ type DeleteCategoryProps = {
 }
 
 export default function CategoryEditDeleteCard({ selectedCategory, setSelectedCategory, categoriesFetch }: DeleteCategoryProps) {
-    const deleteRequest = useFetch<boolean>("/DeleteCategory", [selectedCategory?.guid], "Unable to delete category");
+    const deleteRequest = useFetch<boolean>(ApiEndpoint.DeleteCategory, [selectedCategory?.guid], "Unable to delete category");
     const navigate = useNavigate();
 
     const handleDelete = () => {

@@ -1,10 +1,10 @@
 import { useState } from "react";
-import useFetch from "../../hooks/useFetch"
+import useFetch, { ApiEndpoint } from "../../hooks/useFetch"
 
 export default function UserSettingsChangePassword() {
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
-    const changePasswordFetch = useFetch("/manage/info", []);
+    const changePasswordFetch = useFetch(ApiEndpoint.ManageInfo, []);
 
     const handleChangePassword = () => {
         const requestBody = {

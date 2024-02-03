@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 import MDEditor from '@uiw/react-md-editor';
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
-import { useParams } from 'react-router-dom';
-import useFetch from '../../hooks/useFetch';
+import { useNavigate, useParams } from 'react-router-dom';
+import useFetch, { ApiEndpoint } from '../../hooks/useFetch';
 import CategoryDropdown from './CategoryDropdown';
 import { InsertNote, Note, category } from '../../types';
 import { useDashboardContext } from '../../pages/Dashboard';
 import getCategory from '../../hooks/useGetCategory';
 import NoteSidebar from './NoteSidebar';
+import GoBackIcon from '../SVGs/GoBackIcon';
 
 export default function NoteSingle() {
     const { guid } = useParams();
@@ -16,9 +17,11 @@ export default function NoteSingle() {
     const [noteCategory, setNoteCategory] = useState<category | null>(null);
     const [title, setTitle] = useState<string | undefined>();
     const [content, setContent] = useState<string | undefined>();
-    const noteFetch = useFetch<Note>("/GetNotes", []);
-    const saveFetch = useFetch<boolean>("/UpdateNote", [guid, title, content], "Unable to save note");
-    const deleteFetch = useFetch<boolean>("/DeleteNote", [guid], "Unable to delete note");
+    const noteFetch = useFetch<Note>(ApiEndpoint.GetNotes, []);
+    const saveFetch = useFetch<boolean>(ApiEndpoint.UpdateNote, [guid, title, content], "Unable to save note");
+    const deleteFetch = useFetch<boolean>(ApiEndpoint.DeleteCategory, [guid], "Unable to delete note");
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!guid) return;
@@ -76,6 +79,9 @@ export default function NoteSingle() {
     const editView = (
         <>
             <div className="note-toolbar">
+                <div style={{ width: "2rem", height: "2rem" }} onClick={() => navigate("/")}>
+                    <GoBackIcon color='#ffffff' />
+                </div>
                 <input className='note-heading' type='text' value={title} onChange={(e) => setTitle(e.target.value)} />
                 <div className='toolbar-buttons'>
                     {statusMessages}

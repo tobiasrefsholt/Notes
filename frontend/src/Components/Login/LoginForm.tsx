@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import useFetch from "../../hooks/useFetch";
+import useFetch, { ApiEndpoint } from "../../hooks/useFetch";
 import { LoginPageView } from "../../types";
 import GlobalStateContext from "../../context/GlobalStateContext";
 
@@ -25,8 +25,8 @@ export default function LoginForm({ email, setEmail, setLoginState }: LoginFormP
     const {globalState, setGlobalState} = useContext(GlobalStateContext)!;
     const [password, setPassword] = useState('');
     const [twoFactorCode, setTwoFactorCode] = useState("");
-    const loginFetch = useFetch<LoginResponse>("/login", [], "Wrong username or password");
-    const confirmationEmailFetch = useFetch<boolean>("/resendConfirmationEmail", [], "Failed sending email");
+    const loginFetch = useFetch<LoginResponse>(ApiEndpoint.Login, [], "Wrong username or password");
+    const confirmationEmailFetch = useFetch<boolean>(ApiEndpoint.ResendConfirmationEmail, [], "Failed sending email");
 
     const handleLogin = () => {
         loginFetch.doFetch("POST", [], { email, password, twoFactorCode }, false);

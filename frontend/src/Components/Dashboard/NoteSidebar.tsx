@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useFetch from "../../hooks/useFetch";
+import useFetch, { ApiEndpoint } from "../../hooks/useFetch";
 import { FetchResponse, NoteCompact, category } from "../../types";
 import NoteListItem from "./NoteListItem";
 import { useParams } from "react-router-dom";
@@ -13,7 +13,7 @@ type NoteSidebarProps = {
 
 export default function NoteSidebar({ selectedCategory, categoriesFetch }: NoteSidebarProps) {
     const [sidebarOpen, setSidebarOpen] = useState(true);
-    const { error, isPending, data, doFetch } = useFetch<NoteCompact[]>("/GetNotesByCategory", []);
+    const { error, isPending, data, doFetch } = useFetch<NoteCompact[]>(ApiEndpoint.GetNotesByCategory, []);
     const { guid } = useParams();
 
     useEffect(() => {

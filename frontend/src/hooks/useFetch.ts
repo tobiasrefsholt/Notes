@@ -2,7 +2,28 @@ import { useContext, useEffect, useState } from "react";
 import useBearerToken from "./useBearerToken";
 import GlobalStateContext from "../context/GlobalStateContext";
 
-export default function useFetch<fetchResponse>(apiEndpoint: string, deps: React.DependencyList | undefined, fetchError: string | null = null) {
+export enum ApiEndpoint {
+    Register = "/register",
+    Login = "/login",
+    Refresh = "/refresh",
+    ConfirmEmail = "/confirmEmail",
+    ResendConfirmationEmail = "/resendConfirmationEmail",
+    ForgotPassword = "/forgotPassword",
+    ResetPassword = "/resetPassword",
+    ManageTwoFactor = "/manage/2fa",
+    ManageInfo = "/manage/info",
+    GetNotes = "/GetNotes",
+    GetNotesByCategory = "/GetNotesByCategory",
+    CreateNote = "/CreateNote",
+    UpdateNote = "/UpdateNote",
+    DeleteNote = "/DeleteNote",
+    GetCategories = "/GetCategories",
+    CreateCategory = "/CreateCategory",
+    DeleteCategory = "/DeleteCategory",
+    UpdateCategory = "/UpdateCategory"
+}
+
+export default function useFetch<fetchResponse>(apiEndpoint: ApiEndpoint, deps: React.DependencyList | undefined, fetchError: string | null = null) {
     const {globalState, setGlobalState} = useContext(GlobalStateContext)!;
     const [error, setError] = useState<string | null>(null);
     const [isPending, setIsPending] = useState(false);

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FetchResponse, category } from "../../types";
-import useFetch from "../../hooks/useFetch";
+import useFetch, { ApiEndpoint } from "../../hooks/useFetch";
 
 type EditCategoryProps = {
     selectedCategory: category | null;
@@ -8,7 +8,7 @@ type EditCategoryProps = {
 }
 
 export default function CategoryEditRenameCard({ selectedCategory, categoriesFetch }: EditCategoryProps) {
-    const renameFetch = useFetch("/UpdateCategory", []);
+    const renameFetch = useFetch(ApiEndpoint.UpdateCategory, []);
     const [name, setName] = useState<string>(selectedCategory?.name || "");
 
     const rename = () => {
