@@ -12,7 +12,7 @@ export default function SidebarUserActions() {
 
     useEffect(() => {
         userFetch.doFetch("GET");
-    })
+    }, []);
 
     if (!(userFetch.data && "email" in userFetch.data)) return "";
 
