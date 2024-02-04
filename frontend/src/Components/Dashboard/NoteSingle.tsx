@@ -26,10 +26,6 @@ export default function NoteSingle() {
     useEffect(() => {
         if (!guid) return;
         noteFetch.doFetch("GET", [guid]);
-        window.addEventListener("keydown", handleKeyboardShortcuts);
-        return () => {
-            window.removeEventListener("keydown", handleKeyboardShortcuts);
-        }
     }, [guid]);
 
     // Runs when fetch response changes
@@ -41,7 +37,7 @@ export default function NoteSingle() {
         setNoteCategory(fetchedNoteCategory);
     }, [noteFetch.data])
 
-    function handleKeyboardShortcuts(event: KeyboardEvent) {
+    function handleKeyboardShortcuts(event: React.KeyboardEvent) {
         // Close on escape
         if (event.key === "Escape") {
             navigate("/");
@@ -54,7 +50,8 @@ export default function NoteSingle() {
         }
     }
 
-    const handleSaveNote = () => {
+    function handleSaveNote() {
+        console.log(guid)
         if (!guid) return;
         const requestBody: InsertNote = {
             guid,
@@ -62,10 +59,11 @@ export default function NoteSingle() {
             content,
             categoryGuid: noteFetch.data?.categoryGuid
         }
+        console.log(requestBody)
         saveFetch.doFetch("POST", [], requestBody);
     }
 
-    const handleDeleteNote = () => {
+    function handleDeleteNote() {
         if (!guid) return;
         deleteFetch.doFetch("POST", [guid])
     }
@@ -91,7 +89,7 @@ export default function NoteSingle() {
     )
 
     return (
-        <main className='dashboard-sigle-note'>
+        <main className='dashboard-sigle-note' onKeyDown={(event) => handleKeyboardShortcuts(event)}>
             <NoteSidebar selectedCategory={selectedCategory} categoriesFetch={categoriesFetch} />
             {!deleteFetch.data && <div className='editor'>
                 <div className="note-toolbar">
@@ -109,11 +107,11 @@ export default function NoteSingle() {
                             excludeGuid={undefined}
                             action={handleChangeCategory}
                         />
-                        <button onClick={handleSaveNote}>Save</button>
-                        <button onClick={handleDeleteNote}>Delete</button>
+                        <button onClick={() => handleSaveNote()}>Save</button>
+                        <button onClick={() => handleDeleteNote()}>Delete</button>
                     </div>
                 </div>
-                <MDEditor value={content} onChange={setContent} visibleDragbar={false} />
+                <MDEditor value={content} onChange={setContent} visibleDragbar={false} autoFocus={true} data-color-mode='dark'/>
             </div>}
             {deleteFetch.data && <h1>Note was deleted</h1>}
         </main>
