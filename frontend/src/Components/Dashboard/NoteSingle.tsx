@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import MDEditor from '@uiw/react-md-editor';
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
@@ -26,7 +26,18 @@ export default function NoteSingle() {
     useEffect(() => {
         if (!guid) return;
         noteFetch.doFetch("GET", [guid]);
-    }, [guid])
+        window.addEventListener("keyup", handleCloseNote);
+        return () => {
+            window.removeEventListener("keyup", handleCloseNote);
+        }
+    }, [guid]);
+
+    function handleCloseNote(event:KeyboardEvent) {
+        console.log("Keyboard event");
+        if (event.key === "Escape") {
+            navigate("/");
+        }
+    }
 
     useEffect(() => {
         setTitle(noteFetch.data?.title);
@@ -76,38 +87,44 @@ export default function NoteSingle() {
         </>
     )
 
-    const editView = (
-        <>
-            <div className="note-toolbar">
-                <div style={{ width: "2rem", height: "2rem" }} onClick={() => navigate("/")}>
-                    <GoBackIcon color='#ffffff' />
+    function HeaderInput({ value }: { value: string }) {
+        return (
+            <input className='note-heading' type='text' value={value} onChange={(e) => setTitle(e.target.value)} />
+        )
+    }
+
+    function MainView() {
+        return (
+            <div className='editor'>
+                <div className="note-toolbar">
+                    <div style={{ width: "2rem", height: "2rem" }} onClick={() => navigate("/")}>
+                        <GoBackIcon color='#ffffff' />
+                    </div>
+                    {noteFetch.isPending && <HeaderInput value={"Loading note content..."} />}
+                    {noteFetch.error && <HeaderInput value={noteFetch.error} />}
+                    {title && !noteFetch.isPending && !noteFetch.error && <HeaderInput value={title} />}
+                    <div className='toolbar-buttons'>
+                        {statusMessages}
+                        <CategoryDropdown
+                            selectedCategory={noteCategory}
+                            categoriesFetch={categoriesFetch}
+                            excludeGuid={undefined}
+                            action={handleChangeCategory}
+                        />
+                        <button onClick={handleSaveNote}>Save</button>
+                        <button onClick={handleDeleteNote}>Delete</button>
+                    </div>
                 </div>
-                <input className='note-heading' type='text' value={title} onChange={(e) => setTitle(e.target.value)} />
-                <div className='toolbar-buttons'>
-                    {statusMessages}
-                    <CategoryDropdown
-                        selectedCategory={noteCategory}
-                        categoriesFetch={categoriesFetch}
-                        excludeGuid={undefined}
-                        action={handleChangeCategory}
-                    />
-                    <button onClick={handleSaveNote}>Save</button>
-                    <button onClick={handleDeleteNote}>Delete</button>
-                </div>
+                <MDEditor value={content} onChange={setContent} visibleDragbar={false} />
             </div>
-            <MDEditor value={content} onChange={setContent} visibleDragbar={false} />
-        </>
-    )
+        )
+    }
 
     return (
         <main className='dashboard-sigle-note'>
             <NoteSidebar selectedCategory={selectedCategory} categoriesFetch={categoriesFetch} />
-            <div className='editor'>
-                {noteFetch.isPending && <div>Loading note content...</div>}
-                {noteFetch.error && <div>{noteFetch.error}</div>}
-                {deleteFetch.data && <h1>Note was deleted</h1>}
-                {noteFetch.data && !deleteFetch.data && !noteFetch.error && editView}
-            </div>
+            {!deleteFetch.data && <MainView />}
+            {deleteFetch.data && <h1>Note was deleted</h1>}
         </main>
     );
 }
