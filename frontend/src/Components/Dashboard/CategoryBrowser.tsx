@@ -1,13 +1,11 @@
-import useFetch, { ApiEndpoint } from "../../hooks/useFetch";
 import { useDashboardContext } from "../../pages/Dashboard";
-import { NoteCompact } from "../../types";
 import NoteTable from "./NoteTable";
 import { useEffect } from "react";
 import NoteSidebarNewNote from "./NoteSidebarNewNote";
 
 export default function CategoryBrowser() {
-    const { selectedCategory, categoriesFetch } = useDashboardContext();
-    const { data, isPending, error, doFetch } = useFetch<NoteCompact[]>(ApiEndpoint.GetNotesByCategory, []);
+    const { selectedCategory, notesByCategoryFetch } = useDashboardContext();
+    const { data, isPending, error, doFetch } = notesByCategoryFetch;
 
     useEffect(() => {
         doFetch("GET", [selectedCategory?.guid || ""]);
@@ -23,7 +21,7 @@ export default function CategoryBrowser() {
                 {error && <>{error}</>}
             </h1>
             <ul className="category-browser-toolbar">
-                <NoteSidebarNewNote selectedCategory={selectedCategory} categoriesFetch={categoriesFetch} />
+                <NoteSidebarNewNote selectedCategory={selectedCategory} notesByCategoryFetch={notesByCategoryFetch} />
             </ul>
             <section className="notelist-details">
                 {data && <NoteTable data={data} />}
