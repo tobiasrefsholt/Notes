@@ -67,7 +67,7 @@ export default function LoginForm({ email, setEmail, setLoginState }: LoginFormP
         }
     }
 
-    function showPasswordReset(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    function showPasswordReset(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
         e.preventDefault();
         setLoginState("getResetCode");
     }
