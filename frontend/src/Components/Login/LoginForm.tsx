@@ -22,7 +22,7 @@ export type LoginResponse = {
 }
 
 export default function LoginForm({ email, setEmail, setLoginState }: LoginFormProps) {
-    const {globalState, setGlobalState} = useContext(GlobalStateContext)!;
+    const { globalState, setGlobalState } = useContext(GlobalStateContext)!;
     const [password, setPassword] = useState('');
     const [twoFactorCode, setTwoFactorCode] = useState("");
     const loginFetch = useFetch<LoginResponse>(ApiEndpoint.Login, [], "Wrong username or password");
@@ -38,35 +38,35 @@ export default function LoginForm({ email, setEmail, setLoginState }: LoginFormP
 
         localStorage.setItem('accessToken', loginFetch.data.accessToken);
         localStorage.setItem('refreshToken', loginFetch.data.refreshToken);
-        setGlobalState({...globalState, isLoggedIn: true});
+        setGlobalState({ ...globalState, isLoggedIn: true });
     }, [loginFetch.data]);
 
     function resendVerificationEmail() {
-        confirmationEmailFetch.doFetch("POST", [], {email}, false);
+        confirmationEmailFetch.doFetch("POST", [], { email }, false);
     }
 
     function LoginError() {
         if (!(loginFetch.data && "detail" in loginFetch.data))
-            return "";
+            return (<p>Network error</p>)
 
-        if (loginFetch.data.detail === "NotAllowed")
-            return (
-                <div>
-                    <p>Email is not verified, please check your email or requset a new code.</p>
-                    <button onClick={resendVerificationEmail}>Send verification email</button>
-                </div>
-            )
-
-        if (loginFetch.data.detail === "RequiresTwoFactor")
-            return (<p>Account requiers two factor</p>)
-
-        if (loginFetch.data.detail === "LockedOut")
-            return (<p>Account locked. Wait a few minutes and try again.</p>)
-
-        return (<p>Wrong username or password</p>)
+        switch (loginFetch.data.detail) {
+            case "NotAllowed":
+                return (
+                    <div>
+                        <p>Email is not verified, please check your email or requset a new code.</p>
+                        <button onClick={resendVerificationEmail}>Send verification email</button>
+                    </div>
+                );
+            case "RequiresTwoFactor":
+                return (<p>Account requiers two factor</p>);
+            case "LockedOut":
+                return (<p>Account locked. Wait a few minutes and try again.</p>);
+            default:
+                return (<p>Wrong username or password</p>);
+        }
     }
 
-    function showPasswordReset(e:React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    function showPasswordReset(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         e.preventDefault();
         setLoginState("getResetCode");
     }
@@ -89,8 +89,8 @@ export default function LoginForm({ email, setEmail, setLoginState }: LoginFormP
                         <label>Two factor code (if enabled):</label>
                         <input type="nubmer" value={twoFactorCode} onChange={e => setTwoFactorCode(e.target.value)} />
                     </div>
-                    <button style={{backgroundColor: "#945600"}} type="submit">Login</button>
-                    <button style={{marginLeft: ".5rem"}} onClick={(e) => showPasswordReset(e)}>Forgot password</button>
+                    <button style={{ backgroundColor: "#945600" }} type="submit">Login</button>
+                    <button style={{ marginLeft: ".5rem" }} onClick={(e) => showPasswordReset(e)}>Forgot password</button>
                 </form>
             }
             {loginFetch.error && <LoginError />}
