@@ -94,7 +94,7 @@ export default function RegisterForm({ email, setEmail, setLoginState }: Registe
                         <input type="password" value={password} onChange={e => setPassword(e.target.value)} autoComplete="new-password" />
                         <PasswordError />
                     </div>
-                    <button onClick={handleRegister}>Register</button>
+                    <button style={{ backgroundColor: "#945600" }} onClick={handleRegister}>Register</button>
                 </>
             }
             {

@@ -28,6 +28,7 @@ export default function ResetPasswordForm({ email, setEmail, setLoginState }: Pr
 
     return (
         <>
+            <h2 className="card-header">Set new password</h2>
             <form onSubmit={(e) => handleResetPassword(e)}>
                 <div>
                     <label>Reset Code:</label>
@@ -35,7 +36,7 @@ export default function ResetPasswordForm({ email, setEmail, setLoginState }: Pr
                 </div>
                 <div>
                     <label>Email:</label>
-                    <input type="email" value={email} onChange={e => setEmail(e.target.value)} />
+                    <input type="email" value={email} onChange={e => setEmail(e.target.value)} disabled />
                 </div>
                 <div>
                     <label>New password:</label>

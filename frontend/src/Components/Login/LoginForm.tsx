@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import useFetch, { ApiEndpoint } from "../../hooks/useFetch";
 import { LoginPageView } from "../../types";
 import GlobalStateContext from "../../context/GlobalStateContext";
+import { Link } from "react-router-dom";
 
 type LoginFormProps = {
     setLoginState: React.Dispatch<React.SetStateAction<LoginPageView>>
@@ -71,6 +72,11 @@ export default function LoginForm({ email, setEmail, setLoginState }: LoginFormP
         setLoginState("getResetCode");
     }
 
+    function showRegister(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+        e.preventDefault();
+        setLoginState("register");
+    }
+
     return (
         <>
             <h2 className="card-header">Login</h2>
@@ -90,7 +96,8 @@ export default function LoginForm({ email, setEmail, setLoginState }: LoginFormP
                         <input type="nubmer" value={twoFactorCode} onChange={e => setTwoFactorCode(e.target.value)} />
                     </div>
                     <button style={{ backgroundColor: "#945600" }} type="submit">Login</button>
-                    <button style={{ marginLeft: ".5rem" }} onClick={(e) => showPasswordReset(e)}>Forgot password</button>
+                    <button style={{ marginLeft: ".5rem" }} onClick={(e) => showRegister(e)}>Register</button>
+                    <Link style={{ marginLeft: ".5rem", color:"#ffffffcc", textDecoration: "none" }} to={"/"} onClick={(e) => showPasswordReset(e)}>Forgot password</Link>
                 </form>
             }
             {loginFetch.error && <LoginError />}
