@@ -19,7 +19,7 @@ export default function NoteSingle() {
     const [content, setContent] = useState<string | undefined>();
     const noteFetch = useFetch<Note>(ApiEndpoint.GetNotes, []);
     const saveFetch = useFetch<boolean>(ApiEndpoint.UpdateNote, [guid, title, content], "Unable to save note");
-    const deleteFetch = useFetch<boolean>(ApiEndpoint.DeleteCategory, [guid], "Unable to delete note");
+    const deleteFetch = useFetch<boolean>(ApiEndpoint.DeleteNote, [guid], "Unable to delete note");
     const navigate = useNavigate();
 
     // Runs when loading new note
