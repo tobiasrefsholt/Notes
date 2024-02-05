@@ -52,7 +52,6 @@ export default function NoteSingle() {
     }
 
     function handleSaveNote() {
-        console.log(guid)
         if (!guid) return;
         const requestBody: InsertNote = {
             guid,
@@ -60,7 +59,6 @@ export default function NoteSingle() {
             content,
             categoryGuid: noteFetch.data?.categoryGuid
         }
-        console.log(requestBody)
         saveFetch.doFetch("POST", [], requestBody);
     }
 
