@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import useFetch, { ApiEndpoint } from "../../hooks/useFetch";
 import { FetchResponse, NoteCompact, category } from "../../types";
 import NoteListItem from "./NoteListItem";
 import { useParams } from "react-router-dom";
@@ -7,19 +6,20 @@ import CrossIcon from "../SVGs/CrossIcon";
 import NoteSidebarNewNote from "./NoteSidebarNewNote";
 
 type NoteSidebarProps = {
-    selectedCategory: category | null;
     categoriesFetch: FetchResponse<category[]>
+    notesByCategoryFetch: FetchResponse<NoteCompact[]>
+    selectedCategory: category | null;
 }
 
-export default function NoteSidebar({ selectedCategory, categoriesFetch }: NoteSidebarProps) {
+export default function NoteSidebar({ selectedCategory, notesByCategoryFetch, categoriesFetch }: NoteSidebarProps) {
     const [sidebarOpen, setSidebarOpen] = useState(true);
-    const { error, isPending, data, doFetch } = useFetch<NoteCompact[]>(ApiEndpoint.GetNotesByCategory, []);
+    const { error, isPending, data, doFetch } = notesByCategoryFetch;
     const { guid } = useParams();
 
     useEffect(() => {
         doFetch("GET", [selectedCategory?.guid || ""]);
         setSidebarOpen(true);
-    }, [selectedCategory])
+    }, [selectedCategory, categoriesFetch.data])
 
     if (!sidebarOpen) return "";
 

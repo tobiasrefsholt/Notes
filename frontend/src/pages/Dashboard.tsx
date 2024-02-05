@@ -4,18 +4,19 @@ import Login from "./Login";
 import './Dashboard.css';
 import { useContext, useEffect, useState } from "react";
 import useFetch, { ApiEndpoint } from "../hooks/useFetch";
-import { DashboardContext, category } from "../types";
+import { DashboardContext, NoteCompact, category } from "../types";
 import GlobalStateContext from "../context/GlobalStateContext";
 
 export default function Dashboard() {
     const {globalState} = useContext(GlobalStateContext)!;
     const categoriesFetch = useFetch<category[]>(ApiEndpoint.GetCategories, []);
+    const notesByCategoryFetch = useFetch<NoteCompact[]>(ApiEndpoint.GetNotesByCategory, []);
     const {isLoggedIn} = globalState;
 
     const [selectedCategory, setSelectedCategory] = useState<category | null>(null);
 
     const dashboardContext: DashboardContext = {
-        categoriesFetch, selectedCategory, setSelectedCategory
+        categoriesFetch, notesByCategoryFetch, selectedCategory, setSelectedCategory
     }
 
     useEffect(() => {

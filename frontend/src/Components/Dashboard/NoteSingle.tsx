@@ -13,7 +13,7 @@ import GoBackIcon from '../SVGs/GoBackIcon';
 
 export default function NoteSingle() {
     const { guid } = useParams();
-    const { selectedCategory, setSelectedCategory, categoriesFetch } = useDashboardContext();
+    const { selectedCategory, setSelectedCategory, categoriesFetch, notesByCategoryFetch } = useDashboardContext();
     const [noteCategory, setNoteCategory] = useState<category | null>(null);
     const [title, setTitle] = useState<string>("");
     const [content, setContent] = useState<string | undefined>();
@@ -33,7 +33,8 @@ export default function NoteSingle() {
         setTitle(noteFetch.data?.title || "");
         setContent(noteFetch.data?.content || "");
         const fetchedNoteCategory = getCategory(categoriesFetch.data, noteFetch.data?.categoryGuid || null);
-        setSelectedCategory(fetchedNoteCategory);
+        if (fetchedNoteCategory.guid !== selectedCategory?.guid)
+            setSelectedCategory(fetchedNoteCategory);
         setNoteCategory(fetchedNoteCategory);
     }, [noteFetch.data])
 
@@ -65,7 +66,9 @@ export default function NoteSingle() {
 
     function handleDeleteNote() {
         if (!guid) return;
-        deleteFetch.doFetch("POST", [guid])
+        deleteFetch.doFetch("POST", [guid], null, true, () => {
+            categoriesFetch.doFetch("GET");
+        })
     }
 
     function handleChangeCategory(category: category) {
@@ -90,7 +93,7 @@ export default function NoteSingle() {
 
     return (
         <main className='dashboard-sigle-note' onKeyDown={(event) => handleKeyboardShortcuts(event)}>
-            <NoteSidebar selectedCategory={selectedCategory} categoriesFetch={categoriesFetch} />
+            <NoteSidebar selectedCategory={selectedCategory} categoriesFetch={categoriesFetch} notesByCategoryFetch={notesByCategoryFetch} />
             {!deleteFetch.data && <div className='editor'>
                 <div className="note-toolbar">
                     <div style={{ width: "2rem", height: "2rem" }} onClick={() => navigate("/")}>
