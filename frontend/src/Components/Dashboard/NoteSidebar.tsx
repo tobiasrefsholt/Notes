@@ -34,7 +34,7 @@ export default function NoteSidebar({ selectedCategory, notesByCategoryFetch, ca
                 </div>
             </div>
             <ul>
-                <NoteSidebarNewNote selectedCategory={selectedCategory} categoriesFetch={categoriesFetch} />
+                <NoteSidebarNewNote selectedCategory={selectedCategory} notesByCategoryFetch={notesByCategoryFetch} />
                 {
                     data &&
                     <>

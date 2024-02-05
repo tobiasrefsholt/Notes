@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useFetch, { ApiEndpoint } from "../../hooks/useFetch";
-import { FetchResponse, InsertNote, category } from "../../types";
+import { FetchResponse, InsertNote, NoteCompact, category } from "../../types";
 
 type CreateNoteResponse = {
     success: boolean;
@@ -10,10 +10,10 @@ type CreateNoteResponse = {
 
 type NoteSidebarNewNoteProps = {
     selectedCategory: category | null;
-    categoriesFetch: FetchResponse<category[]>
+    notesByCategoryFetch: FetchResponse<NoteCompact[]>
 }
 
-export default function NoteSidebarNewNote({ selectedCategory, categoriesFetch }: NoteSidebarNewNoteProps) {
+export default function NoteSidebarNewNote({ selectedCategory, notesByCategoryFetch }: NoteSidebarNewNoteProps) {
     const [title, setTitle] = useState("");
     const addNoteFetch = useFetch<CreateNoteResponse>(ApiEndpoint.CreateNote, [], "Failed while creating note");
     const navigate = useNavigate();
@@ -26,7 +26,7 @@ export default function NoteSidebarNewNote({ selectedCategory, categoriesFetch }
             categoryGuid: selectedCategory?.guid || null,
         }
         addNoteFetch.doFetch("POST", [], note, true, () => {
-            categoriesFetch.doFetch("GET");
+            notesByCategoryFetch.doFetch("GET", [selectedCategory?.guid || ""]);
         });
         setTitle("");
     }
