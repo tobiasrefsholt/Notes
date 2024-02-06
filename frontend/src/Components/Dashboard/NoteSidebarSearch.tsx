@@ -1,13 +1,27 @@
+import { category } from "../../types";
+
 type Props = {
     search: string;
     setSearch: React.Dispatch<React.SetStateAction<string>>
+    selectedCategory: category | null;
 }
 
-export default function NoteSidebarSearch({search, setSearch}:Props) {
+export default function NoteSidebarSearch({ search, setSearch, selectedCategory }: Props) {
+
+    function handleClearSearch(): void {
+        setSearch("");
+    }
+
     return (
-        <div className="note-list-item new-note-list-item">
-            <strong>Search by title:</strong><br />
-            <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} />
-        </div>
+        <li className="note-list-item new-note-list-item">
+            <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onKeyDown={(e) => { if (e.key === "Escape") handleClearSearch() }}
+                placeholder={`Search ${selectedCategory?.name || "Uncategorized"}`}
+            />
+            {search && <button className="button button-primary" onClick={() => handleClearSearch()}>Clear search</button>}
+        </li>
     )
 }
