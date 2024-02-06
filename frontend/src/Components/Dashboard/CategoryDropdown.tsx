@@ -33,7 +33,7 @@ export default function CategoryDropdown({ selectedCategory, categoriesFetch, ex
 
     return (
         <div className="dropdown">
-            <button className="dropdown-button" onClick={() => setDropdownIsOpen(!dropdownIsOpen)}>
+            <button className="button button-primary dropdown-button" onClick={() => setDropdownIsOpen(!dropdownIsOpen)}>
                 {
                     (selectedCategory?.name || "Ungategorized")
                 }
@@ -52,7 +52,7 @@ export default function CategoryDropdown({ selectedCategory, categoriesFetch, ex
                                 <li key={category.guid} onClick={() => handleSelectCategory(category.guid)}>{category.name}</li>
                             ))}
                     </ul>
-                    <button onClick={() => handleUpdateCategory()}>Set category</button>
+                    <button className="button button-primary" onClick={() => handleUpdateCategory()}>Set category</button>
                 </div>
             }
         </div>

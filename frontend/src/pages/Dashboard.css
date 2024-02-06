@@ -115,18 +115,6 @@ main {
     width: 100%;
 }
 
-.dashboard .new-note-list-item button {
-    background-color: inherit;
-    border: solid 1px #ffffffcc;
-    color: #ffffffcc;
-    margin-top: .5rem;
-}
-
-.dashboard .new-note-list-item button:hover {
-    background-color: #945600;
-    border-color: #945600;
-}
-
 .dashboard .note-heading {
     background-color: transparent;
     border: none;
@@ -174,19 +162,6 @@ body .w-md-editor-text-input {
     background-color: unset !important;
 }
 
-button {
-    background-color: #404440;
-    color: white;
-    border: none;
-    padding: .5em .75em;
-    border-radius: .5em;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #202123;
-}
-
 .bold-text {
     font-weight: bold;
 }
@@ -210,10 +185,6 @@ button:hover {
     border-radius: .5em;
 }
 
-.dashboard .category-list .new-category-button {
-    background-color: transparent;
-}
-
 .dashboard .category-list strong {
     cursor: pointer;
 }
@@ -221,19 +192,8 @@ button:hover {
 .dashboard .category-browser .category-browser-toolbar {
     display: flex;
     gap: 1rem;
-    align-items: flex-start;
     list-style: none;
     padding: 0;
-}
-
-.dashboard .category-browser .category-browser-toolbar button {
-    background-color: #945600;
-    border-color: #945600;
-}
-
-.dashboard .category-browser .category-browser-toolbar button:hover {
-    background-color: #94560090;
-    border-color: #94560090;
 }
 
 .dashboard .notelist-details {
@@ -331,4 +291,34 @@ button:hover {
 .settings-grid .card .card-content label {
     display: inline-block;
     margin-bottom: .5rem;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.button {
+    color: white;
+    border: none;
+    padding: .5em .75em;
+    border-radius: .5em;
+    cursor: pointer;
+}
+
+.button-primary {
+    background-color: #945600;
+}
+
+.button-primary:hover {
+    background-color: #94560090;
+}
+
+.button-secondary {
+    background-color: #404440;
+}
+
+.button-secondary:hover {
+    background-color: #202123;
 }

@@ -26,7 +26,7 @@ export default function UserSettingsChangePassword() {
                 <input type="password" id="new-password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
             </div>
             <div>
-                <button onClick={handleChangePassword}>Submit</button>
+                <button className="button button-primary" onClick={handleChangePassword}>Submit</button>
             </div>
         </div>
     )

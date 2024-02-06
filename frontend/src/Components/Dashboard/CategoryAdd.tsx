@@ -47,9 +47,9 @@ export default function CategoryAdd() {
                 <>
                     <h1>Create category</h1>
                     <input className='note-heading' type='text' value={newCategoryName} onChange={(e) => setNewCategoryName(e.target.value)} placeholder="Untitled" />
-                    <div>
-                        <button onClick={handleAddCategory}>Add</button>
-                        <button onClick={() => navigate(-1)}>Cancel</button>
+                    <div className="buttons">
+                        <button className="button button-primary" onClick={handleAddCategory}>Add</button>
+                        <button className="button button-secondary" onClick={() => navigate(-1)}>Cancel</button>
                     </div>
                 </>
             }

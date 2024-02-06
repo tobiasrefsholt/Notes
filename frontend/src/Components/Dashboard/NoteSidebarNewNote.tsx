@@ -45,9 +45,9 @@ export default function NoteSidebarNewNote({ selectedCategory, notesByCategoryFe
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 onKeyDown={(e) => { if (e.key === "Enter") handleCreateNote() }}
-                placeholder={`Add note in ${selectedCategory?.name || "Uncategorized"}...`}
+                placeholder={"Add new note"}
             />
-            {title && <button onClick={() => handleCreateNote()}>Create new note</button>}
+            {title && <button className="button button-primary" onClick={() => handleCreateNote()}>Create new note</button>}
         </li>
     )
 }

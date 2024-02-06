@@ -40,7 +40,7 @@ export default function UserSettingsChangePassword() {
                 }
             </div>
             <div>
-                <button onClick={handleChangeEmail}>Submit</button>
+                <button className="button button-primary" onClick={handleChangeEmail}>Submit</button>
             </div>
         </div>
     )

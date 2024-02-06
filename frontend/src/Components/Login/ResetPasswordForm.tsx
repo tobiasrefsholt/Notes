@@ -42,7 +42,7 @@ export default function ResetPasswordForm({ email, setEmail, setLoginState }: Pr
                     <label>New password:</label>
                     <input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} />
                 </div>
-                <button style={{ backgroundColor: "#945600" }} type="submit">Set new password</button>
+                <button className="button button-primary" style={{marginTop: "1rem"}} type="submit">Set new password</button>
             </form>
         </>
     )

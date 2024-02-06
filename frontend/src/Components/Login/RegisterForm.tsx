@@ -94,7 +94,7 @@ export default function RegisterForm({ email, setEmail, setLoginState }: Registe
                         <input type="password" value={password} onChange={e => setPassword(e.target.value)} autoComplete="new-password" />
                         <PasswordError />
                     </div>
-                    <button style={{ backgroundColor: "#945600" }} onClick={handleRegister}>Register</button>
+                    <button className="button button-primary" style={{marginTop: "1rem"}} onClick={handleRegister}>Register</button>
                 </>
             }
             {
@@ -109,7 +109,7 @@ export default function RegisterForm({ email, setEmail, setLoginState }: Registe
                 isRegistered &&
                 <>
                     <p>Account was created successfully! Please check your email to verfy you account.</p>
-                    <button onClick={() => setLoginState("login")}>Login</button>
+                    <button className="button button-secondary" onClick={() => setLoginState("login")}>Login</button>
                 </>
             }
         </>

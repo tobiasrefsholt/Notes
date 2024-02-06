@@ -100,7 +100,7 @@ export default function NoteSingle() {
                     {noteFetch.isPending && <HeaderInput title={"Loading note content..."} setTitle={setTitle} />}
                     {noteFetch.error && <HeaderInput title={noteFetch.error} setTitle={setTitle} />}
                     {!noteFetch.isPending && !noteFetch.error && <HeaderInput title={title} setTitle={setTitle} />}
-                    <div className='toolbar-buttons'>
+                    <div className='buttons'>
                         {statusMessages}
                         <CategoryDropdown
                             selectedCategory={noteCategory}
@@ -108,8 +108,8 @@ export default function NoteSingle() {
                             excludeGuid={undefined}
                             action={handleChangeCategory}
                         />
-                        <button onClick={() => handleSaveNote()}>Save</button>
-                        <button onClick={() => handleDeleteNote()}>Delete</button>
+                        <button className="button button-primary" onClick={() => handleSaveNote()}>Save</button>
+                        <button className="button button-secondary" onClick={() => handleDeleteNote()}>Delete</button>
                     </div>
                 </div>
                 <MDEditor value={content} onChange={setContent} visibleDragbar={false} autoFocus={true} data-color-mode='dark'/>

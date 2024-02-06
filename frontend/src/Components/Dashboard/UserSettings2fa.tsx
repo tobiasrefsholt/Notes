@@ -52,7 +52,7 @@ export default function UserSettings2fa() {
                     <div className="card-content">
                         <div style={{ display: "flex", gap: "1rem" }}>
                             <div style={{width: "50%"}}>
-                                <button style={{marginBottom: "1rem"}} onClick={handleCopySecret}>{copyText}</button>
+                                <button className="button button-secondary" style={{marginBottom: "1rem"}} onClick={handleCopySecret}>{copyText}</button>
                                 <label htmlFor="code-input">One time code:</label>
                                 <input id="code-input" type="text" value={twoFactorCode} onChange={(e) => { setTwoFactorCode(e.target.value) }} />
                             </div>
@@ -60,7 +60,7 @@ export default function UserSettings2fa() {
                         </div>
                     </div>
                     <div>
-                        <button onClick={enable2fa}>Enable</button>
+                        <button className="button button-primary" onClick={enable2fa}>Enable</button>
                     </div>
                 </>
             }
@@ -71,7 +71,7 @@ export default function UserSettings2fa() {
                         <p>2fa is enabled. Good Stuff!</p>
                     </div>
                     <div>
-                        <button onClick={disable2fa}>Disable</button>
+                        <button className="button button-secondary" onClick={disable2fa}>Disable</button>
                     </div>
                 </>
             }

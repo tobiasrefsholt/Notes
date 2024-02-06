@@ -95,9 +95,11 @@ export default function LoginForm({ email, setEmail, setLoginState }: LoginFormP
                         <label>Two factor code (if enabled):</label>
                         <input type="nubmer" value={twoFactorCode} onChange={e => setTwoFactorCode(e.target.value)} />
                     </div>
-                    <button style={{ backgroundColor: "#945600" }} type="submit">Login</button>
-                    <button style={{ marginLeft: ".5rem" }} onClick={(e) => showRegister(e)}>Register</button>
-                    <Link style={{ marginLeft: ".5rem", color:"#ffffffcc", textDecoration: "none" }} to={"/"} onClick={(e) => showPasswordReset(e)}>Forgot password</Link>
+                    <div className="buttons" style={{marginTop: "1rem"}}>
+                        <button className="button button-primary" type="submit">Login</button>
+                        <button className="button button-secondary" onClick={(e) => showRegister(e)}>Register</button>
+                        <Link style={{ marginLeft: ".5rem", color: "#ffffffcc", textDecoration: "none" }} to={"/"} onClick={(e) => showPasswordReset(e)}>Forgot password</Link>
+                    </div>
                 </form>
             }
             {loginFetch.error && <LoginError />}

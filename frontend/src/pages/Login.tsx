@@ -14,12 +14,6 @@ export default function Login() {
     return (
         <div className="login-page" style={{ background: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(${BackgroundImage})` }}>
             <h1># Markdown Notes</h1>
-            <p className='select-login-or-register'>
-                <span onClick={() => setLoginState("login")}>[Login]</span>
-                &nbsp;or&nbsp;
-                <span onClick={() => setLoginState("register")}>[register an account]</span>
-                &nbsp;to get access
-            </p>
             <main>
                 <section className='card'>
                     {loginState === "login" && <LoginForm email={email} setEmail={setEmail} setLoginState={setLoginState} />}
@@ -37,26 +31,38 @@ export default function Login() {
                         </>
                     }
                     {
-                        loginState === "register" &&
+                        loginState === "register" && <PasswordRequirementsText />
+                    }
+                    {
+                        loginState === "getResetCode" &&
                         <>
-                            <h2 className="card-header">Password requirements</h2>
-                            <ul>
-                                <li>Uppercase character</li>
-                                <li>Lowercase character</li>
-                                <li>A digit</li>
-                                <li>Non-alphanumeric character</li>
-                                <li>At least six characters long</li>
-                            </ul>
+                            <p>Request a password reset token. Submit your email address, and receive a code if the email is registered.</p>
                         </>
                     }
                     {
                         loginState === "resetPassword" &&
                         <>
-                            <p>You will receive an email after submitting.</p>
+                            <p>Paste the reset code you received and create a new password.</p>
+                            <PasswordRequirementsText />
                         </>
                     }
                 </section>
             </main>
         </div>
+    )
+}
+
+function PasswordRequirementsText() {
+    return (
+        <>
+            <h2 className="card-header">Password requirements</h2>
+            <ul>
+                <li>Uppercase character</li>
+                <li>Lowercase character</li>
+                <li>A digit</li>
+                <li>Non-alphanumeric character</li>
+                <li>At least six characters long</li>
+            </ul>
+        </>
     )
 }

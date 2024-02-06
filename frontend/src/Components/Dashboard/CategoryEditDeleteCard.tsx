@@ -34,7 +34,7 @@ export default function CategoryEditDeleteCard({ selectedCategory, setSelectedCa
                 {showContent && <p>When the category is deleted, all notes and subcategories will be moved to the parent category, or become top-level categories.</p>}
             </div>
             <div>
-                {showContent && <button onClick={handleDelete}>Delete</button>}
+                {showContent && <button className="button button-secondary" onClick={handleDelete}>Delete</button>}
             </div>
         </div>
     )

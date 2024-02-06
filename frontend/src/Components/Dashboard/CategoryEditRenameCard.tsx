@@ -29,7 +29,7 @@ export default function CategoryEditRenameCard({ selectedCategory, categoriesFet
                 <input type="text" value={name} onChange={((e) => setName(e.target.value))} id="" />
             </div>
             <div>
-                <button onClick={rename}>Rename</button>
+                <button className="button button-secondary" onClick={rename}>Rename</button>
             </div>
         </div>
     )
