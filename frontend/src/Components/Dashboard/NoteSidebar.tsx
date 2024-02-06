@@ -41,17 +41,22 @@ export default function NoteSidebar({ selectedCategory, notesByCategoryFetch, ca
 
     return (
         <div className='notes-sidebar'>
-            <NoteSidebarSearch search={search} setSearch={setSearch}  />
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-                {isPending && <strong>Loading notes...</strong>}
-                {error && <strong>{error}</strong>}
-                {!isPending && filteredNotes && <strong>Found {filteredNotes.length} notes:</strong>}
+                <strong>Actions</strong>
                 <div style={{ width: "1.5rem", height: "1.5rem" }} onClick={() => setSidebarOpen(false)}>
                     <CrossIcon color="rgba(255, 255, 255, 0.8)" />
                 </div>
             </div>
             <ul>
+                <NoteSidebarSearch search={search} setSearch={setSearch} selectedCategory={selectedCategory} />
                 <NoteSidebarNewNote selectedCategory={selectedCategory} notesByCategoryFetch={notesByCategoryFetch} />
+            </ul>
+            <div style={{}}>
+                {isPending && <strong>Loading notes...</strong>}
+                {error && <strong>{error}</strong>}
+                {!isPending && filteredNotes && <strong>Found {filteredNotes.length} notes:</strong>}
+            </div>
+            <ul>
                 {
                     filteredNotes &&
                     <>
