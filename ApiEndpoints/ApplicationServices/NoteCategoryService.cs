@@ -17,7 +17,7 @@ public class NoteCategoryService : AppService
     {
         var dbCategories = await _noteCategoryRepository.ReadCategories(_userGuid);
         return dbCategories.Select(
-                db => new NoteCategory(db.Guid, db.ParentGuid, db.Name))
+                db => new NoteCategory(db.Guid, db.ParentGuid, db.Name, db.Color))
             .ToList();
     }
 
@@ -25,7 +25,7 @@ public class NoteCategoryService : AppService
     {
         var generatedGuid = Guid.NewGuid();
         var dbCategory = new ApiEndpoints.DbModel.NoteCategory(generatedGuid, _userGuid, category.ParentGuid,
-            category.Name);
+            category.Name, category.Color);
         var success = await _noteCategoryRepository.Create(dbCategory, _userGuid);
         return new CreateDbEntryResponse(success, generatedGuid);
     }
@@ -59,13 +59,15 @@ public class NoteCategoryService : AppService
 
     public async Task<object> UpdateCategory(NoteCategory viewCategory)
     {
-        var results = new bool[2];
+        var results = new bool[3];
         if (viewCategory.Guid == Guid.Empty)
             return false;
         if (viewCategory.ParentGuid != Guid.Empty)
             results[0] = await _noteCategoryRepository.UpdateParent(viewCategory.Guid, viewCategory.ParentGuid, _userGuid);
         if (!string.IsNullOrEmpty(viewCategory.Name))
             results[1] = await _noteCategoryRepository.UpdateName(viewCategory.Guid, viewCategory.Name, _userGuid);
+        if (!string.IsNullOrEmpty(viewCategory.Color))
+            results[2] = await _noteCategoryRepository.UpdateColor(viewCategory.Guid, viewCategory.Color, _userGuid);
         return results.FirstOrDefault(result => result);
     }
 }

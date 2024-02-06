@@ -11,5 +11,6 @@ public interface INoteCategoryRepository
     Task<bool> Delete(Guid category, Guid user);
     Task<bool> UpdateParent(Guid category, Guid? parent, Guid user);
     Task<bool> UpdateName(Guid category, string newName, Guid user);
+    Task<bool> UpdateColor(Guid category, string newColor, Guid userGuid);
 
 }

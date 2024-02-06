@@ -17,7 +17,7 @@ public class NoteCategoryDbRepository : INoteCategoryRepository
     {
         await using var conn = _connectionFactory.Create();
         var sql = @"
-                SELECT Guid, User, ParentGuid, Name
+                SELECT Guid, User, ParentGuid, Name, Color
                 FROM NotesCategories
                 WHERE User LIKE @User
                     AND Guid LIKE @Guid
@@ -30,7 +30,7 @@ public class NoteCategoryDbRepository : INoteCategoryRepository
     {
         await using var conn = _connectionFactory.Create();
         var sql = @"
-                SELECT Guid, User, ParentGuid, Name
+                SELECT Guid, User, ParentGuid, Name, Color
                 FROM NotesCategories
                 WHERE User LIKE @User
             ";
@@ -43,14 +43,14 @@ public class NoteCategoryDbRepository : INoteCategoryRepository
         await using var conn = _connectionFactory.Create();
         var sql = @"
                 WITH RECURSIVE Subcategories AS (
-                    SELECT Guid, User, ParentGuid, Name
+                    SELECT Guid, User, ParentGuid, Name, Color
                     FROM NotesCategories
                     WHERE Guid = @ParentCategory
                         AND User = @User
 
                     UNION ALL
 
-                    SELECT c.Guid, c.User, c.ParentGuid, c.Name
+                    SELECT c.Guid, c.User, c.ParentGuid, c.Name, c.Color
                     FROM NotesCategories c
                     JOIN Subcategories s ON c.ParentGuid = s.Guid
                 )
@@ -64,7 +64,7 @@ public class NoteCategoryDbRepository : INoteCategoryRepository
         await using var conn = _connectionFactory.Create();
         var sql = @"
                 INSERT INTO NotesCategories
-                VALUES (@Guid, @User, @ParentGuid, @Name)
+                VALUES (@Guid, @User, @ParentGuid, @Name, @Color)
           ";
         var rowsAffected = await conn.ExecuteAsync(sql, noteCategory);
         return rowsAffected > 0;
@@ -103,6 +103,18 @@ public class NoteCategoryDbRepository : INoteCategoryRepository
                 WHERE Guid LIKE @Category AND User LIKE @User
             ";
         var rowsChanged = await conn.ExecuteAsync(sql, new { Category = category, NewName = newName, User = userGuid });
+        return rowsChanged > 0;
+    }
+    
+    public async Task<bool> UpdateColor(Guid category, string newColor, Guid userGuid)
+    {
+        await using var conn = _connectionFactory.Create();
+        var sql = @"
+                UPDATE NotesCategories
+                SET Color = @NewColor
+                WHERE Guid LIKE @Category AND User LIKE @User
+            ";
+        var rowsChanged = await conn.ExecuteAsync(sql, new { Category = category, NewColor = newColor, User = userGuid });
         return rowsChanged > 0;
     }
 }
