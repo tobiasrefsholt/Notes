@@ -26,8 +26,9 @@ export default function Dashboard() {
     }, [isLoggedIn])
 
     useEffect(() => {
-        notesByCategoryFetch.doFetch("POST", [], { guid: selectedCategory?.guid || null, includeSubcategories });
-    }, [selectedCategory?.guid, includeSubcategories]);
+        if (isLoggedIn)
+            notesByCategoryFetch.doFetch("POST", [], { guid: selectedCategory?.guid || null, includeSubcategories });
+    }, [isLoggedIn, selectedCategory?.guid, includeSubcategories]);
 
     return (
         <>
