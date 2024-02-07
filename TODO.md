@@ -4,7 +4,7 @@
 - [x] Assign categories to notes
 - [x] Filter notes based on tags
 - [x] Change parent category
-- [ ] Color coded categories
+- [x] Color coded categories
 - [ ] Sorting - by name, date added, last edit
 
 ## Authentication
@@ -17,9 +17,9 @@
 # Pages
 
 ## General
-- [ ] Introduce more colors to design
+- [x] Introduce more colors to design
 - [ ] Toggle dark/light mode?
-- [ ] Search function
+- [x] Search function
 
 ## Login
 - [x] Design login page
@@ -33,7 +33,7 @@
 - [ ] Maybe add version history
 - [ ] Autosave
 - [ ] Keyboard shortcuts
-    - [ ] Save
+    - [x] Save
     - [ ] Switch between edit and preview
     - [ ] Delete
     - [ ] Change category
