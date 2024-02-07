@@ -1,8 +1,8 @@
 # Markdown notes
 
-Webapplication for taking notes in markdown, and organizing them into categories.
+Web application for taking notes in markdown, and organizing them into categories.
 
-Create an accout and try it out on [mdnotes.no](https://mdnotes.no/)
+Create an account and try it out on [mdnotes.no](https://mdnotes.no/)
 
 ## Tech Stack
 
