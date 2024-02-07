@@ -8,21 +8,26 @@ import { DashboardContext, NoteCompact, category } from "../types";
 import GlobalStateContext from "../context/GlobalStateContext";
 
 export default function Dashboard() {
-    const {globalState} = useContext(GlobalStateContext)!;
+    const { globalState } = useContext(GlobalStateContext)!;
+    const { isLoggedIn } = globalState;
     const categoriesFetch = useFetch<category[]>(ApiEndpoint.GetCategories, []);
     const notesByCategoryFetch = useFetch<NoteCompact[]>(ApiEndpoint.GetNotesByCategory, []);
-    const {isLoggedIn} = globalState;
+    const [includeSubcategories, setIncludeSubcategories] = useState<boolean>(false);
 
     const [selectedCategory, setSelectedCategory] = useState<category | null>(null);
 
     const dashboardContext: DashboardContext = {
-        categoriesFetch, notesByCategoryFetch, selectedCategory, setSelectedCategory
+        categoriesFetch, notesByCategoryFetch, includeSubcategories, setIncludeSubcategories, selectedCategory, setSelectedCategory
     }
 
     useEffect(() => {
         if (isLoggedIn)
             categoriesFetch.doFetch("GET");
     }, [isLoggedIn])
+
+    useEffect(() => {
+        notesByCategoryFetch.doFetch("POST", [], { guid: selectedCategory?.guid || null, includeSubcategories });
+    }, [selectedCategory?.guid, includeSubcategories]);
 
     return (
         <>
