@@ -44,6 +44,8 @@ export type FetchResponse<T> = {
 export type DashboardContext = {
     categoriesFetch: FetchResponse<category[]>;
     notesByCategoryFetch: FetchResponse<NoteCompact[]>;
+    includeSubcategories: boolean;
+    setIncludeSubcategories: React.Dispatch<React.SetStateAction<boolean>>;
     selectedCategory: category | null;
     setSelectedCategory: React.Dispatch<React.SetStateAction<category | null>>;
 }
