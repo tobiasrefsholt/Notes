@@ -36,7 +36,7 @@ export default function NoteSingle() {
         if (fetchedNoteCategory.guid !== selectedCategory?.guid)
             setSelectedCategory(fetchedNoteCategory);
         setNoteCategory(fetchedNoteCategory);
-    }, [noteFetch.data])
+    }, [noteFetch.data?.guid])
 
     function handleKeyboardShortcuts(event: React.KeyboardEvent) {
         // Close on escape
