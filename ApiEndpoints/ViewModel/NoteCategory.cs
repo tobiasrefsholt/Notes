@@ -15,6 +15,11 @@ public class NoteCategory
         Color = color;
     }
 
+    public NoteCategory(Guid guid)
+    {
+        Guid = guid;
+    }
+
     public NoteCategory()
     {
     }

@@ -29,7 +29,31 @@ public class NoteService : AppService
                 ))
             .ToList();
     }
-    
+
+    public async Task<List<NoteCompact>> GetNotesByCategory(NotesByCategoryOptions options,
+        INoteCategoryRepository categoryRepository)
+    {
+        if (!options.IncludeSubcategories)
+            return await GetNotesByCategory(options.Guid);
+
+        // Query subcategories, or all categories if selected category is null
+        var subCategories = options.Guid != null
+            ? await categoryRepository.ReadSubCategories((Guid)options.Guid, _userGuid)
+            : await categoryRepository.ReadCategories(_userGuid);
+
+        List<Guid?> selectedCategoryGuids = [];
+        if (options.Guid == null) selectedCategoryGuids.Add(null);
+        selectedCategoryGuids.AddRange(subCategories.Select(category => (Guid?)category.Guid));
+
+        var dbNotes = new List<NoteCompact>();
+        foreach (var categoryGuid in selectedCategoryGuids)
+        {
+            dbNotes.AddRange(await GetNotesByCategory(categoryGuid));
+        }
+
+        return dbNotes;
+    }
+
     public async Task<List<NoteCompact>> GetNotesByCategory(Guid? categoryGuid)
     {
         var dbNotes = await _noteRepository.ReadByCategory(categoryGuid, _userGuid);

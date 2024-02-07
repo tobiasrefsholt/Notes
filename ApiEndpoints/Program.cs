@@ -80,20 +80,11 @@ app.MapGet("/GetNotes/{guid:guid}", async (Guid guid, INoteRepository noteReposi
     .WithOpenApi()
     .RequireAuthorization();
 
-app.MapGet("/GetNotesByCategory/", async (INoteRepository noteRepository, HttpContext context) =>
-    {
-        var service = new NoteService(noteRepository, context);
-        return await service.GetNotesByCategory(null);
-    })
-    .WithName("GetNotesByCategoryNull")
-    .WithOpenApi()
-    .RequireAuthorization();
-
-app.MapGet("/GetNotesByCategory/{categoryGuid}",
-        async (Guid categoryGuid, INoteRepository noteRepository, HttpContext context) =>
+app.MapPost("/GetNotesByCategory",
+        async (NotesByCategoryOptions options, INoteRepository noteRepository, INoteCategoryRepository noteCategoryRepository, HttpContext context) =>
         {
             var service = new NoteService(noteRepository, context);
-            return await service.GetNotesByCategory(categoryGuid);
+            return await service.GetNotesByCategory(options, noteCategoryRepository);
         })
     .WithName("GetNotesByCategory")
     .WithOpenApi()
