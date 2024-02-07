@@ -13,7 +13,7 @@ import GoBackIcon from '../SVGs/GoBackIcon';
 
 export default function NoteSingle() {
     const { guid } = useParams();
-    const { selectedCategory, setSelectedCategory, categoriesFetch, notesByCategoryFetch, includeSubcategories } = useDashboardContext();
+    const { selectedCategory, setSelectedCategory, categoriesFetch, notesByCategoryFetch } = useDashboardContext();
     const [noteCategory, setNoteCategory] = useState<category | null>(null);
     const [title, setTitle] = useState<string>("");
     const [content, setContent] = useState<string | undefined>();

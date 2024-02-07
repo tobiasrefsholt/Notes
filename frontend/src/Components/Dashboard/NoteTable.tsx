@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { NoteCompact, category } from "../../types"
+import { NoteCompact } from "../../types"
 
 type PostsTableProps = {
     data: NoteCompact[];
@@ -38,7 +38,7 @@ export default function NoteTable({ data }: PostsTableProps) {
 }
 
 type DateProps = {
-    dateStr: string;    
+    dateStr: string;
 }
 
 function DisplayTimeSinceDate({ dateStr }: DateProps) {
@@ -48,7 +48,7 @@ function DisplayTimeSinceDate({ dateStr }: DateProps) {
 
     // Less than 1 minute
     if (difference < 60 * 1000) {
-        return"Less than minute ago";
+        return "Less than minute ago";
     }
 
     // Less than 1 hour
@@ -80,7 +80,7 @@ function convertUTCDateToLocalDate(date: Date) {
     return newDate;
 }
 
-function DisplayIsoDate({dateStr}: DateProps) {
+function DisplayIsoDate({ dateStr }: DateProps) {
     const date = new Date(dateStr);
     return date.toISOString().substring(0, 10);
 }
