@@ -7,14 +7,13 @@ import NoteSidebarNewNote from "./NoteSidebarNewNote";
 import NoteSidebarSearch from "./NoteSidebarSearch";
 
 type NoteSidebarProps = {
-    categoriesFetch: FetchResponse<category[]>
     notesByCategoryFetch: FetchResponse<NoteCompact[]>
     selectedCategory: category | null;
 }
 
-export default function NoteSidebar({ selectedCategory, notesByCategoryFetch, categoriesFetch }: NoteSidebarProps) {
+export default function NoteSidebar({ selectedCategory, notesByCategoryFetch }: NoteSidebarProps) {
     const [sidebarOpen, setSidebarOpen] = useState(true);
-    const { error, isPending, data, doFetch } = notesByCategoryFetch;
+    const { error, isPending, data } = notesByCategoryFetch;
     const { guid } = useParams();
 
     const [search, setSearch] = useState<string>("");
@@ -22,10 +21,9 @@ export default function NoteSidebar({ selectedCategory, notesByCategoryFetch, ca
 
     // Fetch data and reset seaech on load and category change
     useEffect(() => {
-        doFetch("GET", [selectedCategory?.guid || ""]);
         setSidebarOpen(true);
         setSearch("");
-    }, [selectedCategory, categoriesFetch.data])
+    }, [selectedCategory?.guid])
 
     // Update search result on input change and on load
     useEffect(() => {

@@ -6,14 +6,10 @@ import NoteSidebarSearch from "./NoteSidebarSearch";
 import { NoteCompact } from "../../types";
 
 export default function CategoryBrowser() {
-    const { selectedCategory, categoriesFetch, notesByCategoryFetch } = useDashboardContext();
-    const { data, isPending, error, doFetch } = notesByCategoryFetch;
+    const { selectedCategory, notesByCategoryFetch } = useDashboardContext();
+    const { data, isPending, error } = notesByCategoryFetch;
     const [search, setSearch] = useState<string>("");
     const [filteredNotes, setFilteredNotes] = useState<NoteCompact[] | null>(null);
-
-    useEffect(() => {
-        doFetch("GET", [selectedCategory?.guid || ""]);
-    }, [selectedCategory, categoriesFetch.data])
 
     // Update search result on input change and on load
     useEffect(() => {
