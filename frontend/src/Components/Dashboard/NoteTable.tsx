@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { NoteCompact } from "../../types"
+import { NoteCompact, category } from "../../types"
 
 type PostsTableProps = {
     data: NoteCompact[];
@@ -17,7 +17,7 @@ export default function NoteTable({ data }: PostsTableProps) {
                     <th>Date Added</th>
                 </tr>
                 {data?.map((note) => (
-                    <tr key={note.dateAdded} onClick={() => navigate("/note/" + note.guid)}>
+                    <tr key={note.guid} onClick={() => navigate("/note/" + note.guid)}>
                         <td>
                             {note.title}
                         </td>
@@ -38,7 +38,7 @@ export default function NoteTable({ data }: PostsTableProps) {
 }
 
 type DateProps = {
-    dateStr: string;
+    dateStr: string;    
 }
 
 function DisplayTimeSinceDate({ dateStr }: DateProps) {
