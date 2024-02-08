@@ -1,6 +1,7 @@
 import { FetchResponse, category } from "../../../types";
 import { useNavigate } from "react-router-dom";
-import EditIcon from "../../../components/icons/editIcon";
+import CategoryListHeader from "./categoryListHeader";
+import CategoryListItem from "./categoryListItem";
 
 type CategoryListProps = {
     categoriesFetch: FetchResponse<category[]>;
@@ -10,45 +11,23 @@ type CategoryListProps = {
 
 export default function CategoryList({ categoriesFetch, selectedCategory, setSelectedCategory }: CategoryListProps) {
 
+    const { data: categories, isPending, error } = categoriesFetch;
+    const filteredCategories = categories?.filter((category) => category.parentGuid === (selectedCategory?.guid || null));
     const navigate = useNavigate();
-
-    const handleSelectParentCategory = () => {
-        if (categoriesFetch.data === null) return;
-        const target: category = categoriesFetch.data.find((category) => selectedCategory?.parentGuid === category.guid)
-            || { guid: null, parentGuid: null, name: "Ungategorized", color: "#ffffff" };
-        setSelectedCategory(target);
-    }
-
-    function handleNoteOnClick(category: category) {
-        setSelectedCategory(category);
-    }
 
     return (
         <>
-            {categoriesFetch.isPending && <span>Loading categories...</span>}
-            {categoriesFetch.error && <span>{categoriesFetch.error}</span>}
+            {isPending && <span>Loading categories...</span>}
+            {error && <span>{error}</span>}
             {
-                categoriesFetch.data &&
+                categories &&
                 <>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-                        <strong onClick={handleSelectParentCategory}>{selectedCategory?.guid ? "↑ " + selectedCategory.name : "Browse categories"}</strong>
-                        {selectedCategory?.guid && <div onClick={() => navigate("/edit-category")} style={{ width: "1rem", height: "1rem" }}>
-                            <EditIcon color="rgba(255, 255, 255, 0.8)" />
-                        </div>}
-                    </div>
+                    <CategoryListHeader categories={categories} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
                     <ul>
-                        {categoriesFetch.data
-                            .filter((category) => category.parentGuid === (selectedCategory?.guid || null))
-                            .map((category) => (
-                                <li
-                                    key={category.guid}
-                                    style={{ borderLeftColor: category.color, backgroundColor: category.color + 10 }}
-                                    onClick={() => handleNoteOnClick(category)}
-                                >
-                                    {category.name}
-                                </li>
-                            ))}
-                        <li className="new-category-button" onClick={() => navigate("/add-category")}>
+                        {filteredCategories && filteredCategories.map((category) => (
+                            <CategoryListItem key={category.guid} category={category} setSelectedCategory={setSelectedCategory} />
+                        ))}
+                        <li style={{ backgroundColor: "#ffffff0c" }} onClick={() => navigate("/add-category")}>
                             {selectedCategory?.guid ? "Create subcategory" : "Create top level category"}
                         </li>
                     </ul>
