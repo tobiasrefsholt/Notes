@@ -1,14 +1,14 @@
 import { Routes, Route } from "react-router-dom"
-import Dashboard from './pages/Dashboard';
-import Logout from './pages/Logout';
-import NoteSingle from './Components/Dashboard/NoteSingle';
-import CategoryBrowser from './Components/Dashboard/CategoryBrowser';
+import Dashboard from './pages/dashboard/dashboard';
+import Logout from './pages/logout/logout';
+import NoteSingle from './pages/dashboard/singleNote/noteSingle';
+import NoteDetailedList from './pages/dashboard/noteDetailedList/noteDetailedList';
 import './App.css';
-import CategoryAdd from "./Components/Dashboard/CategoryAdd";
-import CategoryEdit from "./Components/Dashboard/CategoryEdit";
-import UserSettings from "./Components/Dashboard/UserSettings";
+import CategoryAdd from "./pages/dashboard/sidebar/categoryAdd";
+import CategoryEdit from "./pages/dashboard/categoryEdit/categoryEdit";
+import UserSettings from "./pages/dashboard/userSettings/userSettings";
 import { useContext, useEffect } from "react";
-import GlobalStateContext from "./context/GlobalStateContext";
+import GlobalStateContext from "./context/globalStateContext";
 import useBearerToken from "./hooks/useBearerToken";
 
 export default function App() {
@@ -24,7 +24,7 @@ export default function App() {
     <>
       <Routes>
         <Route path="/" element={<Dashboard />}>
-          <Route index element={<CategoryBrowser />} />
+          <Route index element={<NoteDetailedList />} />
           <Route path='note' element={<NoteSingle />} />
           <Route path='note/:guid' element={<NoteSingle />} />
           <Route path='add-category' element={<CategoryAdd />} />

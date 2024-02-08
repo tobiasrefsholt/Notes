@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import useBearerToken from "./useBearerToken";
-import GlobalStateContext from "../context/GlobalStateContext";
+import GlobalStateContext from "../context/globalStateContext";
 
 export enum ApiEndpoint {
     Register = "/register",
