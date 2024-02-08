@@ -58,5 +58,10 @@ export type GlobalState = {
 
 export type GlobalStateProps = {
     globalState: GlobalState;
-    setGlobalState:Dispatch<SetStateAction<GlobalState>>;
+    setGlobalState: Dispatch<SetStateAction<GlobalState>>;
+}
+
+export type SortBy = {
+    key: keyof NoteCompact;
+    direction: "asc" | "desc";
 }

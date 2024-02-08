@@ -3,22 +3,18 @@ import NoteTable from "./noteTable";
 import { useEffect, useState } from "react";
 import NewNoteCard from "../../../components/newNoteCard/newNoteCard";
 import SearchNotesCard from "../../../components/searchNotesCard/searchNotesCard";
-import { NoteCompact } from "../../../types";
-import { orderBy } from "lodash";
+import { NoteCompact, SortBy } from "../../../types";
 
 export default function NoteDetailedList() {
     const { selectedCategory, notesByCategoryFetch } = useDashboardContext();
     const { data, isPending, error } = notesByCategoryFetch;
     const [search, setSearch] = useState<string>("");
     const [filteredNotes, setFilteredNotes] = useState<NoteCompact[] | null>(null);
-    const [sortByKey, setSortByKey] = useState<keyof NoteCompact>("title");
-    const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
     // Update search result on input change and on load
     useEffect(() => {
         const filteredData = data?.filter((note) => note.title.toLocaleLowerCase().includes(search.toLocaleLowerCase())) || null;
-        const sortedData = orderBy(filteredData, (a) => a[sortByKey], [sortDirection]);
-        setFilteredNotes(sortedData);
+        setFilteredNotes(filteredData);
     }, [data, search])
 
     const headerText = selectedCategory !== null ? `${data?.length} Note(s) in category "${selectedCategory.name}"` : `${data?.length} Uncategorized note(s)`;
@@ -35,7 +31,7 @@ export default function NoteDetailedList() {
                 <SearchNotesCard search={search} setSearch={setSearch} selectedCategory={selectedCategory} />
             </ul>
             <section className="notelist-details">
-                {filteredNotes && <NoteTable data={filteredNotes} sortByKey={sortByKey} setSortByKey={setSortByKey} sortDirection={sortDirection} setSortDirection={setSortDirection} />}
+                {filteredNotes && <NoteTable data={filteredNotes} />}
             </section>
         </main>
     )

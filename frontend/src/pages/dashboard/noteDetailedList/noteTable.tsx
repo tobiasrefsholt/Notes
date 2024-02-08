@@ -1,25 +1,35 @@
-import { NoteCompact } from "../../../types"
+import { useEffect, useState } from "react";
+import { NoteCompact, SortBy } from "../../../types"
 import NoteTableRow from "./noteTableRow";
+import { orderBy } from "lodash";
+import NoteTableSortableHeader from "./NoteTableSortableHeader";
 
-type PostsTableProps = {
+type NoteTableProps = {
     data: NoteCompact[];
-    sortByKey: keyof NoteCompact;
-    setSortByKey: React.Dispatch<React.SetStateAction<keyof NoteCompact>>;
-    sortDirection: "asc" | "desc";
-    setSortDirection: React.Dispatch<React.SetStateAction<"asc" | "desc">>;
 }
 
-export default function NoteTable({ data, sortByKey, setSortByKey, sortDirection, setSortDirection }: PostsTableProps) {
+export default function NoteTable({ data }: NoteTableProps) {
+
+    const [sortBy, setSortBy] = useState<SortBy>({ key: "title", direction: "asc" });
+    const [sortedData, setSortedData] = useState(data);
+
+    useEffect(() => {
+        const sortedDatas = orderBy(data, (a) => a[sortBy.key], [sortBy.direction]);
+        setSortedData(sortedDatas);
+    }, [data, sortBy.direction, sortBy.key]);
+
     return (
         <table>
-            <tbody>
+            <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>Category</th>
-                    <th>Last Changed</th>
-                    <th>Date Added</th>
+                    <NoteTableSortableHeader sortBy={sortBy} keyName="title" setSortBy={setSortBy}>Title</NoteTableSortableHeader>
+                    <NoteTableSortableHeader sortBy={sortBy} keyName="categoryName" setSortBy={setSortBy}>Category</NoteTableSortableHeader>
+                    <NoteTableSortableHeader sortBy={sortBy} keyName="lastChanged" setSortBy={setSortBy}>Last Changed</NoteTableSortableHeader>
+                    <NoteTableSortableHeader sortBy={sortBy} keyName="dateAdded" setSortBy={setSortBy}>Date Added</NoteTableSortableHeader>
                 </tr>
-                {data?.map((note) => (
+            </thead>
+            <tbody>
+                {sortedData?.map((note) => (
                     <NoteTableRow key={note.guid} note={note} />
                 ))}
             </tbody>
