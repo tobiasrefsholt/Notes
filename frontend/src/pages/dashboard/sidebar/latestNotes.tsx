@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import NoteListItem from '../singleNote/sidebar/noteListItem';
+import NoteListItem from '../../../components/noteListItem/noteListItem';
 import useFetch, { ApiEndpoint } from '../../../hooks/useFetch';
 import { NoteCompact } from '../../../types';
 

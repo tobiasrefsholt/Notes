@@ -9,7 +9,7 @@ type NoteTableRowProps = {
 export default function NoteTableRow({note}:NoteTableRowProps) {
     const navigate = useNavigate();
     return (
-        <tr key={note.guid} onClick={() => navigate("/note/" + note.guid)}>
+        <tr onClick={() => navigate("/note/" + note.guid)}>
             <td>
                 {note.title}
             </td>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FetchResponse, NoteCompact, category } from "../../../../types";
-import NoteListItem from "./noteListItem";
+import NoteListItem from "../../../../components/noteListItem/noteListItem";
 import { useParams } from "react-router-dom";
 import CrossIcon from "../../../../components/icons/crossIcon";
 import NewNoteCard from "../../../../components/newNoteCard/newNoteCard";

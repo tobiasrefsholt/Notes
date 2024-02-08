@@ -8,7 +8,7 @@ import CategoryDropdown from './categoryDropdown';
 import { InsertNote, Note, category } from '../../../types';
 import { useDashboardContext } from '../dashboard';
 import getCategory from '../../../hooks/useGetCategory';
-import NoteSidebar from './sidebar/noteSidebar';
+import NoteListSidebar from './noteListSidebar/noteListSidebar';
 import GoBackIcon from '../../../components/icons/goBackIcon';
 
 export default function NoteSingle() {
@@ -91,7 +91,7 @@ export default function NoteSingle() {
 
     return (
         <main className='dashboard-sigle-note' onKeyDown={(event) => handleKeyboardShortcuts(event)}>
-            <NoteSidebar selectedCategory={selectedCategory} notesByCategoryFetch={notesByCategoryFetch} />
+            <NoteListSidebar selectedCategory={selectedCategory} notesByCategoryFetch={notesByCategoryFetch} />
             {!deleteFetch.data && <div className='editor'>
                 <div className="note-toolbar">
                     <div style={{ width: "2rem", height: "2rem" }} onClick={() => navigate("/")}>

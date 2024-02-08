@@ -20,7 +20,7 @@ export default function NoteTable({ data, sortByKey, setSortByKey, sortDirection
                     <th>Date Added</th>
                 </tr>
                 {data?.map((note) => (
-                    <NoteTableRow note={note} />
+                    <NoteTableRow key={note.guid} note={note} />
                 ))}
             </tbody>
         </table>
