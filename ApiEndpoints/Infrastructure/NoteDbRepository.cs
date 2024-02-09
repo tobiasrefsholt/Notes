@@ -18,8 +18,8 @@ public class NoteDbRepository : INoteRepository
         await using var conn = _connectionFactory.Create();
         var sql = @"
                 SELECT n.Guid, n.Title, n.CategoryGuid, c.Name as CategoryName, n.DateAdded, n.LastChanged
-                FROM notes.notes as n
-                LEFT OUTER JOIN notes.NotesCategories AS c
+                FROM Notes as n
+                LEFT OUTER JOIN NotesCategories AS c
                     ON CategoryGuid = c.Guid
                 WHERE n.User LIKE @User 
                 ORDER BY UNIX_TIMESTAMP(LastChanged) DESC
@@ -35,8 +35,8 @@ public class NoteDbRepository : INoteRepository
         var filterCategory = category == null ? "n.CategoryGuid IS NULL" : "n.CategoryGuid LIKE @Category";
         var sql = @$"
                 SELECT n.Guid, n.Title, n.CategoryGuid, c.Name as CategoryName, n.DateAdded, n.LastChanged
-                FROM notes.notes as n
-                LEFT OUTER JOIN notes.NotesCategories AS c
+                FROM Notes as n
+                LEFT OUTER JOIN NotesCategories AS c
                     ON CategoryGuid = c.Guid
                 WHERE n.User LIKE @User 
                     AND {filterCategory}
@@ -52,8 +52,8 @@ public class NoteDbRepository : INoteRepository
         await using var conn = _connectionFactory.Create();
         var sql = @"
                 SELECT n.Guid, n.Title, n.Content, n.CategoryGuid, c.Name as CategoryName, n.DateAdded, n.LastChanged
-                FROM notes.notes as n
-                LEFT OUTER JOIN notes.NotesCategories AS c
+                FROM Notes as n
+                LEFT OUTER JOIN NotesCategories AS c
                     ON CategoryGuid = c.Guid
                 WHERE n.Guid LIKE @Guid AND n.User LIKE @UserGuid;
             ";
@@ -65,7 +65,7 @@ public class NoteDbRepository : INoteRepository
     {
         await using var conn = _connectionFactory.Create();
         var sql = @"
-                INSERT INTO notes.notes
+                INSERT INTO Notes
                 VALUES (@Guid, @User, @Title, @Content, @CategoryGuid, UTC_TIMESTAMP(), UTC_TIMESTAMP())
           ";
         var rowsAffected = await conn.ExecuteAsync(sql, note);
@@ -76,7 +76,7 @@ public class NoteDbRepository : INoteRepository
     {
         await using var conn = _connectionFactory.Create();
         var sql = @"
-                DELETE FROM notes.notes
+                DELETE FROM Notes
                 WHERE Guid LIKE @Guid AND User LIKE @UserGuid
           ";
         var rowsAffected = await conn.ExecuteAsync(sql, new { Guid = guid, UserGuid = userGuid });
@@ -87,7 +87,7 @@ public class NoteDbRepository : INoteRepository
     {
         await using var conn = _connectionFactory.Create();
         var sql = @"
-                UPDATE notes.notes
+                UPDATE Notes
                 SET Title = @NewTitle, LastChanged = UTC_TIMESTAMP()
                 WHERE Guid LIKE @Guid AND User LIKE @UserGuid
           ";
@@ -99,7 +99,7 @@ public class NoteDbRepository : INoteRepository
     {
         await using var conn = _connectionFactory.Create();
         var sql = @"
-                UPDATE notes.notes
+                UPDATE Notes
                 SET Content = @NewContent, LastChanged = UTC_TIMESTAMP()
                 WHERE Guid LIKE @Guid AND User LIKE @UserGuid
           ";
@@ -112,7 +112,7 @@ public class NoteDbRepository : INoteRepository
     {
         await using var conn = _connectionFactory.Create();
         var sql = @"
-                UPDATE notes.notes
+                UPDATE Notes
                 SET CategoryGuid = @NewCategory, LastChanged = UTC_TIMESTAMP()
                 WHERE Guid LIKE @Guid AND User LIKE @UserGuid
           ";
