@@ -26,7 +26,7 @@ export default function NewNoteCard({ selectedCategory, notesByCategoryFetch }: 
             categoryGuid: selectedCategory?.guid || null,
         }
         addNoteFetch.doFetch("POST", [], note, true, () => {
-            notesByCategoryFetch.doFetch("GET", [selectedCategory?.guid || ""]);
+            notesByCategoryFetch.doFetch("POST", [], { guid: selectedCategory?.guid || null, includeSubcategories: false });
         });
         setTitle("");
     }

@@ -65,7 +65,7 @@ export default function NoteSingle() {
     function handleDeleteNote() {
         if (!guid) return;
         deleteFetch.doFetch("POST", [guid], null, true, () => {
-            categoriesFetch.doFetch("GET");
+            notesByCategoryFetch.doFetch("POST", [], { guid: selectedCategory?.guid || null, includeSubcategories: false });
         })
     }
 

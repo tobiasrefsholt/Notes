@@ -3,7 +3,7 @@ import NoteTable from "./noteTable";
 import { useEffect, useState } from "react";
 import NewNoteCard from "../../../components/newNoteCard/newNoteCard";
 import SearchNotesCard from "../../../components/searchNotesCard/searchNotesCard";
-import { NoteCompact, SortBy } from "../../../types";
+import { NoteCompact } from "../../../types";
 
 export default function NoteDetailedList() {
     const { selectedCategory, notesByCategoryFetch } = useDashboardContext();
