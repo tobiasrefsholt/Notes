@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { FetchResponse, NoteCompact, category } from "../../../../types";
-import NoteListItem from "../../../../components/noteListItem/noteListItem";
 import { useParams } from "react-router-dom";
-import CrossIcon from "../../../../components/icons/crossIcon";
 import NewNoteCard from "../../../../components/newNoteCard/newNoteCard";
 import SearchNotesCard from "../../../../components/searchNotesCard/searchNotesCard";
+import ContentCard from "../../../../components/ui/contetCard";
+import NoteListSidebarHeader from "./noteListSidebarHeader";
+import NoteCardList from "./noteCardList";
 
 type NoteSidebarProps = {
     notesByCategoryFetch: FetchResponse<NoteCompact[]>
@@ -39,31 +40,14 @@ export default function NoteListSidebar({ selectedCategory, notesByCategoryFetch
 
     return (
         <div className='notes-sidebar'>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-                <strong>Actions</strong>
-                <div style={{ width: "1.5rem", height: "1.5rem" }} onClick={() => setSidebarOpen(false)}>
-                    <CrossIcon color="rgba(255, 255, 255, 0.8)" />
-                </div>
-            </div>
-            <ul>
-                <SearchNotesCard search={search} setSearch={setSearch} selectedCategory={selectedCategory} />
-                <NewNoteCard selectedCategory={selectedCategory} notesByCategoryFetch={notesByCategoryFetch} />
-            </ul>
-            <div style={{}}>
-                {isPending && <strong>Loading notes...</strong>}
-                {error && <strong>{error}</strong>}
-                {!isPending && filteredNotes && <strong>Found {filteredNotes.length} notes:</strong>}
-            </div>
-            <ul>
-                {
-                    filteredNotes &&
-                    <>
-                        {filteredNotes.map((item: NoteCompact) => (
-                            <NoteListItem key={item.guid} guid={item.guid} title={item.title} active={item.guid === guid} />
-                        ))}
-                    </>
-                }
-            </ul>
+            <NoteListSidebarHeader isPending={isPending} error={error} filteredNotes={filteredNotes} setSidebarOpen={setSidebarOpen} />
+            <ContentCard style={{ backgroundColor: selectedCategory?.color + "10" }}>
+                <ul className="note-card-list">
+                    <SearchNotesCard search={search} setSearch={setSearch} selectedCategory={selectedCategory} />
+                    <NewNoteCard selectedCategory={selectedCategory} notesByCategoryFetch={notesByCategoryFetch} useCategoryColor={false} />
+                </ul>
+            </ContentCard>
+            <NoteCardList notes={filteredNotes} active={guid} />
         </div>
     )
 }

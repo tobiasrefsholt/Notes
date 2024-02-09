@@ -11,12 +11,17 @@ type CreateNoteResponse = {
 type NoteSidebarNewNoteProps = {
     selectedCategory: category | null;
     notesByCategoryFetch: FetchResponse<NoteCompact[]>
+    useCategoryColor?: boolean;
 }
 
-export default function NewNoteCard({ selectedCategory, notesByCategoryFetch }: NoteSidebarNewNoteProps) {
+export default function NewNoteCard({ selectedCategory, notesByCategoryFetch, useCategoryColor = true }: NoteSidebarNewNoteProps) {
     const [title, setTitle] = useState("");
     const addNoteFetch = useFetch<CreateNoteResponse>(ApiEndpoint.CreateNote, [], "Failed while creating note");
     const navigate = useNavigate();
+
+    const bgColor = (selectedCategory?.color && useCategoryColor)
+        ? selectedCategory?.color + "10"
+        : "ffffff0c";
 
     const handleCreateNote = () => {
         if (!title) return;
@@ -38,8 +43,9 @@ export default function NewNoteCard({ selectedCategory, notesByCategoryFetch }: 
         }
     }, [addNoteFetch.isPending])
 
+
     return (
-        <li className="note-list-item new-note-list-item" style={{backgroundColor: selectedCategory?.color ? selectedCategory?.color + "10" : "ffffff0c"}}>
+        <li className="note-list-item new-note-list-item" style={{ backgroundColor: bgColor }}>
             <input
                 type="text"
                 value={title}
@@ -47,7 +53,7 @@ export default function NewNoteCard({ selectedCategory, notesByCategoryFetch }: 
                 onKeyDown={(e) => { if (e.key === "Enter") handleCreateNote() }}
                 placeholder={"Add new note"}
             />
-            {title && <button className="button button-primary" onClick={() => handleCreateNote()}>Create new note</button>}
+            {title && <button className="button button-primary" style={{marginTop: ".5rem"}} onClick={() => handleCreateNote()}>Create new note</button>}
         </li>
     )
 }

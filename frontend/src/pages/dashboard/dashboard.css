@@ -73,6 +73,9 @@ main {
 }
 
 .dashboard .dashboard-sigle-note .notes-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
     width: calc(300px - 1rem);
     min-width: calc(300px - 1rem);
     padding-right: 1rem;
@@ -80,8 +83,12 @@ main {
     overflow: scroll;
 }
 
-.dashboard .dashboard-sigle-note .notes-sidebar ul {
+.dashboard .dashboard-sigle-note .note-card-list {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
     padding: 0;
+    margin: 0;
 }
 
 .dashboard .note-list-item {
@@ -89,7 +96,6 @@ main {
     background-color: #ffffff0c;
     border-radius: .5rem;
     padding: 1rem;
-    margin-bottom: .5rem;
     list-style: none;
 }
 
@@ -103,7 +109,6 @@ main {
 
 
 .dashboard .new-note-list-item {
-    /* border: solid 3px #202123; */
     cursor: unset;
 }
 

@@ -21,7 +21,7 @@ export default function SearchNotesCard({ search, setSearch, selectedCategory }:
                 onKeyDown={(e) => { if (e.key === "Escape") handleClearSearch() }}
                 placeholder={`Search ${selectedCategory?.name || "Uncategorized"}`}
             />
-            {search && <button className="button button-primary" onClick={() => handleClearSearch()}>Clear search</button>}
+            {search && <button className="button button-primary" style={{marginTop: ".5rem"}} onClick={() => handleClearSearch()}>Clear search</button>}
         </li>
     )
 }
