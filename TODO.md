@@ -5,7 +5,7 @@
 - [x] Filter notes based on tags
 - [x] Change parent category
 - [x] Color coded categories
-- [ ] Sorting - by name, date added, last edit
+- [x] Sorting - by name, date added, last edit
 
 ## Authentication
 - [x] Two factor authentication
