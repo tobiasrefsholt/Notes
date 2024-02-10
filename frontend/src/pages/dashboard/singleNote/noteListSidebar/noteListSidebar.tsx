@@ -6,13 +6,16 @@ import SearchNotesCard from "../../../../components/searchNotesCard/searchNotesC
 import ContentCard from "../../../../components/ui/contetCard";
 import NoteListSidebarHeader from "./noteListSidebarHeader";
 import NoteCardList from "./noteCardList";
+import ToggleIncludeSubcategories from "../../../../components/toggleIncludeSubcategories/toggleIncludeSubcategories";
 
 type NoteSidebarProps = {
     notesByCategoryFetch: FetchResponse<NoteCompact[]>
     selectedCategory: category | null;
+    includeSubcategories: boolean;
+    setIncludeSubcategories: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function NoteListSidebar({ selectedCategory, notesByCategoryFetch }: NoteSidebarProps) {
+export default function NoteListSidebar({ selectedCategory, notesByCategoryFetch, includeSubcategories, setIncludeSubcategories }: NoteSidebarProps) {
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const { error, isPending, data } = notesByCategoryFetch;
     const { guid } = useParams();
@@ -46,6 +49,7 @@ export default function NoteListSidebar({ selectedCategory, notesByCategoryFetch
                     <SearchNotesCard search={search} setSearch={setSearch} selectedCategory={selectedCategory} />
                     <NewNoteCard selectedCategory={selectedCategory} notesByCategoryFetch={notesByCategoryFetch} useCategoryColor={false} />
                 </ul>
+                <ToggleIncludeSubcategories includeSubcategories={includeSubcategories} setIncludeSubcategories={setIncludeSubcategories} style={{marginTop: ".5rem", width:"100%"}}/>
             </ContentCard>
             <NoteCardList notes={filteredNotes} active={guid} />
         </div>

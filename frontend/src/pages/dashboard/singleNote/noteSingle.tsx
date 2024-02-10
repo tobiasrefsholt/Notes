@@ -13,7 +13,7 @@ import GoBackIcon from '../../../components/icons/goBackIcon';
 
 export default function NoteSingle() {
     const { guid } = useParams();
-    const { selectedCategory, setSelectedCategory, categoriesFetch, notesByCategoryFetch } = useDashboardContext();
+    const { selectedCategory, setSelectedCategory, categoriesFetch, notesByCategoryFetch, includeSubcategories, setIncludeSubcategories } = useDashboardContext();
     const [noteCategory, setNoteCategory] = useState<category | null>(null);
     const [title, setTitle] = useState<string>("");
     const [content, setContent] = useState<string | undefined>();
@@ -91,7 +91,12 @@ export default function NoteSingle() {
 
     return (
         <main className='dashboard-sigle-note' onKeyDown={(event) => handleKeyboardShortcuts(event)}>
-            <NoteListSidebar selectedCategory={selectedCategory} notesByCategoryFetch={notesByCategoryFetch} />
+            <NoteListSidebar
+                selectedCategory={selectedCategory}
+                notesByCategoryFetch={notesByCategoryFetch}
+                includeSubcategories={includeSubcategories}
+                setIncludeSubcategories={setIncludeSubcategories}
+            />
             {!deleteFetch.data && <div className='editor'>
                 <div className="note-toolbar">
                     <div style={{ width: "2rem", height: "2rem" }} onClick={() => navigate("/")}>
@@ -112,7 +117,7 @@ export default function NoteSingle() {
                         <button className="button button-secondary" onClick={() => handleDeleteNote()}>Delete</button>
                     </div>
                 </div>
-                <MDEditor value={content} onChange={setContent} visibleDragbar={false} autoFocus={true} data-color-mode='dark'/>
+                <MDEditor value={content} onChange={setContent} visibleDragbar={false} autoFocus={true} data-color-mode='dark' />
             </div>}
             {deleteFetch.data && <h1>Note was deleted</h1>}
         </main>
